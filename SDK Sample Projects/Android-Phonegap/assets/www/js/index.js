@@ -47,18 +47,27 @@ var app = {
 
         app.report('deviceready');
 		
-		pushNotification.setMultiNotificationMode();
-		pushNotification.setSingleNotificationMode();
-		pushNotification.setTags({"MyTag":["hello", "world"]});
+		//set multi notificaiton mode
+		//pushNotification.setMultiNotificationMode();
 		
-/*		pushNotification.setTags({deviceName:"hello", deviceId:10},
+		//set single notification mode
+		//pushNotification.setSingleNotificationMode();
+		
+		//disable sound and vibration
+		//pushNotification.setSoundType(1);
+		//pushNotification.setVibrateType(1);
+
+		//setting list tags
+		//pushNotification.setTags({"MyTag":["hello", "world"]});
+		
+		//settings tags
+		pushNotification.setTags({deviceName:"hello", deviceId:10},
 										function(status) {
 											console.warn('setTags success');
 										},
 										function(status) {
 											console.warn('setTags failed');
 										});
-*/
 		
 		function geolocationSuccess(position) {
 			pushNotification.sendLocation({lat:position.coords.latitude, lon:position.coords.longitude},
