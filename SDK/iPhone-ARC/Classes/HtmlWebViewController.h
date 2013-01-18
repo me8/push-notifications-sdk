@@ -5,13 +5,25 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PushNotificationManager.h"
-#import "HtmlWebViewControllerDelegate.h"
+
+typedef enum enumHtmlPageSupportedOrientations {
+	PWOrientationPortrait = 1 << 0,
+	PWOrientationPortraitUpsideDown = 1 << 1,
+	PWOrientationLandscapeLeft = 1 << 2,
+	PWOrientationLandscapeRight = 1 << 3,
+} PWSupportedOrientations;
+
+@class HtmlWebViewController;
+
+@protocol HtmlWebViewControllerDelegate <NSObject>
+- (void) htmlWebViewControllerDidClose: (HtmlWebViewController *) viewController;
+@end
 
 @interface HtmlWebViewController : UIViewController <UIWebViewDelegate> {
 	UIWebView *webview;
 	UIActivityIndicatorView *activityIndicator;
 	
+	int webViewLoads;
 	NSString *urlToLoad;
 }
 
