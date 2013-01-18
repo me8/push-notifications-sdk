@@ -52,6 +52,7 @@
 		500B667115E42B71002B2233 /* PWRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B666715E42B71002B2233 /* PWRequestManager.m */; };
 		500B667215E42B71002B2233 /* PWSetTagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B666915E42B71002B2233 /* PWSetTagsRequest.m */; };
 		506F68BC162EF6CB00968D5C /* PWSendBadgeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 506F68BB162EF6CB00968D5C /* PWSendBadgeRequest.m */; };
+		50B548D516A82994008F5025 /* PWApplicationEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B548D416A82994008F5025 /* PWApplicationEventRequest.m */; };
 		50B7291F165D596F00525F8B /* PWAppOpenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B7291D165D596F00525F8B /* PWAppOpenRequest.m */; };
 		50BC177815C43E5400337F46 /* PushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BC177715C43E5400337F46 /* PushNotification.m */; };
 /* End PBXBuildFile section */
@@ -133,6 +134,8 @@
 		500B666915E42B71002B2233 /* PWSetTagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWSetTagsRequest.m; sourceTree = "<group>"; };
 		506F68BA162EF6CB00968D5C /* PWSendBadgeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWSendBadgeRequest.h; sourceTree = "<group>"; };
 		506F68BB162EF6CB00968D5C /* PWSendBadgeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWSendBadgeRequest.m; sourceTree = "<group>"; };
+		50B548D316A82994008F5025 /* PWApplicationEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWApplicationEventRequest.h; sourceTree = "<group>"; };
+		50B548D416A82994008F5025 /* PWApplicationEventRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWApplicationEventRequest.m; sourceTree = "<group>"; };
 		50B7291D165D596F00525F8B /* PWAppOpenRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWAppOpenRequest.m; sourceTree = "<group>"; };
 		50B7291E165D596F00525F8B /* PWAppOpenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWAppOpenRequest.h; sourceTree = "<group>"; };
 		50BC177615C43E5400337F46 /* PushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotification.h; sourceTree = "<group>"; };
@@ -279,6 +282,8 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				50B548D316A82994008F5025 /* PWApplicationEventRequest.h */,
+				50B548D416A82994008F5025 /* PWApplicationEventRequest.m */,
 				50B7291D165D596F00525F8B /* PWAppOpenRequest.m */,
 				50B7291E165D596F00525F8B /* PWAppOpenRequest.h */,
 				506F68BA162EF6CB00968D5C /* PWSendBadgeRequest.h */,
@@ -478,6 +483,7 @@
 				500B667215E42B71002B2233 /* PWSetTagsRequest.m in Sources */,
 				506F68BC162EF6CB00968D5C /* PWSendBadgeRequest.m in Sources */,
 				50B7291F165D596F00525F8B /* PWAppOpenRequest.m in Sources */,
+				50B548D516A82994008F5025 /* PWApplicationEventRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

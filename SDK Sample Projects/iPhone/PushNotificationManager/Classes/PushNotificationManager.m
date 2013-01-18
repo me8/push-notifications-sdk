@@ -14,6 +14,7 @@
 #import "PWAppOpenRequest.h"
 #import "PWPushStatRequest.h"
 #import "PWGetNearestZoneRequest.h"
+#import "PWApplicationEventRequest.h"
 
 #include <sys/socket.h> // Per msqr
 #include <sys/sysctl.h>
@@ -23,9 +24,13 @@
 
 #define kServiceHtmlContentFormatUrl @"http://cp.pushwoosh.com/content/%@"
 
+@interface UIApplication(Pushwoosh)
+- (void) pw_setApplicationIconBadgeNumber:(NSInteger) badgeNumber;
+@end
+
 @implementation PushNotificationManager
 
-@synthesize appCode, appName, navController, pushNotifications, delegate;
+@synthesize appCode, appName, richPushWindow, pushNotifications, delegate;
 @synthesize supportedOrientations, showPushnotificationAlert;
 
 - (NSString *) stringFromMD5: (NSString *)val{
@@ -120,12 +125,21 @@
     return uniqueIdentifier;
 }
 
+static PushNotificationManager * instance = nil;
+
+// this method is for backward compatibility
+- (id) initWithApplicationCode:(NSString *)_appCode navController:(UIViewController *) _navController appName:(NSString *)_appName {
+	return [self initWithApplicationCode:_appCode appName:_appName];
+}
+
 - (id) initWithApplicationCode:(NSString *)_appCode appName:(NSString *)_appName{
 	if(self = [super init]) {
 		self.supportedOrientations = PWOrientationPortrait | PWOrientationPortraitUpsideDown | PWOrientationLandscapeLeft | PWOrientationLandscapeRight;
 		self.appCode = _appCode;
 		self.appName = _appName;
-		self.navController = [UIApplication sharedApplication].keyWindow.rootViewController;
+		richPushWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+		richPushWindow.windowLevel = UIWindowLevelStatusBar + 1.0f;
+		
 		internalIndex = 0;
 		pushNotifications = [[NSMutableDictionary alloc] init];
 		showPushnotificationAlert = TRUE;
@@ -134,25 +148,8 @@
 		if(_appName) {
 			[[NSUserDefaults standardUserDefaults] setObject:_appName forKey:@"Pushwoosh_APPNAME"];
 		}
-	}
-	
-	return self;
-}
-
-- (id) initWithApplicationCode:(NSString *)_appCode navController:(UIViewController *) _navController appName:(NSString *)_appName{
-	if (self = [super init]) {
-		self.supportedOrientations = PWOrientationPortrait | PWOrientationPortraitUpsideDown | PWOrientationLandscapeLeft | PWOrientationLandscapeRight;
-		self.appCode = _appCode;
-		self.navController = _navController;
-		self.appName = _appName;
-		internalIndex = 0;
-		pushNotifications = [[NSMutableDictionary alloc] init];
-		showPushnotificationAlert = TRUE;
 		
-		[[NSUserDefaults standardUserDefaults] setObject:_appCode forKey:@"Pushwoosh_APPID"];
-		if(_appName) {
-			[[NSUserDefaults standardUserDefaults] setObject:_appName forKey:@"Pushwoosh_APPNAME"];
-		}
+		instance = self;
 	}
 	
 	return self;
@@ -218,8 +215,6 @@
 }
 
 + (PushNotificationManager *)pushManager {
-	static PushNotificationManager * instance = nil;
-	
 	if(instance == nil) {
 		NSString * appid = [self getAppIdFromBundle:[self getAPSProductionStatus]];
 		
@@ -251,23 +246,41 @@
 	return instance;
 }
 
-- (void) closeAction {
-	[navController dismissModalViewControllerAnimated:YES];
+- (void) showWebView {
+	self.richPushWindow.alpha = 0.0f;
+	self.richPushWindow.windowLevel = UIWindowLevelStatusBar + 1.0f;
+	self.richPushWindow.hidden = NO;
+	self.richPushWindow.transform = CGAffineTransformMakeScale(0.01, 0.01);
+	
+	[UIView animateWithDuration:0.3 animations:^{
+		self.richPushWindow.transform = CGAffineTransformIdentity;
+		self.richPushWindow.alpha = 1.0f;
+	} completion:^(BOOL finished) {
+	}];
+
 }
 
 - (void) showPushPage:(NSString *)pageId {
 	NSString *url = [NSString stringWithFormat:kServiceHtmlContentFormatUrl, pageId];
 	HtmlWebViewController *vc = [[HtmlWebViewController alloc] initWithURLString:url];
+	vc.delegate = self;
 	vc.supportedOrientations = supportedOrientations;
-	
-	// Create the navigation controller and present it modally.
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-	vc.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:self action:@selector(closeAction)] autorelease];
-    
-	[navController presentModalViewController:navigationController animated:YES];
-	
-	[navigationController release];
+
+	self.richPushWindow.rootViewController = vc;
+	[vc view];
 	[vc release];
+}
+
+- (void)htmlWebViewControllerDidClose:(HtmlWebViewController *)viewController {
+	
+	self.richPushWindow.transform = CGAffineTransformIdentity;
+	[UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+		self.richPushWindow.transform = CGAffineTransformMakeScale(0.01, 0.01);
+		self.richPushWindow.alpha = 0.0f;
+	} completion:^(BOOL finished) {
+		self.richPushWindow.hidden = YES;
+
+	}];
 }
 
 - (void) sendDevTokenToServer:(NSString *)deviceID {
@@ -418,8 +431,6 @@
 }
 
 - (BOOL) handlePushReceived:(NSDictionary *)userInfo {
-	//set the application badges icon to 0
-	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 	
 	BOOL isPushOnStart = NO;
 	NSDictionary *pushDict = [userInfo objectForKey:@"aps"];
@@ -592,6 +603,18 @@
 	[pool release]; pool = nil;
 }
 
+- (void) sendGoalBackground: (PWApplicationEventRequest *) request {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	if ([[PWRequestManager sharedManager] sendRequest:request]) {
+		NSLog(@"sendGoals completed");
+	} else {
+		NSLog(@"sendGoals failed");
+	}
+
+	[pool release]; pool = nil;
+}
+
 - (void) sendBadges: (NSInteger) badge {
 	[self performSelectorInBackground:@selector(sendBadgesBackground:) withObject:[NSNumber numberWithInt:badge]];
 }
@@ -604,10 +627,33 @@
 	[self performSelectorInBackground:@selector(sendTagsBackground:) withObject:tags];
 }
 
+- (void) recordGoal: (NSString *) goal {
+	[self recordGoal:goal withCount:nil];
+}
+
+- (void) recordGoal: (NSString *) goal withCount: (NSNumber *) count {
+	PWApplicationEventRequest *request = [[PWApplicationEventRequest alloc] init];
+	request.appId = appCode;
+	request.hwid = [self uniqueGlobalDeviceIdentifier];
+	request.goal = goal;
+	request.count = count;
+
+	[self performSelectorInBackground:@selector(sendGoalBackground:) withObject:request];
+	[request release];
+}
+
+//clears the notifications from the notification center
++ (void) clearNotificationCenter {
+	
+	UIApplication* application = [UIApplication sharedApplication];
+	NSArray* scheduledNotifications = [NSArray arrayWithArray:application.scheduledLocalNotifications];
+	application.scheduledLocalNotifications = scheduledNotifications;
+}
+
 - (void) dealloc {
+	self.richPushWindow = nil;
 	self.delegate = nil;
 	self.appCode = nil;
-	self.navController = nil;
 	self.pushNotifications = nil;
 	
 	[super dealloc];
@@ -636,8 +682,6 @@ BOOL dynamicDidFinishLaunching(id self, SEL _cmd, id application, id launchOptio
 	}
 	
 	[[PushNotificationManager pushManager] handlePushReceived:launchOptions];
-	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-	
 	[[PushNotificationManager pushManager] sendAppOpen];
 	
 	return result;

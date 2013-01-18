@@ -17,6 +17,8 @@
 		500B664515E3DCD2002B2233 /* PWSetTagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B663D15E3DCD2002B2233 /* PWSetTagsRequest.m */; };
 		506F68A2162EF5C900968D5C /* PWSendBadgeRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 506F68A0162EF5C900968D5C /* PWSendBadgeRequest.h */; };
 		506F68A3162EF5C900968D5C /* PWSendBadgeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 506F68A1162EF5C900968D5C /* PWSendBadgeRequest.m */; };
+		50B548DB16A837BC008F5025 /* PWApplicationEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B548D916A837BC008F5025 /* PWApplicationEventRequest.m */; };
+		50B548DC16A837BC008F5025 /* PWApplicationEventRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */; };
 		50B72908165D47B300525F8B /* PWAppOpenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B72906165D47B300525F8B /* PWAppOpenRequest.m */; };
 		50B72909165D47B300525F8B /* PWAppOpenRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B72907165D47B300525F8B /* PWAppOpenRequest.h */; };
 		50BD5D521365DA3C00275CDB /* HtmlWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BD5D3D1365DA3C00275CDB /* HtmlWebViewController.h */; };
@@ -43,6 +45,8 @@
 		500B663D15E3DCD2002B2233 /* PWSetTagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWSetTagsRequest.m; path = Classes/PWSetTagsRequest.m; sourceTree = "<group>"; };
 		506F68A0162EF5C900968D5C /* PWSendBadgeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWSendBadgeRequest.h; path = Classes/PWSendBadgeRequest.h; sourceTree = "<group>"; };
 		506F68A1162EF5C900968D5C /* PWSendBadgeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWSendBadgeRequest.m; path = Classes/PWSendBadgeRequest.m; sourceTree = "<group>"; };
+		50B548D916A837BC008F5025 /* PWApplicationEventRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWApplicationEventRequest.m; path = Classes/PWApplicationEventRequest.m; sourceTree = "<group>"; };
+		50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWApplicationEventRequest.h; path = Classes/PWApplicationEventRequest.h; sourceTree = "<group>"; };
 		50B72906165D47B300525F8B /* PWAppOpenRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWAppOpenRequest.m; path = Classes/PWAppOpenRequest.m; sourceTree = "<group>"; };
 		50B72907165D47B300525F8B /* PWAppOpenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWAppOpenRequest.h; path = Classes/PWAppOpenRequest.h; sourceTree = "<group>"; };
 		50BD5D3D1365DA3C00275CDB /* HtmlWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HtmlWebViewController.h; path = Classes/HtmlWebViewController.h; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 		A4F8238515C9257D00913778 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				50B548D916A837BC008F5025 /* PWApplicationEventRequest.m */,
+				50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */,
 				50B72906165D47B300525F8B /* PWAppOpenRequest.m */,
 				50B72907165D47B300525F8B /* PWAppOpenRequest.h */,
 				506F68A0162EF5C900968D5C /* PWSendBadgeRequest.h */,
@@ -169,6 +175,7 @@
 				500B664415E3DCD2002B2233 /* PWSetTagsRequest.h in Headers */,
 				506F68A2162EF5C900968D5C /* PWSendBadgeRequest.h in Headers */,
 				50B72909165D47B300525F8B /* PWAppOpenRequest.h in Headers */,
+				50B548DC16A837BC008F5025 /* PWApplicationEventRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +242,7 @@
 				500B664515E3DCD2002B2233 /* PWSetTagsRequest.m in Sources */,
 				506F68A3162EF5C900968D5C /* PWSendBadgeRequest.m in Sources */,
 				50B72908165D47B300525F8B /* PWAppOpenRequest.m in Sources */,
+				50B548DB16A837BC008F5025 /* PWApplicationEventRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

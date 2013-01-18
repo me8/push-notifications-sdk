@@ -101,6 +101,8 @@
 
 //user pressed OK on the push notification
 - (void) onPushAccepted:(PushNotificationManager *)pushManager withNotification:(NSDictionary *)pushNotification {
+	[PushNotificationManager clearNotificationCenter];
+	
 	statusLabel.text = [NSString stringWithFormat:@"Received push notification: %@", pushNotification];
 }
 

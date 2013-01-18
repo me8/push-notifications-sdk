@@ -38,16 +38,6 @@
     return YES;
 }
 
-- (void) onPushAccepted:(PushNotificationManager *)manager withNotification:(NSDictionary *)pushNotification {
-	//it has push information
-	NSString *pushExtraData = [manager getCustomPushData:pushNotification];
-	if(pushExtraData) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Push Extra Data" message:pushExtraData delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-		[alert show];
-		[alert release];
-	}
-}
-
 - (void)dealloc
 {
 	self.navController = nil;
