@@ -56,11 +56,6 @@
         <manifestAdditions><![CDATA[
 			<manifest android:installLocation="auto">
 			
-				<permission android:protectionLevel="signature" android:name="air.com.riaspace.c2dm.debug.permission.C2D_MESSAGE" />
-				<uses-permission android:name="air.com.riaspace.c2dm.debug.permission.C2D_MESSAGE" />
-				<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-				<uses-permission android:name="android.permission.INTERNET" />
-
 				<application>
 					<meta-data android:name="PW_APPID" android:value="4F0C807E51EC77.93591449" />
 					<meta-data android:name="PW_PROJECT_ID" android:value="A60756016005" />
