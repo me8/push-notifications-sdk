@@ -108,6 +108,8 @@
 #pragma mark -
 #pragma mark Public Methods
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 - (NSString *) uniqueDeviceIdentifier{
     NSString *macaddress = [self macaddress];
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
@@ -119,6 +121,17 @@
 }
 
 - (NSString *) uniqueGlobalDeviceIdentifier{
+	// >= iOS6 return identifierForVendor
+	UIDevice *device = [UIDevice currentDevice];
+	
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.1")) {
+		if ([device respondsToSelector:@selector(identifierForVendor)] && [NSUUID class]) {
+			NSUUID *uuid = [device identifierForVendor];
+			return [uuid UUIDString];
+		}
+	}
+	
+	// Fallback on macaddress
     NSString *macaddress = [self macaddress];
     NSString *uniqueIdentifier = [self stringFromMD5:macaddress];
     

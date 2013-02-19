@@ -1,0 +1,48 @@
+﻿body {
+	background-color: white;
+	color: black;
+	margin: 5px 12px 5px 12px;
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+body, span{
+	font-size: 17pt;
+}
+input {
+	display: block;
+	width: 100%;
+}
+input, button{
+	height:30px;
+}
+input#geozone {
+	display: inline;
+	width: auto;
+	height:auto;
+}
+div#title {
+	font-size: 36pt;
+}
+.messageText {
+	text-align: center;
+	margin-bottom: 10px;
+}
+button#sendTag {
+	margin-top:10px;
+	float: right;
+}
+div#geozoneBlock {
+	clear: both;
+}
+div#unsubscribeBlock{
+	margin-top:20px;
+	text-align:center;
+}
+div#userToken {
+    width: 300px;
+    word-wrap: break-word;
+    font-size: 12pt;
+}
+textarea {
+	width:100%;
+	height:100px;
+}

@@ -15,7 +15,7 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 {
 	private static final String SEND_TAGS_STATUS_FRAGMENT_TAG = "send_tags_status_fragment_tag";
 
-	private static final String APP_ID = "4FC89B6D14A655.46488481";
+	private static final String APP_ID = "4F0C807E51EC77.93591449";
 	private static final String SENDER_ID = "60756016005";
 
 	private TextView mTagsStatus;

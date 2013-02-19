@@ -2,7 +2,19 @@ function initPushwoosh()
 {
 	var pushNotification = window.plugins.pushNotification;
 	pushNotification.onDeviceReady();
-	
+
+	document.addEventListener('push-notification', function(event) {
+   	                            var title = event.notification.title;
+   	                            var userData = event.notification.userdata;
+
+   	                            if(typeof(userData) != "undefined") {
+   									console.warn('user data: ' + JSON.stringify(userData));
+   								}
+
+   								navigator.notification.alert(title);
+
+   								pushNotification.stopGeoPushes();
+   							  });
 	//projectid: "GOOGLE_PROJECT_ID", appid : "PUSHWOOSH_APP_ID"
 	pushNotification.registerDevice({ projectid: "60756016005", appid : "4F0C807E51EC77.93591449" },
 									function(token) {
@@ -11,19 +23,6 @@ function initPushwoosh()
 									function(status) {
 									    console.warn(JSON.stringify(['failed to register ', status]));
 									});
-
-	document.addEventListener('push-notification', function(event) {
-	                            var title = event.notification.title;
-	                            var userData = event.notification.userdata;
-	                            
-	                            if(typeof(userData) != "undefined") {
-									console.warn('user data: ' + JSON.stringify(userData));
-								}
-									
-								navigator.notification.alert(title);
-								
-								pushNotification.stopGeoPushes();
-							  });
 }
 
 //set the settings for Pushwoosh or set tags, this must be called only after successful registration

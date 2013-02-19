@@ -553,6 +553,7 @@ public class PushNotifications extends Plugin
 
 	private void doOnMessageReceive(String message)
 	{
+		Log.e("doOnMessageReceive", "message is: " + message);
 		String jsStatement = String.format("window.plugins.pushNotification.notificationCallback(%s);", message);
 		sendJavascript(jsStatement);
 	}

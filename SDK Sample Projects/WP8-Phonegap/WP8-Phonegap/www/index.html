@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="telephone=no" name="format-detection" />
+<meta content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" name="viewport" />
+<link href="css/index.css" rel="stylesheet" type="text/css" />
+<title>PushWoosh PhoneGrup</title>
+</head>
+
+<body>
+
+<div class="app">
+	<div id="firstPage" >
+		<div id="title">
+			first page</div>
+	    <div class="messageText">
+	        Waiting for push notification</div>
+	    <div >
+	        User token:</div>
+	    <div id="userToken">
+	      
+	    </div>
+		<div>
+			Tag title:</div>
+		<input id="tagTitle">
+		<div>
+			Tag value:</div>
+		<input id="tagValue"/><button id="sendTag" onclick="app.sendingTag();"><span>Send tag</span></button>
+		<div id="geozoneBlock">
+			<input id="geozone" type="checkbox" onclick="app.setGeozone();" />Geozones</div>
+		<div id="unsubscribeBlock">
+			<button id="unsubscribe" onclick="app.unsubscribe();"><span>Unsubscribe</span></button></div>
+	</div>
+	<div id="secondPage" >
+		<div id="title">
+			second page</div>
+		<div>push content:
+		<div><textarea id="pushContent"></textarea></div></div>
+		<div>user data:
+		<div><textarea id="userData"></textarea></div></div>
+	</div>
+	
+</div>
+<script src="cordova-2.4.0.js" type="text/javascript"></script>
+<script src="js/jquery-1.8.1.js" type="text/javascript"></script>
+<script src="js/PushWooshPlugin.js" type="text/javascript"></script>
+<script src="js/index.js" type="text/javascript"></script>
+<script type="text/javascript">
+            app.initialize();
+        </script>
+
+</body>
+
+</html>
