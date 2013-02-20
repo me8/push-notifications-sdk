@@ -11,9 +11,10 @@
 // MIT Licensed
 
 #import "PushNotification.h"
-#import <Cordova/JSONKit.h>
+#import "PW_SBJsonWriter.h"
 #import <CoreLocation/CoreLocation.h>
 #import "AppDelegate.h"
+#import "PW_SBJsonParser.h"
 
 @implementation PushNotification
 
@@ -141,7 +142,10 @@
 	
 	NSString* u = [pushNotification objectForKey:@"u"];
 	if (u) {
-		NSDictionary *dict = [u cdvjk_objectFromJSONString];
+		PW_SBJsonParser * json = [[PW_SBJsonParser alloc] init];
+		NSDictionary *dict =[json objectWithString:u];
+		[json release]; json = nil;
+		
 		if (dict) {
 			NSMutableDictionary *pn = [NSMutableDictionary dictionaryWithDictionary:pushNotification];
 			[pn setObject:dict forKey:@"u"];
@@ -149,7 +153,10 @@
 		}
 	}
 	
-	NSString *jsonString = [pushNotification cdvjk_JSONString];
+	PW_SBJsonWriter * json = [[PW_SBJsonWriter alloc] init];
+	NSString *jsonString =[json stringWithObject:pushNotification];
+	[json release]; json = nil;
+	
 	NSString *jsStatement = [NSString stringWithFormat:@"window.plugins.pushNotification.notificationCallback(%@);", jsonString];
 	[self writeJavascript:[NSString stringWithFormat:@"setTimeout(function() { %@; }, 0);", jsStatement]];
 }

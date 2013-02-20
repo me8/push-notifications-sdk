@@ -55,6 +55,9 @@
 		50B548D516A82994008F5025 /* PWApplicationEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B548D416A82994008F5025 /* PWApplicationEventRequest.m */; };
 		50B7291F165D596F00525F8B /* PWAppOpenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B7291D165D596F00525F8B /* PWAppOpenRequest.m */; };
 		50BC177815C43E5400337F46 /* PushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BC177715C43E5400337F46 /* PushNotification.m */; };
+		50FAF94F16D4F8D600AD79C1 /* PW_SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAF94C16D4F8D600AD79C1 /* PW_SBJsonBase.m */; };
+		50FAF95016D4F8D600AD79C1 /* PW_SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAF94E16D4F8D600AD79C1 /* PW_SBJsonWriter.m */; };
+		50FAF95316D4FA6D00AD79C1 /* PW_SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAF95216D4FA6D00AD79C1 /* PW_SBJsonParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +143,12 @@
 		50B7291E165D596F00525F8B /* PWAppOpenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWAppOpenRequest.h; sourceTree = "<group>"; };
 		50BC177615C43E5400337F46 /* PushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotification.h; sourceTree = "<group>"; };
 		50BC177715C43E5400337F46 /* PushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushNotification.m; sourceTree = "<group>"; };
+		50FAF94B16D4F8D600AD79C1 /* PW_SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonBase.h; path = "Phonegap-Push/Plugins/PW_SBJsonBase.h"; sourceTree = SOURCE_ROOT; };
+		50FAF94C16D4F8D600AD79C1 /* PW_SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PW_SBJsonBase.m; path = "Phonegap-Push/Plugins/PW_SBJsonBase.m"; sourceTree = SOURCE_ROOT; };
+		50FAF94D16D4F8D600AD79C1 /* PW_SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonWriter.h; path = "Phonegap-Push/Plugins/PW_SBJsonWriter.h"; sourceTree = SOURCE_ROOT; };
+		50FAF94E16D4F8D600AD79C1 /* PW_SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PW_SBJsonWriter.m; path = "Phonegap-Push/Plugins/PW_SBJsonWriter.m"; sourceTree = SOURCE_ROOT; };
+		50FAF95116D4FA6D00AD79C1 /* PW_SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PW_SBJsonParser.h; sourceTree = "<group>"; };
+		50FAF95216D4FA6D00AD79C1 /* PW_SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PW_SBJsonParser.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Phonegap-Push-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Phonegap-Push-Info.plist"; path = "../Phonegap-Push-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -282,6 +291,12 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				50FAF94B16D4F8D600AD79C1 /* PW_SBJsonBase.h */,
+				50FAF94C16D4F8D600AD79C1 /* PW_SBJsonBase.m */,
+				50FAF94D16D4F8D600AD79C1 /* PW_SBJsonWriter.h */,
+				50FAF94E16D4F8D600AD79C1 /* PW_SBJsonWriter.m */,
+				50FAF95116D4FA6D00AD79C1 /* PW_SBJsonParser.h */,
+				50FAF95216D4FA6D00AD79C1 /* PW_SBJsonParser.m */,
 				50B548D316A82994008F5025 /* PWApplicationEventRequest.h */,
 				50B548D416A82994008F5025 /* PWApplicationEventRequest.m */,
 				50B7291D165D596F00525F8B /* PWAppOpenRequest.m */,
@@ -484,6 +499,9 @@
 				506F68BC162EF6CB00968D5C /* PWSendBadgeRequest.m in Sources */,
 				50B7291F165D596F00525F8B /* PWAppOpenRequest.m in Sources */,
 				50B548D516A82994008F5025 /* PWApplicationEventRequest.m in Sources */,
+				50FAF94F16D4F8D600AD79C1 /* PW_SBJsonBase.m in Sources */,
+				50FAF95016D4F8D600AD79C1 /* PW_SBJsonWriter.m in Sources */,
+				50FAF95316D4FA6D00AD79C1 /* PW_SBJsonParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

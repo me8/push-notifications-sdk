@@ -15,6 +15,8 @@
 #import "PWPushStatRequest.h"
 #import "PWGetNearestZoneRequest.h"
 #import "PWApplicationEventRequest.h"
+#import "PW_SBJsonParser.h"
+#import "PW_SBJsonWriter.h"
 
 #include <sys/socket.h> // Per msqr
 #include <sys/sysctl.h>
@@ -739,7 +741,10 @@ static PushNotificationManager * instance = nil;
 		
 		NSString* u = [userInfo objectForKey:@"u"];
 		if (u) {
-			NSDictionary *dict = [u cdvjk_objectFromJSONString];
+			PW_SBJsonParser * json = [[PW_SBJsonParser alloc] init];
+			NSDictionary *dict =[json objectWithString:u];
+			[json release]; json = nil;
+
 			if (dict) {
 				NSMutableDictionary *pn = [NSMutableDictionary dictionaryWithDictionary:userInfo];
 				[pn setObject:dict forKey:@"u"];
@@ -748,7 +753,10 @@ static PushNotificationManager * instance = nil;
 		}
 		
 		if(userInfo) {
-			NSString *jsonString = [userInfo cdvjk_JSONString];
+			PW_SBJsonWriter * json = [[PW_SBJsonWriter alloc] init];
+			NSString *jsonString =[json stringWithObject:userInfo];
+			[json release]; json = nil;
+
 			//the webview is not loaded yet, keep it for the callback
 			pushHandler.startPushData = jsonString;
 		}
