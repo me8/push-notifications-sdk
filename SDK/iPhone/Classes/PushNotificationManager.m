@@ -472,6 +472,11 @@ static PushNotificationManager * instance = nil;
 	}
 
 	NSString *alertMsg = [pushDict objectForKey:@"alert"];
+	
+	bool msgIsString = YES;
+	if(![alertMsg isKindOfClass:[NSString class]])
+		msgIsString = NO;
+	
 //	NSString *badge = [pushDict objectForKey:@"badge"];
 //	NSString *sound = [pushDict objectForKey:@"sound"];
 	NSString *htmlPageId = [userInfo objectForKey:@"h"];
@@ -479,7 +484,7 @@ static PushNotificationManager * instance = nil;
 	NSString *linkUrl = [userInfo objectForKey:@"l"];
 	
 	//the app is running, display alert only
-	if(!isPushOnStart && showPushnotificationAlert) {
+	if(!isPushOnStart && showPushnotificationAlert && msgIsString) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:self.appName message:alertMsg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
 		alert.tag = ++internalIndex;
 		[pushNotifications setObject:userInfo forKey:[NSNumber numberWithInt:internalIndex]];
