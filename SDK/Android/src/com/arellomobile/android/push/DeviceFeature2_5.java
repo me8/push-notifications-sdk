@@ -35,6 +35,7 @@ public class DeviceFeature2_5
 	private static final String NEAREST_ZONE = "getNearestZone";
 	private static final String APP_OPEN = "applicationOpen";
 	private static final String MSG_DELIVERED = "messageDeliveryEvent";
+	private static final String PACKAGE_REMOVED = "androidPackageRemoved";
 	private static final String GOAL_ACHIEVED = "applicationEvent";
 
 	static void sendPushStat(Context context, String hash)
@@ -258,6 +259,37 @@ public class DeviceFeature2_5
 		}
 
 		Log.e(TAG, "ERROR: Try To sent MsgDelivered " + exception.getMessage() + ". Response = " + res.getResultData(),
+				exception);
+	}
+	
+	static void sendAppRemovedData(Context context, String packageName)
+	{
+		final Map<String, Object> data = new HashMap<String, Object>();
+
+		data.putAll(RequestHelper.getAppRemovedData(context, packageName, NetworkUtils.PUSH_VERSION));
+
+		Log.w(TAG, "Try To sent AppRemoved");
+
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		Exception exception = new Exception();
+		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
+		{
+			try
+			{
+				res = NetworkUtils.makeRequest(data, PACKAGE_REMOVED);
+				if (200 == res.getResultCode())
+				{
+					Log.w(TAG, "Send AppRemoved success");
+					return;
+				}
+			}
+			catch (Exception e)
+			{
+				exception = e;
+			}
+		}
+
+		Log.e(TAG, "ERROR: Try To sent AppRemoved " + exception.getMessage() + ". Response = " + res.getResultData(),
 				exception);
 	}
 }

@@ -474,6 +474,29 @@ public class PushNotifications extends Plugin
 
 			return new PluginResult(Status.OK);
 		}
+		
+		if("setEnableLED".equals(action))
+		{
+			if (mPushManager == null)
+			{
+				return new PluginResult(Status.ERROR);
+			}
+
+			JSONObject params = null;
+			try
+			{
+				boolean type = (boolean)data.getBoolean(0);
+				mPushManager.setEnableLED(type);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				return new PluginResult(Status.ERROR);
+			}
+
+			return new PluginResult(Status.OK);
+		}
+
 
 		if("sendGoalAchieved".equals(action))
 		{

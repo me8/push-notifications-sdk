@@ -74,6 +74,11 @@
 	PushNotification.prototype.setLightScreenOnNotification = function(on, success, fail) {
 		cordova.exec(success, fail, "PushNotification", "setLightScreenOnNotification", [on]);
 	};
+
+	//set to enable led blinking when notification arrives and display is off
+	PushNotification.prototype.setEnableLED = function(on, success, fail) {
+		cordova.exec(success, fail, "PushNotification", "setEnableLED", [on]);
+	};
 	
 	//{goal:'name', count:3} (count is optional)
 	PushNotification.prototype.sendGoalAchieved = function(config, success, fail) {

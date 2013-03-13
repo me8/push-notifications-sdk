@@ -95,7 +95,7 @@ public class NetworkUtils
 			JSONObject resultJSON = new JSONObject(jsonString);
 
 			result.setData(resultJSON);
-			result.setCode(resultJSON.getInt("status_code"));
+			result.setCode(connection.getResponseCode());
 		}
 		finally
 		{

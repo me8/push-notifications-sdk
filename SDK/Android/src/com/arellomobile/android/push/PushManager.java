@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,6 +49,8 @@ public class PushManager
 	public static final String UNREGISTER_EVENT = "UNREGISTER_EVENT";
 	public static final String UNREGISTER_ERROR_EVENT = "UNREGISTER_ERROR_EVENT";
 	public static final String PUSH_RECEIVE_EVENT = "PUSH_RECEIVE_EVENT";
+
+	public static final String REGISTER_BROAD_CAST_ACTION = "com.arellomobile.android.push.REGISTER_BROAD_CAST_ACTION";
 
 	private Context mContext;
 	private Bundle mLastBundle;
@@ -282,6 +285,11 @@ public class PushManager
 		PreferenceUtils.setLightScreenOnNotification(mContext, lightsOn);
 	}
 
+	public void setEnableLED(boolean ledOn)
+	{
+		PreferenceUtils.setEnableLED(mContext, ledOn);
+	}
+
 	//	------------------- PREFERENCE END -------------------
 
 
@@ -332,6 +340,37 @@ public class PushManager
 			intent.putExtra("url", url);
 			activity.startActivity(intent);
 		}
+		
+		//temporary disable this code until the server supports it
+		String packageName = (String) pushBundle.get("l");
+		if(false && packageName != null)
+		{
+			Intent launchIntent = null;
+			try
+			{
+				launchIntent = mContext.getPackageManager().getLaunchIntentForPackage(packageName);
+			}
+			catch(Exception e)
+			{
+			// if no application found
+			}
+			
+			if(launchIntent != null)
+			{
+				activity.startActivity(launchIntent);
+			}
+			else
+			{
+				url = (String) pushBundle.get("al");
+				if (url != null)
+				{
+					launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					activity.startActivity(launchIntent);
+				}
+			}
+		}
+
 
 		// send pushwoosh callback
 		sendPushStat(mContext, pushBundle.getString("p"));
