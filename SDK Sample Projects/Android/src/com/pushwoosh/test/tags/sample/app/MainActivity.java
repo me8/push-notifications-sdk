@@ -180,23 +180,23 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 
 		if (mainAppIntent.hasExtra(PushManager.PUSH_RECEIVE_EVENT))
 		{
-			mainAppIntent.putExtra(PushManager.PUSH_RECEIVE_EVENT, (String) null);
+			mainAppIntent.removeExtra(PushManager.PUSH_RECEIVE_EVENT);
 		}
 		else if (mainAppIntent.hasExtra(PushManager.REGISTER_EVENT))
 		{
-			mainAppIntent.putExtra(PushManager.REGISTER_EVENT, (String) null);
+			mainAppIntent.removeExtra(PushManager.REGISTER_EVENT);
 		}
 		else if (mainAppIntent.hasExtra(PushManager.UNREGISTER_EVENT))
 		{
-			mainAppIntent.putExtra(PushManager.UNREGISTER_EVENT, (String) null);
+			mainAppIntent.removeExtra(PushManager.UNREGISTER_EVENT);
 		}
 		else if (mainAppIntent.hasExtra(PushManager.REGISTER_ERROR_EVENT))
 		{
-			mainAppIntent.putExtra(PushManager.REGISTER_ERROR_EVENT, (String) null);
+			mainAppIntent.removeExtra(PushManager.REGISTER_ERROR_EVENT);
 		}
 		else if (mainAppIntent.hasExtra(PushManager.UNREGISTER_ERROR_EVENT))
 		{
-			mainAppIntent.putExtra(PushManager.UNREGISTER_ERROR_EVENT, (String) null);
+			mainAppIntent.removeExtra(PushManager.UNREGISTER_ERROR_EVENT);
 		}
 
 		setIntent(mainAppIntent);

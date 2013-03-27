@@ -46,7 +46,7 @@ public class DeviceFeature2_5
 
 		Log.w(TAG, "Try To sent PushStat");
 
-		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(500, 0, null);
 		Exception exception = new Exception();
 		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
 		{
@@ -77,18 +77,21 @@ public class DeviceFeature2_5
 
 		Log.w(TAG, "Try To sent Goal");
 
-		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(500, 0, null);
 		Exception exception = new Exception();
 		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
 		{
 			try
 			{
 				res = NetworkUtils.makeRequest(data, GOAL_ACHIEVED);
-				if (200 == res.getResultCode())
-				{
-					Log.w(TAG, "Send Goal success");
-					return;
-				}
+				if (200 != res.getResultCode())
+					continue;
+				
+				if (200 != res.getPushwooshCode())
+					break;
+
+				Log.w(TAG, "Send Goal success");
+				return;
 			}
 			catch (Exception e)
 			{
@@ -108,18 +111,21 @@ public class DeviceFeature2_5
 
 		Log.w(TAG, "Try To sent AppOpen");
 
-		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(500, 0, null);
 		Exception exception = new Exception();
 		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
 		{
 			try
 			{
 				res = NetworkUtils.makeRequest(data, APP_OPEN);
-				if (200 == res.getResultCode())
-				{
-					Log.w(TAG, "Send AppOpen success");
-					return;
-				}
+				if (200 != res.getResultCode())
+					continue;
+				
+				if (200 != res.getPushwooshCode())
+					break;
+
+				Log.w(TAG, "Send AppOpen success");
+				return;
 			}
 			catch (Exception e)
 			{
@@ -176,18 +182,21 @@ public class DeviceFeature2_5
 
 		Log.w(TAG, "Try To sent Tags");
 
-		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(500, 0, null);
 		Exception exception = new Exception();
 		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
 		{
 			try
 			{
 				res = NetworkUtils.makeRequest(data, TAGS_PATH);
-				if (200 == res.getResultCode())
-				{
-					Log.w(TAG, "Send Tags success");
-					return res.getResultData().getJSONObject("response").getJSONArray("skipped");
-				}
+				if (200 != res.getResultCode())
+					continue;
+				
+				if (200 != res.getPushwooshCode())
+					break;
+
+				Log.w(TAG, "Send Tags success");
+				return res.getResultData().getJSONObject("response").getJSONArray("skipped");
 			}
 			catch (Exception e)
 			{
@@ -207,19 +216,22 @@ public class DeviceFeature2_5
 
 		Log.w(TAG, "Try To Sent Nearest Zone");
 
-		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(500, 0, null);
 		Exception exception = new Exception();
 		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
 		{
 			try
 			{
 				res = NetworkUtils.makeRequest(data, NEAREST_ZONE);
-				if (200 == res.getResultCode())
-				{
-					Log.w(TAG, "Send Nearest Zone success");
+				if (200 != res.getResultCode())
+					continue;
+				
+				if (200 != res.getPushwooshCode())
+					break;
 
-					return RequestHelper.getPushZoneLocationFromData(res.getResultData(), NetworkUtils.PUSH_VERSION);
-				}
+				Log.w(TAG, "Send Nearest Zone success");
+
+				return RequestHelper.getPushZoneLocationFromData(res.getResultData(), NetworkUtils.PUSH_VERSION);
 			}
 			catch (Exception e)
 			{
@@ -227,7 +239,7 @@ public class DeviceFeature2_5
 			}
 		}
 
-		Log.e(TAG, "ERROR: sent Nearest Zon " + exception.getMessage() + ". Response = " + res, exception);
+		Log.e(TAG, "ERROR: sent Nearest Zone " + exception.getMessage() + ". Response = " + res, exception);
 		throw exception;
 	}
 	
@@ -239,18 +251,21 @@ public class DeviceFeature2_5
 
 		Log.w(TAG, "Try To sent MsgDelivered");
 
-		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(500, 0, null);
 		Exception exception = new Exception();
 		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
 		{
 			try
 			{
 				res = NetworkUtils.makeRequest(data, MSG_DELIVERED);
-				if (200 == res.getResultCode())
-				{
-					Log.w(TAG, "Send MsgDelivered success");
-					return;
-				}
+				if (200 != res.getResultCode())
+					continue;
+				
+				if (200 != res.getPushwooshCode())
+					break;
+
+				Log.w(TAG, "Send MsgDelivered success");
+				return;
 			}
 			catch (Exception e)
 			{
@@ -270,18 +285,21 @@ public class DeviceFeature2_5
 
 		Log.w(TAG, "Try To sent AppRemoved");
 
-		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(-1, null);
+		NetworkUtils.NetworkResult res = new NetworkUtils.NetworkResult(500, 0, null);
 		Exception exception = new Exception();
 		for (int i = 0; i < NetworkUtils.MAX_TRIES; ++i)
 		{
 			try
 			{
 				res = NetworkUtils.makeRequest(data, PACKAGE_REMOVED);
-				if (200 == res.getResultCode())
-				{
-					Log.w(TAG, "Send AppRemoved success");
-					return;
-				}
+				if (200 != res.getResultCode())
+					continue;
+				
+				if (200 != res.getPushwooshCode())
+					break;
+
+				Log.w(TAG, "Send AppRemoved success");
+				return;
 			}
 			catch (Exception e)
 			{

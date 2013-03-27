@@ -104,7 +104,7 @@ public class PushNotifications extends Plugin
 		catch (JSONException e)
 		{
 			e.printStackTrace();
-			return new PluginResult(Status.ERROR);
+			return new PluginResult(Status.ERROR, e.getMessage());
 		}
 
 		try
@@ -115,7 +115,7 @@ public class PushNotifications extends Plugin
 		catch (JSONException e)
 		{
 			e.printStackTrace();
-			return new PluginResult(Status.ERROR);
+			return new PluginResult(Status.ERROR, e.getMessage());
 		}
 
 		try
@@ -133,7 +133,7 @@ public class PushNotifications extends Plugin
 		catch (java.lang.RuntimeException e)
 		{
 			e.printStackTrace();
-			return new PluginResult(Status.ERROR);
+			return new PluginResult(Status.ERROR, e.getMessage());
 		}
 
 		checkMessage(cordova.getActivity().getIntent());
@@ -159,7 +159,7 @@ public class PushNotifications extends Plugin
 			}
 			else if (intent.hasExtra(PushManager.UNREGISTER_EVENT))
 			{
-				doOnUnregisteredError(intent.getExtras().getString(PushManager.UNREGISTER_EVENT));
+				doOnUnregistered(intent.getExtras().getString(PushManager.UNREGISTER_EVENT));
 			}
 			else if (intent.hasExtra(PushManager.REGISTER_ERROR_EVENT))
 			{
@@ -167,14 +167,14 @@ public class PushNotifications extends Plugin
 			}
 			else if (intent.hasExtra(PushManager.UNREGISTER_ERROR_EVENT))
 			{
-				doOnUnregistered(intent.getExtras().getString(PushManager.UNREGISTER_ERROR_EVENT));
+				doOnUnregisteredError(intent.getExtras().getString(PushManager.UNREGISTER_ERROR_EVENT));
 			}
 
-			intent.putExtra(PushManager.PUSH_RECEIVE_EVENT, (String) null);
-			intent.putExtra(PushManager.REGISTER_EVENT, (String) null);
-			intent.putExtra(PushManager.UNREGISTER_EVENT, (String) null);
-			intent.putExtra(PushManager.REGISTER_ERROR_EVENT, (String) null);
-			intent.putExtra(PushManager.UNREGISTER_ERROR_EVENT, (String) null);
+			intent.removeExtra(PushManager.PUSH_RECEIVE_EVENT);
+			intent.removeExtra(PushManager.REGISTER_EVENT);
+			intent.removeExtra(PushManager.UNREGISTER_EVENT);
+			intent.removeExtra(PushManager.REGISTER_ERROR_EVENT);
+			intent.removeExtra(PushManager.UNREGISTER_ERROR_EVENT);
 
 			cordova.getActivity().setIntent(intent);
 		}
@@ -192,7 +192,7 @@ public class PushNotifications extends Plugin
 		}
 		catch (Exception e)
 		{
-			return new PluginResult(Status.ERROR);
+			return new PluginResult(Status.ERROR, e.getMessage());
 		}
 
 		return result;
@@ -584,9 +584,9 @@ public class PushNotifications extends Plugin
 	private BroadcastReceiver mReceiver = new BasePushMessageReceiver()
 	{
 		@Override
-		protected void onMessageReceive(String data)
+		protected void onMessageReceive(Intent intent)
 		{
-			doOnMessageReceive(data);
+			doOnMessageReceive(intent.getStringExtra(DATA_KEY));
 		}
 	};
 }
