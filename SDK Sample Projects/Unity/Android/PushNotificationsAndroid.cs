@@ -45,7 +45,7 @@ public class PushNotificationsAndroid : MonoBehaviour {
 
 	public void clearLocalNotifications()
 	{
-		pushwoosh.Call("clearLocalNotifications", tagName, tagValue);
+		pushwoosh.Call("clearLocalNotifications");
 	}
 
 	public void scheduleLocalNotification(string message, int seconds)

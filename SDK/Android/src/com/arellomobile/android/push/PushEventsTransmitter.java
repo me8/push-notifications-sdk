@@ -10,13 +10,29 @@ package com.arellomobile.android.push;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import com.arellomobile.android.push.utils.GeneralUtils;
 
 public class PushEventsTransmitter
 {
-	private static boolean useBroadcast = false;
+	private static boolean getUseBroadcast(Context context)
+	{
+        ApplicationInfo ai = null;
+        try {
+            ai = context.getPackageManager().getApplicationInfo(context.getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+            boolean useBroadcast = ai.metaData.getBoolean("PW_BROADCAST_REGISTRATION");
+            System.out.println("Using broadcast registration: " + useBroadcast);
+            
+            return useBroadcast;
+            
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return false;
+        }
+	}
 	
     private static void transmit(final Context context, String stringToShow, String messageKey)
     {
@@ -37,9 +53,9 @@ public class PushEventsTransmitter
 
 	static void onRegistered(final Context context, String registrationId)
 	{
-		if(useBroadcast)
+		if(getUseBroadcast(context))
 		{
-			String alertString = "Registered. RegistrationId is " + registrationId;
+			//String alertString = "Registered. RegistrationId is " + registrationId;
 			transmitBroadcast(context, registrationId, PushManager.REGISTER_EVENT);
 		}
 		else
@@ -50,8 +66,15 @@ public class PushEventsTransmitter
 
 	static void onRegisterError(final Context context, String errorId)
 	{
-		String alertString = "Register error. Error message is " + errorId;
-		transmit(context, errorId, PushManager.REGISTER_ERROR_EVENT);
+		if(getUseBroadcast(context))
+		{
+			//String alertString = "Register error. Error message is " + errorId;
+			transmitBroadcast(context, errorId, PushManager.REGISTER_ERROR_EVENT);
+		}
+		else
+		{
+			transmit(context, errorId, PushManager.REGISTER_ERROR_EVENT);
+		}
 	}
 
 	private static void transmitBroadcast(Context context, String registrationId, String registerEvent)
@@ -75,13 +98,27 @@ public class PushEventsTransmitter
 
     static void onUnregistered(final Context context, String registrationId)
     {
-        //String alertString = "Unregistered. RegistrationId is " + registrationId;
-        transmit(context, registrationId, PushManager.UNREGISTER_EVENT);
+		if(getUseBroadcast(context))
+		{
+	        //String alertString = "Unregistered. RegistrationId is " + registrationId;
+			transmitBroadcast(context, registrationId, PushManager.UNREGISTER_EVENT);
+		}
+		else
+		{
+			transmit(context, registrationId, PushManager.UNREGISTER_EVENT);
+		}
     }
 
     static void onUnregisteredError(Context context, String errorId)
     {
-        transmit(context, errorId, PushManager.UNREGISTER_ERROR_EVENT);
+		if(getUseBroadcast(context))
+		{
+			transmitBroadcast(context, errorId, PushManager.UNREGISTER_ERROR_EVENT);
+		}
+		else
+		{
+	        transmit(context, errorId, PushManager.UNREGISTER_ERROR_EVENT);
+		}
     }
 
     static void onMessageReceive(final Context context, String message)

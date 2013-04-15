@@ -135,6 +135,12 @@ var app = {
     onDeviceReady: function() {
         initPushwoosh();
         app.receivedEvent('deviceready');
+        
+        //optional: create local notification alert
+        //var pushNotification = window.plugins.pushNotification;
+	//pushNotification.clearLocalNotification();
+	//pushNotification.createLocalNotification({"msg":"message", "seconds":30, "userData":"optional"});
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
