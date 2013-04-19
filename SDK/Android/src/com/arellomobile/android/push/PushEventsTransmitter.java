@@ -23,10 +23,15 @@ public class PushEventsTransmitter
         ApplicationInfo ai = null;
         try {
             ai = context.getPackageManager().getApplicationInfo(context.getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
-            boolean useBroadcast = ai.metaData.getBoolean("PW_BROADCAST_REGISTRATION");
-            System.out.println("Using broadcast registration: " + useBroadcast);
+            Bundle metaData = ai.metaData;
+            if(metaData != null)
+            {
+            	boolean useBroadcast = ai.metaData.getBoolean("PW_BROADCAST_REGISTRATION");
+            	System.out.println("Using broadcast registration: " + useBroadcast);
+            	return useBroadcast;
+            }
             
-            return useBroadcast;
+            return false;
             
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

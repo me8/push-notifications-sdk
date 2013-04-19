@@ -434,9 +434,6 @@ public class PushManager
 	
 	private void sendAppOpen(Context context)
 	{
-		if (GCMRegistrar.isRegisteredOnServer(context) == false)
-			return;
-
 		AsyncTask<Void, Void, Void> task;
 		try
 		{
