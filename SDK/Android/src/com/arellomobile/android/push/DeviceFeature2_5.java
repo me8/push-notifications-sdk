@@ -38,7 +38,7 @@ public class DeviceFeature2_5
 	private static final String PACKAGE_REMOVED = "androidPackageRemoved";
 	private static final String GOAL_ACHIEVED = "applicationEvent";
 
-	static void sendPushStat(Context context, String hash)
+	public static void sendPushStat(Context context, String hash)
 	{
 		final Map<String, Object> data = new HashMap<String, Object>();
 
@@ -69,7 +69,7 @@ public class DeviceFeature2_5
 				exception);
 	}
 	
-	static void sendGoalAchieved(Context context, String goal, Integer count)
+	public static void sendGoalAchieved(Context context, String goal, Integer count)
 	{
 		final Map<String, Object> data = new HashMap<String, Object>();
 
@@ -103,7 +103,7 @@ public class DeviceFeature2_5
 				exception);
 	}
 	
-	static void sendAppOpen(Context context)
+	public static void sendAppOpen(Context context)
 	{
 		final Map<String, Object> data = new HashMap<String, Object>();
 
@@ -137,7 +137,7 @@ public class DeviceFeature2_5
 				exception);
 	}
 
-	static JSONArray sendTags(Context context, Map<String, Object> tags) throws Exception
+	public static JSONArray sendTags(Context context, Map<String, Object> tags) throws Exception
 	{
 		final Map<String, Object> data = new HashMap<String, Object>();
 
@@ -243,7 +243,7 @@ public class DeviceFeature2_5
 		throw exception;
 	}
 	
-	static void sendMessageDeliveryEvent(Context context, String hash)
+	public static void sendMessageDeliveryEvent(Context context, String hash)
 	{
 		final Map<String, Object> data = new HashMap<String, Object>();
 
