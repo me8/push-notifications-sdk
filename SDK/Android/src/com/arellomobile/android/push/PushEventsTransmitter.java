@@ -26,16 +26,16 @@ public class PushEventsTransmitter
             Bundle metaData = ai.metaData;
             if(metaData != null)
             {
-            	boolean useBroadcast = ai.metaData.getBoolean("PW_BROADCAST_REGISTRATION");
+            	boolean useBroadcast = ai.metaData.getBoolean("PW_BROADCAST_REGISTRATION", true);
             	System.out.println("Using broadcast registration: " + useBroadcast);
             	return useBroadcast;
             }
             
-            return false;
+            return true;
             
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            return false;
+            return true;
         }
 	}
 	
@@ -84,10 +84,9 @@ public class PushEventsTransmitter
 
 	private static void transmitBroadcast(Context context, String registrationId, String registerEvent)
 	{
-		Intent intent = new Intent(PushManager.REGISTER_BROAD_CAST_ACTION);
-		intent.putExtra(registerEvent, registrationId);
-		
 		String packageName = context.getPackageName();
+		Intent intent = new Intent(packageName + "." + PushManager.REGISTER_BROAD_CAST_ACTION);
+		intent.putExtra(registerEvent, registrationId);
 		intent.setPackage(packageName);
 
 		if (GeneralUtils.checkStickyBroadcastPermissions(context))

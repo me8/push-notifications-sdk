@@ -21,6 +21,7 @@
 package com.pushwoosh.nativeExtensions;
 
 import com.arellomobile.android.push.BasePushMessageReceiver;
+import com.arellomobile.android.push.utils.RegisterBroadcastReceiver;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 
@@ -38,6 +39,7 @@ import android.widget.Toast;
 import android.os.Bundle;
 import java.util.HashMap;
 import java.util.Map;
+import android.content.Context;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
@@ -68,6 +70,8 @@ class PushWoosh
     {
 		mainActivity = activity;
 		
+		registerReceivers();
+		
         ApplicationInfo ai = null;
         try {
             ai = activity.getPackageManager().getApplicationInfo(activity.getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
@@ -81,7 +85,7 @@ class PushWoosh
 
             PushManager pushManager = new PushManager(activity, pwAppid, projectId);
             pushManager.onStartup(activity);
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
@@ -90,12 +94,28 @@ class PushWoosh
         return 0;
     }
 	
-	public void onResume()
+	BroadcastReceiver mBroadcastReceiver = new RegisterBroadcastReceiver()
+	{
+		@Override
+		public void onRegisterActionReceive(Context context, Intent intent)
+		{
+			checkMessage(intent);
+		}
+	};
+	
+	public void registerReceivers()
 	{
 		IntentFilter intentFilter = new IntentFilter(mainActivity.getPackageName() + ".action.PUSH_MESSAGE_RECEIVE");
 
 		if(broadcastPush)
 			mainActivity.registerReceiver(mReceiver, intentFilter);
+		
+		mainActivity.registerReceiver(mBroadcastReceiver, new IntentFilter(mainActivity.getPackageName() + "." + PushManager.REGISTER_BROAD_CAST_ACTION));
+	}
+	
+	public void onResume()
+	{
+		registerReceivers();
 	}
 	
 	public void onPause()
@@ -108,16 +128,25 @@ class PushWoosh
 		{
 			// pass.
 		}
+		
+		try
+		{
+			mainActivity.unregisterReceiver(mBroadcastReceiver);
+		}
+		catch (Exception e)
+		{
+			// pass.
+		}
 	}
 	
 	private BroadcastReceiver mReceiver = new BasePushMessageReceiver()
 	{
 		@Override
-		protected void onMessageReceive(String data)
+		protected void onMessageReceive(Intent intent)
 		{
 			FREContext freContext = GCMExtension.context;
 			if (freContext != null) {
-				freContext.dispatchStatusEventAsync("PUSH_RECEIVED", data);
+				freContext.dispatchStatusEventAsync("PUSH_RECEIVED", intent.getStringExtra(JSON_DATA_KEY));
 			}
 		}
 	};

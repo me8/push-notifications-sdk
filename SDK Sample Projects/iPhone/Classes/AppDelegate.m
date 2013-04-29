@@ -10,6 +10,12 @@
 #import "ViewController.h"
 #import "PushNotificationManager.h"
 
+#import "PWLocationTracker.h"
+
+@interface AppDelegate ()
+@property (nonatomic, strong) PWLocationTracker *locationTracker;
+@end
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -34,6 +40,11 @@
 	PushNotificationManager * pushManager = [PushNotificationManager pushManager];
 	pushManager.delegate = self.viewController;
 //	pushManager.supportedOrientations = PWOrientationPortrait | PWOrientationLandscapeLeft | PWOrientationLandscapeRight;
+	
+	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
+		PushNotificationManager * pushManager = [PushNotificationManager pushManager];
+		[pushManager startLocationTracking];
+    }
 	
     return YES;
 }

@@ -23,17 +23,17 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 
 	private Context mContext;
 	private Bundle mData;
-	private String mAppName;
-	private String mTitle;
+	private String mHeader;
+	private String mMessage;
 	private SoundType mSoundType;
 	private VibrateType mVibrateType;
 
-	public BaseNotificationFactory(Context context, Bundle data, String appName, String title, SoundType soundType, VibrateType vibrateType)
+	public BaseNotificationFactory(Context context, Bundle data, String header, String message, SoundType soundType, VibrateType vibrateType)
 	{
 		mContext = context;
 		mData = data;
-		mAppName = appName;
-		mTitle = title;
+		mHeader = header;
+		mMessage = message;
 		mSoundType = soundType;
 		mVibrateType = vibrateType;
 	}
@@ -45,14 +45,29 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 		if (0 != resId)
 		{
 			String newMessageString = getContext().getString(resId);
-			mNotification = generateNotificationInner(getContext(), getData(), mAppName, newMessageString);
+			mNotification = generateNotificationInner(getContext(), getData(), mHeader, mMessage, newMessageString);
 			return;
 		}
 
-		mNotification = generateNotificationInner(getContext(), getData(), mAppName, mTitle);
+		mNotification = generateNotificationInner(getContext(), getData(), mHeader, mMessage, mMessage);
 	}
 	
-	abstract Notification generateNotificationInner(Context context, Bundle data, String appName, String tickerTitle);
+	abstract Notification generateNotificationInner(Context context, Bundle data, String header, String message, String tickerTitle);
+	
+	@Override
+	public void addLED(boolean enable)
+	{
+		if(!enable)
+			return;
+		
+		//by some reason doesn't work on Galaxy Nexus
+		//mNotification.defaults |= Notification.DEFAULT_LIGHTS;
+		
+		mNotification.ledARGB = 0xFFFFFFFF;
+		mNotification.flags = Notification.FLAG_SHOW_LIGHTS;
+		mNotification.ledOnMS = 100; 
+		mNotification.ledOffMS = 1000;
+	}
 
 	@Override
 	public void addSoundAndVibrate()
@@ -141,10 +156,5 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 	protected VibrateType getVibrateType()
 	{
 		return mVibrateType;
-	}
-	
-	protected String getTitle()
-	{
-		return mTitle;
 	}
 }

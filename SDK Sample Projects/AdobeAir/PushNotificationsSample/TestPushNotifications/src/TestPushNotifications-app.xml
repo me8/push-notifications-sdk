@@ -69,7 +69,7 @@
 					        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
 					        <!-- Receives the registration id. -->
 					        <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-					        <category android:name="air.com.pushwoosh.testapp.debug"/>
+					        <category android:name="air.com.pushwoosh.testapp"/>
 					    </intent-filter>
 					</receiver>
 					
@@ -78,7 +78,7 @@
 			        <activity android:name="com.arellomobile.android.push.PushHandlerActivity"/>
 			        <activity android:name="com.pushwoosh.nativeExtensions.PushActivity">
 			        	<intent-filter>
-			                <action android:name="air.com.pushwoosh.testapp.debug.MESSAGE"/>
+			                <action android:name="air.com.pushwoosh.testapp.MESSAGE"/>
                 			<category android:name="android.intent.category.DEFAULT"/>
             			</intent-filter>
 			        </activity>
@@ -110,10 +110,10 @@
 				        where PACKAGE is the application's package name.
 				 -->
 				 <permission
-				         android:name="air.com.pushwoosh.testapp.debug.permission.C2D_MESSAGE"
+				         android:name="air.com.pushwoosh.testapp.permission.C2D_MESSAGE"
 				         android:protectionLevel="signature"/>
 				 <uses-permission
-				         android:name="air.com.pushwoosh.testapp.debug.permission.C2D_MESSAGE"/>
+				         android:name="air.com.pushwoosh.testapp.permission.C2D_MESSAGE"/>
 				 
 				 <!-- This app has permission to register and receive data message. -->
 				 <uses-permission

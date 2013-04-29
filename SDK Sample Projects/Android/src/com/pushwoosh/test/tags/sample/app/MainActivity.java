@@ -1,6 +1,9 @@
 package com.pushwoosh.test.tags.sample.app;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -8,8 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.arellomobile.android.push.BasePushMessageReceiver;
 import com.arellomobile.android.push.PushManager;
-import com.arellomobile.android.push.utils.NetworkUtils;
+import com.arellomobile.android.push.utils.RegisterBroadcastReceiver;
 
 public class MainActivity extends FragmentActivity implements SendTagsCallBack
 {
@@ -23,6 +28,8 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 	private EditText mStringTags;
 	private Button mSubmitTagsButton;
 	private TextView mGeneralStatus;
+	
+	boolean broadcastPush = true;
 
 	/**
 	 * Called when the activity is first created.
@@ -35,7 +42,11 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 		setContentView(R.layout.main);
 		
 		//NetworkUtils.useSSL = true;
+		
+		//Register receivers for push notifications
+		registerReceivers();
 
+		//Create and start push manager
 		PushManager pushManager = new PushManager(this, APP_ID, SENDER_ID);
 		pushManager.onStartup(this);
 		
@@ -80,7 +91,74 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 	{
 		super.onNewIntent(intent);
 
+		//have to check if we've got new intent as a part of push notification
 		checkMessage(intent);
+	}
+	
+	//Registration receiver
+	BroadcastReceiver mBroadcastReceiver = new RegisterBroadcastReceiver()
+	{
+		@Override
+		public void onRegisterActionReceive(Context context, Intent intent)
+		{
+			checkMessage(intent);
+		}
+	};
+	
+	//Push message receiver
+	private BroadcastReceiver mReceiver = new BasePushMessageReceiver()
+	{
+		@Override
+		protected void onMessageReceive(Intent intent)
+		{
+			//JSON_DATA_KEY contains JSON payload of push notification.
+			doOnMessageReceive(intent.getExtras().getString(JSON_DATA_KEY));
+		}
+	};
+	
+	//Registration of the receivers
+	public void registerReceivers()
+	{
+		IntentFilter intentFilter = new IntentFilter(getPackageName() + ".action.PUSH_MESSAGE_RECEIVE");
+
+		if(broadcastPush)
+			registerReceiver(mReceiver, intentFilter);
+		
+		registerReceiver(mBroadcastReceiver, new IntentFilter(getPackageName() + "." + PushManager.REGISTER_BROAD_CAST_ACTION));		
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		//Re-register receivers on resume
+		registerReceivers();
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		//Unregister receivers on pause
+		try
+		{
+			unregisterReceiver(mReceiver);
+		}
+		catch (Exception e)
+		{
+			// pass.
+		}
+		
+		try
+		{
+			unregisterReceiver(mBroadcastReceiver);
+		}
+		catch (Exception e)
+		{
+			//pass through
+		}
 	}
 
 	@Override

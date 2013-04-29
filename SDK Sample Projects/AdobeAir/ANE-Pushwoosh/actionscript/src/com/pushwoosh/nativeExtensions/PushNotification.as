@@ -52,6 +52,16 @@ package com.pushwoosh.nativeExtensions
         private function onDeactivate(event:Event):void {
                 extCtx.call("pause");
         }
+		
+		public function scheduleLocalNotification(seconds:int, alertJson:String):void
+		{
+			extCtx.call("scheduleLocalNotification", seconds, alertJson);
+		}
+
+		public function clearLocalNotifications():void
+		{
+			extCtx.call("clearLocalNotifications");
+		}
 
 		public function get isPushNotificationSupported():Boolean
 		{

@@ -15,6 +15,8 @@
 		500B664315E3DCD2002B2233 /* PWRegisterDeviceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B663B15E3DCD2002B2233 /* PWRegisterDeviceRequest.m */; };
 		500B664415E3DCD2002B2233 /* PWSetTagsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 500B663C15E3DCD2002B2233 /* PWSetTagsRequest.h */; };
 		500B664515E3DCD2002B2233 /* PWSetTagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B663D15E3DCD2002B2233 /* PWSetTagsRequest.m */; };
+		501A3E0B1729806A00DE335F /* PW_SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 501A3E091729806A00DE335F /* PW_SBJsonParser.h */; };
+		501A3E0C1729806A00DE335F /* PW_SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 501A3E0A1729806A00DE335F /* PW_SBJsonParser.m */; };
 		506B6BD116D1AFF300B6F50F /* PW_SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 506B6BCD16D1AFF300B6F50F /* PW_SBJsonBase.h */; };
 		506B6BD216D1AFF300B6F50F /* PW_SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 506B6BCE16D1AFF300B6F50F /* PW_SBJsonBase.m */; };
 		506B6BD316D1AFF300B6F50F /* PW_SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 506B6BCF16D1AFF300B6F50F /* PW_SBJsonWriter.h */; };
@@ -50,6 +52,8 @@
 		500B663B15E3DCD2002B2233 /* PWRegisterDeviceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWRegisterDeviceRequest.m; path = Classes/PWRegisterDeviceRequest.m; sourceTree = "<group>"; };
 		500B663C15E3DCD2002B2233 /* PWSetTagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWSetTagsRequest.h; path = Classes/PWSetTagsRequest.h; sourceTree = "<group>"; };
 		500B663D15E3DCD2002B2233 /* PWSetTagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWSetTagsRequest.m; path = Classes/PWSetTagsRequest.m; sourceTree = "<group>"; };
+		501A3E091729806A00DE335F /* PW_SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonParser.h; path = Classes/PW_SBJsonParser.h; sourceTree = "<group>"; };
+		501A3E0A1729806A00DE335F /* PW_SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PW_SBJsonParser.m; path = Classes/PW_SBJsonParser.m; sourceTree = "<group>"; };
 		506B6BCD16D1AFF300B6F50F /* PW_SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonBase.h; path = Classes/PW_SBJsonBase.h; sourceTree = "<group>"; };
 		506B6BCE16D1AFF300B6F50F /* PW_SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PW_SBJsonBase.m; path = Classes/PW_SBJsonBase.m; sourceTree = "<group>"; };
 		506B6BCF16D1AFF300B6F50F /* PW_SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonWriter.h; path = Classes/PW_SBJsonWriter.h; sourceTree = "<group>"; };
@@ -121,6 +125,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				501A3E091729806A00DE335F /* PW_SBJsonParser.h */,
+				501A3E0A1729806A00DE335F /* PW_SBJsonParser.m */,
 				506B6BD916D1B12100B6F50F /* FlashRuntimeExtensions.h */,
 				506B6BD516D1B05C00B6F50F /* PushAirExtension.h */,
 				506B6BD616D1B05C00B6F50F /* PushAirExtension.m */,
@@ -201,6 +207,7 @@
 				506B6BD316D1AFF300B6F50F /* PW_SBJsonWriter.h in Headers */,
 				506B6BD716D1B05C00B6F50F /* PushAirExtension.h in Headers */,
 				506B6BDA16D1B12100B6F50F /* FlashRuntimeExtensions.h in Headers */,
+				501A3E0B1729806A00DE335F /* PW_SBJsonParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +278,7 @@
 				506B6BD216D1AFF300B6F50F /* PW_SBJsonBase.m in Sources */,
 				506B6BD416D1AFF300B6F50F /* PW_SBJsonWriter.m in Sources */,
 				506B6BD816D1B05C00B6F50F /* PushAirExtension.m in Sources */,
+				501A3E0C1729806A00DE335F /* PW_SBJsonParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

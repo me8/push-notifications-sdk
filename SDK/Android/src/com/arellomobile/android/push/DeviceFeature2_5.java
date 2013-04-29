@@ -40,6 +40,9 @@ public class DeviceFeature2_5
 
 	public static void sendPushStat(Context context, String hash)
 	{
+		if(hash == null)
+			return;
+		
 		final Map<String, Object> data = new HashMap<String, Object>();
 
 		data.putAll(RequestHelper.getSendPushStatData(context, hash, NetworkUtils.PUSH_VERSION));
@@ -196,7 +199,11 @@ public class DeviceFeature2_5
 					break;
 
 				Log.w(TAG, "Send Tags success");
-				return res.getResultData().getJSONObject("response").getJSONArray("skipped");
+				JSONObject response = res.getResultData().getJSONObject("response");
+				if(response == null)
+					return new JSONArray();
+				
+				return response.getJSONArray("skipped");
 			}
 			catch (Exception e)
 			{
@@ -245,6 +252,9 @@ public class DeviceFeature2_5
 	
 	public static void sendMessageDeliveryEvent(Context context, String hash)
 	{
+		if(hash == null)
+			return;
+		
 		final Map<String, Object> data = new HashMap<String, Object>();
 
 		data.putAll(RequestHelper.getSendPushStatData(context, hash, NetworkUtils.PUSH_VERSION));

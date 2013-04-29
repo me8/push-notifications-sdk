@@ -56,6 +56,9 @@ public class GCMExtensionContext extends FREContext {
 		functionMap.put("setStringTag", new SetStringTagFunction());
 		functionMap.put("pause", new PauseFunction());
 		functionMap.put("resume", new ResumeFunction());
+
+		functionMap.put("scheduleLocalNotification", new ScheduleLocalNotification());
+		functionMap.put("clearLocalNotifications", new ClearLocalNotifications());
 		
 		return functionMap;	
 	}

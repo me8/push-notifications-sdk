@@ -5,8 +5,22 @@
 //
 
 #import "PushAirExtension.h"
+#import "PW_SBJsonParser.h"
 
 #define DEFINE_ANE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
+
+NSString * FreToNSString(FREObject object)
+{
+	uint32_t string_length;
+    const uint8_t *utf8_string;
+    if (FREGetObjectAsUTF8(object, &string_length, &utf8_string) != FRE_OK)
+    {
+        return nil;
+    }
+	
+    NSString* result = [NSString stringWithUTF8String:(char*)utf8_string];
+	return result;
+}
 
 FREContext myCtx = 0;
 
@@ -61,15 +75,10 @@ DEFINE_ANE_FUNCTION(registerPush)
 
 DEFINE_ANE_FUNCTION(setIntTag)
 {
-	uint32_t string_length;
-    const uint8_t *utf8_tagName;
-    if (FREGetObjectAsUTF8(argv[0], &string_length, &utf8_tagName) != FRE_OK)
-    {
+	NSString* tagName = FreToNSString(argv[0]);
+    if (!tagName)
         return nil;
-    }
 	
-    NSString* tagName = [NSString stringWithUTF8String:(char*)utf8_tagName];
-    
     int32_t tagValue;
 	if (FREGetObjectAsInt32(argv[1], &tagValue) != FRE_OK)
 	{
@@ -84,22 +93,13 @@ DEFINE_ANE_FUNCTION(setIntTag)
 
 DEFINE_ANE_FUNCTION(setStringTag)
 {
-	uint32_t string_length;
-    const uint8_t *utf8_tagName;
-    if (FREGetObjectAsUTF8(argv[0], &string_length, &utf8_tagName) != FRE_OK)
-    {
+	NSString* tagName = FreToNSString(argv[0]);
+    if (!tagName)
         return nil;
-    }
-	
-    NSString* tagName = [NSString stringWithUTF8String:(char*)utf8_tagName];
-	
-    const uint8_t *utf8_tagValue;
-    if (FREGetObjectAsUTF8(argv[1], &string_length, &utf8_tagValue) != FRE_OK)
-    {
+
+	NSString* tagValue = FreToNSString(argv[1]);
+    if (!tagValue)
         return nil;
-    }
-	
-    NSString* tagValue = [NSString stringWithUTF8String:(char*)utf8_tagValue];
 
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:tagValue, tagName, nil];
 	[[PushNotificationManager pushManager] setTags:dict];
@@ -107,11 +107,64 @@ DEFINE_ANE_FUNCTION(setStringTag)
 	return nil;
 }
 
+//timeInSeconds, json string: {alertBody: text, alertAction:text, soundName:text, badge: int, custom: {json}}
+DEFINE_ANE_FUNCTION(scheduleLocalNotification)
+{
+	int32_t interval;
+	if (FREGetObjectAsInt32(argv[0], &interval) != FRE_OK)
+	{
+		return nil;
+	}
+
+	NSString* bodyJson = FreToNSString(argv[1]);
+    if (!bodyJson)
+        return nil;
+	
+	
+	PW_SBJsonParser * json = [[PW_SBJsonParser alloc] init];
+	NSDictionary *jsonDict =[json objectWithString:bodyJson];
+	[json release]; json = nil;
+	
+	if(!jsonDict)
+		return nil;
+
+	UILocalNotification* notification = [[UILocalNotification alloc] init];
+	notification.fireDate = [NSDate dateWithTimeIntervalSinceNow: interval];
+	notification.alertBody = [jsonDict objectForKey:@"alertBody"];
+	notification.alertAction = [jsonDict objectForKey:@"alertAction"];
+	
+	if([jsonDict objectForKey:@"soundName"])
+	{
+		notification.soundName = [jsonDict objectForKey:@"soundName"];
+	}
+	else
+	{
+		notification.soundName = UILocalNotificationDefaultSoundName;
+	}
+
+	if([jsonDict objectForKey:@"badge"])
+	{
+		notification.applicationIconBadgeNumber = [[jsonDict objectForKey:@"badge"] intValue];
+	}
+
+	notification.userInfo = [jsonDict objectForKey:@"custom"];
+
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+	
+	return nil;
+}
+
+DEFINE_ANE_FUNCTION(clearAllLocalNotifications)
+{
+	[[UIApplication sharedApplication] cancelAllLocalNotifications];
+	return nil;
+}
+
 void PushwooshContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx,
 							   uint32_t* numFunctionsToTest, const FRENamedFunction** functionsToSet)
 {
     // Register the links btwn AS3 and ObjC. (dont forget to modify the nbFuntionsToLink integer if you are adding/removing functions)
-    NSInteger nbFuntionsToLink = 6;
+    NSInteger nbFuntionsToLink = 8;
     *numFunctionsToTest = nbFuntionsToLink;
     
     FRENamedFunction* func = (FRENamedFunction*) malloc(sizeof(FRENamedFunction) * nbFuntionsToLink);
@@ -139,6 +192,14 @@ void PushwooshContextInitializer(void* extData, const uint8_t* ctxType, FREConte
     func[5].name = (const uint8_t*) "resume";
     func[5].functionData = NULL;
     func[5].function = &onResume;
+
+	func[6].name = (const uint8_t*) "scheduleLocalNotification";
+    func[6].functionData = NULL;
+    func[6].function = &scheduleLocalNotification;
+
+	func[7].name = (const uint8_t*) "clearLocalNotifications";
+    func[7].functionData = NULL;
+    func[7].function = &clearAllLocalNotifications;
 
     *functionsToSet = func;
     
@@ -198,9 +259,14 @@ void PushwooshExtFinalizer(void *extData) {
 //handle push notification, display alert, if this method is implemented onPushAccepted will not be called, internal message boxes will not be displayed
 - (void) onPushAccepted:(PushNotificationManager *)pushManager withNotification:(NSDictionary *)pushNotification onStart:(BOOL)onStart
 {
+	NSMutableDictionary * pn = [pushNotification mutableCopy];
+	[pn setObject:[NSNumber numberWithBool:onStart] forKey:@"onStart"];
+
 	PW_SBJsonWriter * json = [[PW_SBJsonWriter alloc] init];
-	NSString *jsonRequestData =[json stringWithObject:pushNotification];
+	NSString *jsonRequestData =[json stringWithObject:pn];
 	[json release]; json = nil;
+	
+	[pn release]; pn = nil;
 
 	const char * str = [jsonRequestData UTF8String];
 	

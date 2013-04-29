@@ -50,6 +50,8 @@
 		500B667015E42B71002B2233 /* PWRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B666515E42B71002B2233 /* PWRequest.m */; };
 		500B667115E42B71002B2233 /* PWRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B666715E42B71002B2233 /* PWRequestManager.m */; };
 		500B667215E42B71002B2233 /* PWSetTagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B666915E42B71002B2233 /* PWSetTagsRequest.m */; };
+		501A3E11172A8A7F00DE335F /* PushRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 501A3E10172A8A7F00DE335F /* PushRuntime.m */; };
+		501A3E14172A8D3B00DE335F /* PWLocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 501A3E13172A8D3A00DE335F /* PWLocationTracker.m */; };
 		506801F31701CE0200FC7F74 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506801F21701CE0200FC7F74 /* AssetsLibrary.framework */; };
 		506F68BC162EF6CB00968D5C /* PWSendBadgeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 506F68BB162EF6CB00968D5C /* PWSendBadgeRequest.m */; };
 		50B548D516A82994008F5025 /* PWApplicationEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B548D416A82994008F5025 /* PWApplicationEventRequest.m */; };
@@ -137,6 +139,10 @@
 		500B666715E42B71002B2233 /* PWRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWRequestManager.m; sourceTree = "<group>"; };
 		500B666815E42B71002B2233 /* PWSetTagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWSetTagsRequest.h; sourceTree = "<group>"; };
 		500B666915E42B71002B2233 /* PWSetTagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWSetTagsRequest.m; sourceTree = "<group>"; };
+		501A3E0F172A8A7F00DE335F /* PushRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushRuntime.h; sourceTree = "<group>"; };
+		501A3E10172A8A7F00DE335F /* PushRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushRuntime.m; sourceTree = "<group>"; };
+		501A3E12172A8D3A00DE335F /* PWLocationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWLocationTracker.h; sourceTree = "<group>"; };
+		501A3E13172A8D3A00DE335F /* PWLocationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWLocationTracker.m; sourceTree = "<group>"; };
 		506801F21701CE0200FC7F74 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		506F68BA162EF6CB00968D5C /* PWSendBadgeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWSendBadgeRequest.h; sourceTree = "<group>"; };
 		506F68BB162EF6CB00968D5C /* PWSendBadgeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWSendBadgeRequest.m; sourceTree = "<group>"; };
@@ -299,6 +305,10 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				501A3E12172A8D3A00DE335F /* PWLocationTracker.h */,
+				501A3E13172A8D3A00DE335F /* PWLocationTracker.m */,
+				501A3E0F172A8A7F00DE335F /* PushRuntime.h */,
+				501A3E10172A8A7F00DE335F /* PushRuntime.m */,
 				50FAF94B16D4F8D600AD79C1 /* PW_SBJsonBase.h */,
 				50FAF94C16D4F8D600AD79C1 /* PW_SBJsonBase.m */,
 				50FAF94D16D4F8D600AD79C1 /* PW_SBJsonWriter.h */,
@@ -514,6 +524,8 @@
 				50FAF94F16D4F8D600AD79C1 /* PW_SBJsonBase.m in Sources */,
 				50FAF95016D4F8D600AD79C1 /* PW_SBJsonWriter.m in Sources */,
 				50FAF95316D4FA6D00AD79C1 /* PW_SBJsonParser.m in Sources */,
+				501A3E11172A8A7F00DE335F /* PushRuntime.m in Sources */,
+				501A3E14172A8D3B00DE335F /* PWLocationTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

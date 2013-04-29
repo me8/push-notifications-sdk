@@ -13,6 +13,8 @@ public interface NotificationFactory
 	void generateNotification();
 
 	void addSoundAndVibrate();
+	
+	void addLED(boolean enable);
 
 	void addCancel();
 

@@ -23,20 +23,31 @@
 	
 	pushNotification.registerDevice({alert:true, badge:true, sound:true, pw_appid:"PUSHWOOSH_APP_ID", appname:"Pushwoosh"},
 									function(status) {
-									var deviceToken = status['deviceToken'];
-									console.warn('registerDevice: ' + deviceToken);
+										var deviceToken = status['deviceToken'];
+										console.warn('registerDevice: ' + deviceToken);
 									},
 									function(status) {
-									console.warn('failed to register : ' + JSON.stringify(status));
-									navigator.notification.alert(JSON.stringify(['failed to register ', status]));
+										console.warn('failed to register : ' + JSON.stringify(status));
+										navigator.notification.alert(JSON.stringify(['failed to register ', status]));
 									});
 	
 	pushNotification.setApplicationIconBadgeNumber(0);
+	 
+	//start geo tracking. PWTrackSignificantLocationChanges - Uses GPS in foreground, Cell Triangulation in background. 
+	pushNotification.startLocationTracking('PWTrackSignificantLocationChanges',
+									function() {
+										   console.warn('Location Tracking Started');
+									});
 	
 	document.addEventListener('push-notification', function(event) {
-							  var notification = event.notification;
-							  navigator.notification.alert(notification.aps.alert);
-							  pushNotification.setApplicationIconBadgeNumber(0);
+								var notification = event.notification;
+								
+  							    navigator.notification.alert(notification.aps.alert);
+								
+								//to view full push payload
+								//navigator.notification.alert(JSON.stringify(notification));
+								
+								pushNotification.setApplicationIconBadgeNumber(0);
 							  });
 }
 

@@ -13,9 +13,10 @@ import android.os.Bundle;
 public class NotificationCreator
 {
 	@SuppressWarnings("deprecation")
-	public static Notification generateNotification(Context context, Bundle data, String title)
+	public static Notification generateNotification(Context context, Bundle data, String header, String message, String tickerTitle)
 	{
-		return new Notification(Helper.tryToGetIconFormStringOrGetFromApplication(data.getString("i"), context), title,
-				System.currentTimeMillis());
+		Notification notification = new Notification(Helper.tryToGetIconFormStringOrGetFromApplication(data.getString("i"), context), tickerTitle, System.currentTimeMillis());
+		notification.setLatestEventInfo(context, header, message, notification.contentIntent);
+		return notification;
 	}
 }

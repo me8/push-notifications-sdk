@@ -54,6 +54,8 @@ package
 			pushwoosh.addEventListener(PushNotificationEvent.PUSH_NOTIFICATION_RECEIVED_EVENT, onPushReceived);
 			pushwoosh.registerForPushNotification();
 			
+			pushwoosh.scheduleLocalNotification(30, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+			
 			this.stage.addEventListener(Event.ACTIVATE,activateHandler);
 		}
 		

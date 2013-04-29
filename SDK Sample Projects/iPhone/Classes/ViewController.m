@@ -8,45 +8,19 @@
 #import "ViewController.h"
 #import "PushNotificationManager.h"
 
-@interface ViewController ()
-
-@end
-
 @implementation ViewController
 @synthesize aliasField, favNumField, statusLabel;
 
-- (void) initializeLocationManager {
-	if (locationManager) {
-		[locationManager stopUpdatingLocation];
-		[locationManager release]; locationManager = nil;
-	}
-	
-	if (operationQueue) {
-		[operationQueue release]; operationQueue = nil;
-	}
-	
-	operationQueue = [[NSOperationQueue alloc] init];
-	operationQueue.maxConcurrentOperationCount = 1;
-	locationManager = [[CLLocationManager alloc] init];
-	[locationManager setDelegate:self];
-	[locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
-}
-
 - (void) startTracking {
 	NSLog(@"Start tracking");
-	[locationManager startUpdatingLocation];
+	PushNotificationManager * pushManager = [PushNotificationManager pushManager];
+	[pushManager startLocationTracking];
 }
 
 - (void) stopTracking {
 	NSLog(@"Stop tracking");
-	[locationManager stopUpdatingLocation];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-	
-	NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:[PushNotificationManager pushManager] selector:@selector(sendLocation:) object:newLocation];
-	[operationQueue addOperation:operation];
-	
+	PushNotificationManager * pushManager = [PushNotificationManager pushManager];
+	[pushManager stopLocationTracking];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -62,8 +36,7 @@
 - (void) viewDidLoad {
 	[super viewDidLoad];
 	
-	[self initializeLocationManager];
-//	[self startTracking];
+	[self startTracking];
 }
 
 - (void) submitAction:(id)sender {

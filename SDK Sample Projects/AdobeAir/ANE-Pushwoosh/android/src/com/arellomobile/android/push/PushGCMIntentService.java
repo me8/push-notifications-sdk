@@ -8,6 +8,8 @@
 
 package com.arellomobile.android.push;
 
+import java.util.Set;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -94,8 +96,10 @@ public class PushGCMIntentService extends GCMBaseIntentService
 		}
 
 		extras.putBoolean("foregroud", GeneralUtils.isAppOnForeground(context));
+		extras.putBoolean("onStart", !GeneralUtils.isAppOnForeground(context));
 
-		String title = (String) extras.get("title");
+		String message = (String) extras.get("title");
+		String header = (String) extras.get("header");
 		String link = (String) extras.get("l");
 
 		// empty message with no data
@@ -115,11 +119,15 @@ public class PushGCMIntentService extends GCMBaseIntentService
 			notifyIntent.putExtra("pushBundle", extras);
 		}
 
-		// first string will appear on the status bar once when message is added
-		CharSequence appName = context.getPackageManager().getApplicationLabel(context.getApplicationInfo());
-		if (null == appName)
+		if(header == null)
 		{
-			appName = "";
+			CharSequence appName = context.getPackageManager().getApplicationLabel(context.getApplicationInfo());
+			if (null == appName)
+			{
+				appName = "";
+			}
+
+			header = appName.toString();
 		}
 
 		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -136,17 +144,20 @@ public class PushGCMIntentService extends GCMBaseIntentService
 		if (layoutId != 0 && bannerUrl != null)
 		{
 			notificationFactory =
-					new BannerNotificationFactory(context, extras, appName.toString(), title, PreferenceUtils.getSoundType(context), PreferenceUtils.getVibrateType(context));
+					new BannerNotificationFactory(context, extras, header, message, PreferenceUtils.getSoundType(context), PreferenceUtils.getVibrateType(context));
 		}
 		else
 		{
 			notificationFactory =
-					new SimpleNotificationFactory(context, extras, appName.toString(), title, PreferenceUtils.getSoundType(context),
+					new SimpleNotificationFactory(context, extras, header, message, PreferenceUtils.getSoundType(context),
 							PreferenceUtils.getVibrateType(context));
 		}
 		notificationFactory.generateNotification();
 		notificationFactory.addSoundAndVibrate();
 		notificationFactory.addCancel();
+		
+		if(PreferenceUtils.getEnableLED(context))
+			notificationFactory.addLED(true);
 
 		Notification notification = notificationFactory.getNotification();
 
@@ -163,7 +174,7 @@ public class PushGCMIntentService extends GCMBaseIntentService
 
 		generateBroadcast(context, extras);
 		
-		///DeviceFeature2_5.sendMessageDeliveryEvent(context, extras.getString("p"));
+		DeviceFeature2_5.sendMessageDeliveryEvent(context, extras.getString("p"));
 	}
 
 	private static void generateBroadcast(Context context, Bundle extras)
@@ -173,27 +184,33 @@ public class PushGCMIntentService extends GCMBaseIntentService
 		broadcastIntent.putExtras(extras);
 
 		JSONObject dataObject = new JSONObject();
-		try
-		{
-			if (extras.containsKey("title"))
+		
+		Set<String> keys = extras.keySet();
+		for (String key : keys) {
+			//backward compatibility
+			if(key.equals("u"))
 			{
-				dataObject.put("title", extras.get("title"));
+				try
+				{
+					dataObject.put("userdata", extras.get("u"));
+				}
+				catch (JSONException e)
+				{
+					// pass
+				}
 			}
-			if (extras.containsKey("u"))
+
+			try
 			{
-				dataObject.put("userdata", extras.get("u"));
+				dataObject.put(key, extras.get(key));
 			}
-			if (extras.containsKey("local"))
+			catch (JSONException e)
 			{
-				dataObject.put("local", extras.get("local"));
+				// pass
 			}
-		}
-		catch (JSONException e)
-		{
-			// pass
 		}
 		
-		broadcastIntent.putExtra(BasePushMessageReceiver.DATA_KEY, dataObject.toString());
+		broadcastIntent.putExtra(BasePushMessageReceiver.JSON_DATA_KEY, dataObject.toString());
 
 		context.sendBroadcast(broadcastIntent, context.getPackageName() + ".permission.C2D_MESSAGE");
 	}

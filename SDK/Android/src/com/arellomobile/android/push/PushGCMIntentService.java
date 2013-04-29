@@ -8,6 +8,8 @@
 
 package com.arellomobile.android.push;
 
+import java.util.Set;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -94,6 +96,7 @@ public class PushGCMIntentService extends GCMBaseIntentService
 		}
 
 		extras.putBoolean("foregroud", GeneralUtils.isAppOnForeground(context));
+		extras.putBoolean("onStart", !GeneralUtils.isAppOnForeground(context));
 
 		String message = (String) extras.get("title");
 		String header = (String) extras.get("header");
@@ -181,27 +184,33 @@ public class PushGCMIntentService extends GCMBaseIntentService
 		broadcastIntent.putExtras(extras);
 
 		JSONObject dataObject = new JSONObject();
-		try
-		{
-			if (extras.containsKey("title"))
+		
+		Set<String> keys = extras.keySet();
+		for (String key : keys) {
+			//backward compatibility
+			if(key.equals("u"))
 			{
-				dataObject.put("title", extras.get("title"));
+				try
+				{
+					dataObject.put("userdata", extras.get("u"));
+				}
+				catch (JSONException e)
+				{
+					// pass
+				}
 			}
-			if (extras.containsKey("u"))
+
+			try
 			{
-				dataObject.put("userdata", extras.get("u"));
+				dataObject.put(key, extras.get(key));
 			}
-			if (extras.containsKey("local"))
+			catch (JSONException e)
 			{
-				dataObject.put("local", extras.get("local"));
+				// pass
 			}
-		}
-		catch (JSONException e)
-		{
-			// pass
 		}
 		
-		broadcastIntent.putExtra(BasePushMessageReceiver.DATA_KEY, dataObject.toString());
+		broadcastIntent.putExtra(BasePushMessageReceiver.JSON_DATA_KEY, dataObject.toString());
 
 		context.sendBroadcast(broadcastIntent, context.getPackageName() + ".permission.C2D_MESSAGE");
 	}

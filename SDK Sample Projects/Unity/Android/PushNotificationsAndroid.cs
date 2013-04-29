@@ -43,6 +43,21 @@ public class PushNotificationsAndroid : MonoBehaviour {
 		pushwoosh.Call("setStringTag", tagName, tagValue);
 	}
 
+	public void sendLocation(double lat, double lon)
+	{
+		pushwoosh.Call("sendLocation", lat, lon);
+	}
+
+	public void startTrackingGeoPushes()
+	{
+		pushwoosh.Call("startTrackingGeoPushes");
+	}
+
+	public void stopTrackingGeoPushes()
+	{
+		pushwoosh.Call("stopTrackingGeoPushes");
+	}
+
 	public void clearLocalNotifications()
 	{
 		pushwoosh.Call("clearLocalNotifications");

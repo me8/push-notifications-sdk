@@ -25,6 +25,10 @@
 		50BD5D531365DA3C00275CDB /* HtmlWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */; };
 		50BD5D631365DA3C00275CDB /* PushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BD5D501365DA3C00275CDB /* PushNotificationManager.h */; };
 		50BD5D641365DA3C00275CDB /* PushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BD5D511365DA3C00275CDB /* PushNotificationManager.m */; };
+		50E2E0E0170587170055FFCB /* PWLocationTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 50E2E0DE170587170055FFCB /* PWLocationTracker.h */; };
+		50E2E0E1170587170055FFCB /* PWLocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E2E0DF170587170055FFCB /* PWLocationTracker.m */; };
+		50E2E0E817058AB70055FFCB /* PushRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 50E2E0E617058AB70055FFCB /* PushRuntime.h */; };
+		50E2E0E917058AB70055FFCB /* PushRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E2E0E717058AB70055FFCB /* PushRuntime.m */; };
 		A4519C2F15C80D2200012F17 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4519C2E15C80D2200012F17 /* CoreLocation.framework */; };
 		A4F8238915C925AF00913778 /* PWRequestManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F8238715C925AF00913778 /* PWRequestManager.h */; };
 		A4F8238A15C925AF00913778 /* PWRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F8238815C925AF00913778 /* PWRequestManager.m */; };
@@ -53,6 +57,10 @@
 		50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HtmlWebViewController.m; path = Classes/HtmlWebViewController.m; sourceTree = "<group>"; };
 		50BD5D501365DA3C00275CDB /* PushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushNotificationManager.h; path = Classes/PushNotificationManager.h; sourceTree = "<group>"; };
 		50BD5D511365DA3C00275CDB /* PushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushNotificationManager.m; path = Classes/PushNotificationManager.m; sourceTree = "<group>"; };
+		50E2E0DE170587170055FFCB /* PWLocationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWLocationTracker.h; path = Classes/PWLocationTracker.h; sourceTree = "<group>"; };
+		50E2E0DF170587170055FFCB /* PWLocationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWLocationTracker.m; path = Classes/PWLocationTracker.m; sourceTree = "<group>"; };
+		50E2E0E617058AB70055FFCB /* PushRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushRuntime.h; path = Classes/PushRuntime.h; sourceTree = "<group>"; };
+		50E2E0E717058AB70055FFCB /* PushRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushRuntime.m; path = Classes/PushRuntime.m; sourceTree = "<group>"; };
 		A4519C2E15C80D2200012F17 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A4F8238715C925AF00913778 /* PWRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWRequestManager.h; path = Classes/PWRequestManager.h; sourceTree = "<group>"; };
 		A4F8238815C925AF00913778 /* PWRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWRequestManager.m; path = Classes/PWRequestManager.m; sourceTree = "<group>"; };
@@ -107,6 +115,9 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				50E2E0E617058AB70055FFCB /* PushRuntime.h */,
+				50E2E0E717058AB70055FFCB /* PushRuntime.m */,
+				50E2E0DD170587090055FFCB /* Geolocation */,
 				A4F8238515C9257D00913778 /* Network */,
 				50BD5D3D1365DA3C00275CDB /* HtmlWebViewController.h */,
 				50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */,
@@ -122,6 +133,15 @@
 				AA747D9E0F9514B9006C5449 /* PushNotificationManager_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		50E2E0DD170587090055FFCB /* Geolocation */ = {
+			isa = PBXGroup;
+			children = (
+				50E2E0DE170587170055FFCB /* PWLocationTracker.h */,
+				50E2E0DF170587170055FFCB /* PWLocationTracker.m */,
+			);
+			name = Geolocation;
 			sourceTree = "<group>";
 		};
 		A4F8238515C9257D00913778 /* Network */ = {
@@ -176,6 +196,8 @@
 				506F68A2162EF5C900968D5C /* PWSendBadgeRequest.h in Headers */,
 				50B72909165D47B300525F8B /* PWAppOpenRequest.h in Headers */,
 				50B548DC16A837BC008F5025 /* PWApplicationEventRequest.h in Headers */,
+				50E2E0E0170587170055FFCB /* PWLocationTracker.h in Headers */,
+				50E2E0E817058AB70055FFCB /* PushRuntime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +265,8 @@
 				506F68A3162EF5C900968D5C /* PWSendBadgeRequest.m in Sources */,
 				50B72908165D47B300525F8B /* PWAppOpenRequest.m in Sources */,
 				50B548DB16A837BC008F5025 /* PWApplicationEventRequest.m in Sources */,
+				50E2E0E1170587170055FFCB /* PWLocationTracker.m in Sources */,
+				50E2E0E917058AB70055FFCB /* PushRuntime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,9 +9,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "PushNotificationManager.h"
 
-@interface ViewController : UIViewController<UITextFieldDelegate, CLLocationManagerDelegate, PushNotificationDelegate> {
-	CLLocationManager *locationManager;
-	NSOperationQueue *operationQueue;
+@interface ViewController : UIViewController<UITextFieldDelegate, PushNotificationDelegate> {
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *aliasField;

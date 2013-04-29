@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class PushManager
 {
@@ -257,37 +258,37 @@ public class PushManager
 	/**
 	 * Note this will take affect only after PushGCMIntentService restart if it is already running
 	 */
-	public void setMultiNotificationMode()
+	public static void setMultiNotificationMode(Context context)
 	{
-		PreferenceUtils.setMultiMode(mContext, true);
+		PreferenceUtils.setMultiMode(context, true);
 	}
 
 	/**
 	 * Note this will take affect only after PushGCMIntentService restart if it is already running
 	 */
-	public void setSimpleNotificationMode()
+	public static void setSimpleNotificationMode(Context context)
 	{
-		PreferenceUtils.setMultiMode(mContext, false);
+		PreferenceUtils.setMultiMode(context, false);
 	}
 
-	public void setSoundNotificationType(SoundType soundNotificationType)
+	public static void setSoundNotificationType(Context context, SoundType soundNotificationType)
 	{
-		PreferenceUtils.setSoundType(mContext, soundNotificationType);
+		PreferenceUtils.setSoundType(context, soundNotificationType);
 	}
 
-	public void setVibrateNotificationType(VibrateType vibrateNotificationType)
+	public static void setVibrateNotificationType(Context context, VibrateType vibrateNotificationType)
 	{
-		PreferenceUtils.setVibrateType(mContext, vibrateNotificationType);
+		PreferenceUtils.setVibrateType(context, vibrateNotificationType);
 	}
 	
-	public void setLightScreenOnNotification(boolean lightsOn)
+	public static void setLightScreenOnNotification(Context context, boolean lightsOn)
 	{
-		PreferenceUtils.setLightScreenOnNotification(mContext, lightsOn);
+		PreferenceUtils.setLightScreenOnNotification(context, lightsOn);
 	}
 
-	public void setEnableLED(boolean ledOn)
+	public static void setEnableLED(Context context, boolean ledOn)
 	{
-		PreferenceUtils.setEnableLED(mContext, ledOn);
+		PreferenceUtils.setEnableLED(context, ledOn);
 	}
 
 	//	------------------- PREFERENCE END -------------------
@@ -306,24 +307,29 @@ public class PushManager
 		mLastBundle = pushBundle;
 
 		JSONObject dataObject = new JSONObject();
-		try
-		{
-			if (pushBundle.containsKey("title"))
+		Set<String> keys = pushBundle.keySet();
+		for (String key : keys) {
+			//backward compatibility
+			if(key.equals("u"))
 			{
-				dataObject.put("title", pushBundle.get("title"));
+				try
+				{
+					dataObject.put("userdata", pushBundle.get("u"));
+				}
+				catch (JSONException e)
+				{
+					// pass
+				}
 			}
-			if (pushBundle.containsKey("u"))
+
+			try
 			{
-				dataObject.put("userdata", pushBundle.get("u"));
+				dataObject.put(key, pushBundle.get(key));
 			}
-			if (pushBundle.containsKey("local"))
+			catch (JSONException e)
 			{
-				dataObject.put("local", pushBundle.get("local"));
+				// pass
 			}
-		}
-		catch (JSONException e)
-		{
-			// pass
 		}
 
 		PushEventsTransmitter.onMessageReceive(mContext, dataObject.toString(), pushBundle);
@@ -455,7 +461,7 @@ public class PushManager
 		ExecutorHelper.executeAsyncTask(task);
 	}
 
-	public void sendGoalAchieved(Context context, final String goal, final Integer count)
+	public static void sendGoalAchieved(Context context, final String goal, final Integer count)
 	{
 		AsyncTask<Void, Void, Void> task;
 		try

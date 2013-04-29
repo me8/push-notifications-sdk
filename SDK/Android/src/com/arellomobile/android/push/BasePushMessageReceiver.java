@@ -15,7 +15,7 @@ import android.content.Intent;
  */
 public abstract class BasePushMessageReceiver extends BroadcastReceiver
 {
-	public static final String DATA_KEY = "data";
+	public static final String JSON_DATA_KEY = "pw_data_json_string";
 
 	@Override
 	public void onReceive(Context context, Intent intent)
