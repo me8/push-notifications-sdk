@@ -127,20 +127,8 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 		registerReceiver(mBroadcastReceiver, new IntentFilter(getPackageName() + "." + PushManager.REGISTER_BROAD_CAST_ACTION));		
 	}
 	
-	@Override
-	public void onResume()
+	public void unregisterReceivers()
 	{
-		super.onResume();
-		
-		//Re-register receivers on resume
-		registerReceivers();
-	}
-	
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-
 		//Unregister receivers on pause
 		try
 		{
@@ -159,6 +147,24 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 		{
 			//pass through
 		}
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		//Re-register receivers on resume
+		registerReceivers();
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		//Unregister receivers on pause
+		unregisterReceivers();
 	}
 
 	@Override

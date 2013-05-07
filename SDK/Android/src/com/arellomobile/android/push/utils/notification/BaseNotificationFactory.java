@@ -17,7 +17,7 @@ import com.arellomobile.android.push.preference.VibrateType;
  *
  * @author MiG35
  */
-public abstract class BaseNotificationFactory implements NotificationFactory
+public abstract class BaseNotificationFactory
 {
 	private Notification mNotification;
 
@@ -38,7 +38,6 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 		mVibrateType = vibrateType;
 	}
 	
-	@Override
 	public void generateNotification()
 	{
 		int resId = getContext().getResources().getIdentifier("new_push_message", "string", getContext().getPackageName());
@@ -54,7 +53,6 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 	
 	abstract Notification generateNotificationInner(Context context, Bundle data, String header, String message, String tickerTitle);
 	
-	@Override
 	public void addLED(boolean enable)
 	{
 		if(!enable)
@@ -69,19 +67,16 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 		mNotification.ledOffMS = 1000;
 	}
 
-	@Override
 	public void addSoundAndVibrate()
 	{
 		String sound = (String) mData.get("s");
 		AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-		if (mSoundType == SoundType.ALWAYS ||
-				(am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL && mSoundType == SoundType.DEFAULT_MODE))
+		if (mSoundType == SoundType.ALWAYS || (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL && mSoundType == SoundType.DEFAULT_MODE))
 		{
 			// if always or normal type set
-			playPushNotificationSound(mContext, mNotification, sound);
+			addPushNotificationSound(mContext, mNotification, sound);
 		}
-		if (mVibrateType == VibrateType.ALWAYS ||
-				(am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE && mVibrateType == VibrateType.DEFAULT_MODE))
+		if (mVibrateType == VibrateType.ALWAYS || (am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE && mVibrateType == VibrateType.DEFAULT_MODE))
 		{
 			if (phoneHaveVibratePermission(mContext))
 			{
@@ -90,19 +85,17 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 		}
 	}
 
-	@Override
 	public void addCancel()
 	{
 		mNotification.flags |= Notification.FLAG_AUTO_CANCEL;
 	}
 
-	@Override
 	public Notification getNotification()
 	{
 		return mNotification;
 	}
 
-	private static void playPushNotificationSound(Context context, Notification notification, String sound)
+	private static void addPushNotificationSound(Context context, Notification notification, String sound)
 	{
 		if (sound != null && sound.length() != 0)
 		{
@@ -133,7 +126,7 @@ public abstract class BaseNotificationFactory implements NotificationFactory
 		}
 		catch (Exception e)
 		{
-			Log.e("PushWoosh", "error in checking permission", e);
+			Log.e("PushWoosh", "error in checking vibrate permission", e);
 		}
 		return false;
 	}

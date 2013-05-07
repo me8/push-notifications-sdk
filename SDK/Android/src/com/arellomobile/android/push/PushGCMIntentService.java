@@ -22,7 +22,7 @@ import android.util.Log;
 import com.arellomobile.android.push.utils.GeneralUtils;
 import com.arellomobile.android.push.utils.PreferenceUtils;
 import com.arellomobile.android.push.utils.notification.BannerNotificationFactory;
-import com.arellomobile.android.push.utils.notification.NotificationFactory;
+import com.arellomobile.android.push.utils.notification.BaseNotificationFactory;
 import com.arellomobile.android.push.utils.notification.SimpleNotificationFactory;
 import com.google.android.gcm.GCMBaseIntentService;
 import org.json.JSONException;
@@ -132,7 +132,7 @@ public class PushGCMIntentService extends GCMBaseIntentService
 
 		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		NotificationFactory notificationFactory;
+		BaseNotificationFactory notificationFactory;
 		
 		//is this banner notification?
 		String bannerUrl = (String) extras.get("b");
