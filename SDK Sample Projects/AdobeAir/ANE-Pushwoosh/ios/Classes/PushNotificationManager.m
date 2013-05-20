@@ -115,9 +115,9 @@
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     
     NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
-    NSString *uniqueIdentifier = [self stringFromMD5:stringToHash];
+    NSString *uniqueDeviceIdentifier = [self stringFromMD5:stringToHash];
     
-    return uniqueIdentifier;
+    return uniqueDeviceIdentifier;
 }
 
 - (NSString *) uniqueGlobalDeviceIdentifier{
@@ -133,9 +133,9 @@
 	
 	// Fallback on macaddress
     NSString *macaddress = [self macaddress];
-    NSString *uniqueIdentifier = [self stringFromMD5:macaddress];
+    NSString *uniqueDeviceIdentifier = [self stringFromMD5:macaddress];
     
-    return uniqueIdentifier;
+    return uniqueDeviceIdentifier;
 }
 
 static PushNotificationManager * instance = nil;
