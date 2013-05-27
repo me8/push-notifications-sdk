@@ -30,6 +30,12 @@
 - (void) pw_setApplicationIconBadgeNumber:(NSInteger) badgeNumber;
 @end
 
+@implementation PWTags
++ (NSDictionary *) incrementalTagWithInteger:(NSInteger)delta {
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:@"increment", @"operation", [NSNumber numberWithInt:delta], @"value", nil];
+}
+@end
+
 @implementation PushNotificationManager
 
 @synthesize appCode, appName, richPushWindow, pushNotifications, delegate;

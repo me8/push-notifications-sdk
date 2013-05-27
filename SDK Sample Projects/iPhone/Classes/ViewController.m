@@ -47,6 +47,8 @@
 	NSDictionary *tags = [NSDictionary dictionaryWithObjectsAndKeys:
 						  [aliasField text], @"Alias",
 						  [NSNumber numberWithInt:[favNumField.text intValue]], @"FavNumber",
+//						  @"#pwinc#10", @"price",
+						  [PWTags incrementalTagWithInteger:5], @"price",
 						  nil];
 	
 	[[PushNotificationManager pushManager] setTags:tags];

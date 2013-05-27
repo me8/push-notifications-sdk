@@ -25,6 +25,12 @@
 		50BD5D531365DA3C00275CDB /* HtmlWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */; };
 		50BD5D631365DA3C00275CDB /* PushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BD5D501365DA3C00275CDB /* PushNotificationManager.h */; };
 		50BD5D641365DA3C00275CDB /* PushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BD5D511365DA3C00275CDB /* PushNotificationManager.m */; };
+		50C6D5BF174BA87A0068E1A4 /* PW_SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C6D5B9174BA87A0068E1A4 /* PW_SBJsonBase.h */; };
+		50C6D5C0174BA87A0068E1A4 /* PW_SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6D5BA174BA87A0068E1A4 /* PW_SBJsonBase.m */; };
+		50C6D5C1174BA87A0068E1A4 /* PW_SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C6D5BB174BA87A0068E1A4 /* PW_SBJsonParser.h */; };
+		50C6D5C2174BA87A0068E1A4 /* PW_SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6D5BC174BA87A0068E1A4 /* PW_SBJsonParser.m */; };
+		50C6D5C3174BA87A0068E1A4 /* PW_SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C6D5BD174BA87A0068E1A4 /* PW_SBJsonWriter.h */; };
+		50C6D5C4174BA87A0068E1A4 /* PW_SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6D5BE174BA87A0068E1A4 /* PW_SBJsonWriter.m */; };
 		50E2E0E0170587170055FFCB /* PWLocationTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 50E2E0DE170587170055FFCB /* PWLocationTracker.h */; };
 		50E2E0E1170587170055FFCB /* PWLocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E2E0DF170587170055FFCB /* PWLocationTracker.m */; };
 		50E2E0E817058AB70055FFCB /* PushRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 50E2E0E617058AB70055FFCB /* PushRuntime.h */; };
@@ -57,6 +63,12 @@
 		50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HtmlWebViewController.m; path = Classes/HtmlWebViewController.m; sourceTree = "<group>"; };
 		50BD5D501365DA3C00275CDB /* PushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushNotificationManager.h; path = Classes/PushNotificationManager.h; sourceTree = "<group>"; };
 		50BD5D511365DA3C00275CDB /* PushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushNotificationManager.m; path = Classes/PushNotificationManager.m; sourceTree = "<group>"; };
+		50C6D5B9174BA87A0068E1A4 /* PW_SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonBase.h; path = Classes/PW_SBJsonBase.h; sourceTree = "<group>"; };
+		50C6D5BA174BA87A0068E1A4 /* PW_SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PW_SBJsonBase.m; path = Classes/PW_SBJsonBase.m; sourceTree = "<group>"; };
+		50C6D5BB174BA87A0068E1A4 /* PW_SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonParser.h; path = Classes/PW_SBJsonParser.h; sourceTree = "<group>"; };
+		50C6D5BC174BA87A0068E1A4 /* PW_SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PW_SBJsonParser.m; path = Classes/PW_SBJsonParser.m; sourceTree = "<group>"; };
+		50C6D5BD174BA87A0068E1A4 /* PW_SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PW_SBJsonWriter.h; path = Classes/PW_SBJsonWriter.h; sourceTree = "<group>"; };
+		50C6D5BE174BA87A0068E1A4 /* PW_SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PW_SBJsonWriter.m; path = Classes/PW_SBJsonWriter.m; sourceTree = "<group>"; };
 		50E2E0DE170587170055FFCB /* PWLocationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWLocationTracker.h; path = Classes/PWLocationTracker.h; sourceTree = "<group>"; };
 		50E2E0DF170587170055FFCB /* PWLocationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWLocationTracker.m; path = Classes/PWLocationTracker.m; sourceTree = "<group>"; };
 		50E2E0E617058AB70055FFCB /* PushRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushRuntime.h; path = Classes/PushRuntime.h; sourceTree = "<group>"; };
@@ -169,6 +181,12 @@
 		A4F8239315C9266D00913778 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				50C6D5B9174BA87A0068E1A4 /* PW_SBJsonBase.h */,
+				50C6D5BA174BA87A0068E1A4 /* PW_SBJsonBase.m */,
+				50C6D5BB174BA87A0068E1A4 /* PW_SBJsonParser.h */,
+				50C6D5BC174BA87A0068E1A4 /* PW_SBJsonParser.m */,
+				50C6D5BD174BA87A0068E1A4 /* PW_SBJsonWriter.h */,
+				50C6D5BE174BA87A0068E1A4 /* PW_SBJsonWriter.m */,
 				A4F8238715C925AF00913778 /* PWRequestManager.h */,
 				A4F8238815C925AF00913778 /* PWRequestManager.m */,
 				A4F8238F15C925C400913778 /* PWRequest.h */,
@@ -198,6 +216,9 @@
 				50B548DC16A837BC008F5025 /* PWApplicationEventRequest.h in Headers */,
 				50E2E0E0170587170055FFCB /* PWLocationTracker.h in Headers */,
 				50E2E0E817058AB70055FFCB /* PushRuntime.h in Headers */,
+				50C6D5BF174BA87A0068E1A4 /* PW_SBJsonBase.h in Headers */,
+				50C6D5C1174BA87A0068E1A4 /* PW_SBJsonParser.h in Headers */,
+				50C6D5C3174BA87A0068E1A4 /* PW_SBJsonWriter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +288,9 @@
 				50B548DB16A837BC008F5025 /* PWApplicationEventRequest.m in Sources */,
 				50E2E0E1170587170055FFCB /* PWLocationTracker.m in Sources */,
 				50E2E0E917058AB70055FFCB /* PushRuntime.m in Sources */,
+				50C6D5C0174BA87A0068E1A4 /* PW_SBJsonBase.m in Sources */,
+				50C6D5C2174BA87A0068E1A4 /* PW_SBJsonParser.m in Sources */,
+				50C6D5C4174BA87A0068E1A4 /* PW_SBJsonWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,11 +301,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7s,
-					armv7,
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/PushNotificationManager.dst;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -293,7 +313,6 @@
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = PushNotificationManager;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv6 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -301,11 +320,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7s,
-					armv7,
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/PushNotificationManager.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -314,18 +329,13 @@
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = PushNotificationManager;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv6 armv7 armv7s";
 			};
 			name = Release;
 		};
 		1DEB922308733DC00010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7s,
-					armv7,
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_THUMB_SUPPORT = NO;
@@ -335,18 +345,13 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv6 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		1DEB922408733DC00010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7s,
-					armv7,
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -355,7 +360,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv6 armv7 armv7s";
 			};
 			name = Release;
 		};
