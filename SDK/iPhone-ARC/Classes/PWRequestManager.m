@@ -5,6 +5,7 @@
 //
 
 #import "PWRequestManager.h"
+#import "PW_SBJsonWriter.h"
 
 @implementation PWRequestManager
 
@@ -24,14 +25,12 @@
 }
 
 - (BOOL) sendRequest: (PWRequest *) request error:(NSError **)retError {
-	NSMutableArray *requestStringBuilder = [NSMutableArray new];
 	NSDictionary *requestDict = [request requestDictionary];
 	
-	for (NSString *key in [requestDict allKeys]) {
-		[requestStringBuilder addObject:[NSString stringWithFormat:@"\"%@\":%@", key, [requestDict objectForKey:key]]];
-	}
-	NSString *requestString = [requestStringBuilder componentsJoinedByString:@", "];
-	NSString *jsonRequestData = [NSString stringWithFormat:@"{\"request\":{%@}}", requestString];
+	PW_SBJsonWriter * json = [[PW_SBJsonWriter alloc] init];
+	NSString *requestString = [json stringWithObject:requestDict];
+
+	NSString *jsonRequestData = [NSString stringWithFormat:@"{\"request\":%@}", requestString];
 	
 #ifdef NOSSL
 	NSString *requestUrl = [kServiceAddressNoSSL stringByAppendingString:[request methodName]];

@@ -13,15 +13,7 @@
 @property (nonatomic, copy) NSString *hwid;
 
 - (NSString *) methodName;
-- (NSDictionary *) requestDictionary; //Please note that all values will be processed as strings
-
-
-- (NSString *) encodeString: (NSString *) str;
-- (NSString *) encodeNumber: (NSNumber *) number;
-- (NSString *) encodeObject: (NSObject *) object;
-- (NSString *) encodeInt: (int) number;
-- (NSString *) encodeDouble: (double) number;
-- (NSString *) encodeFloat: (float) number;
+- (NSDictionary *) requestDictionary;
 
 - (NSMutableDictionary *) baseDictionary;
 

@@ -13,7 +13,7 @@ typedef void(^locationHandler)(CLLocation *location);
 
 @interface PWLocationTracker : NSObject <CLLocationManagerDelegate>
 
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, copy) NSString *backgroundMode;
 

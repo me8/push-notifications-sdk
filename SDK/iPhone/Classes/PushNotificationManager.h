@@ -32,6 +32,10 @@
 - (void) onPushAccepted:(PushNotificationManager *)pushManager withNotification:(NSDictionary *)pushNotification onStart:(BOOL)onStart;
 @end
 
+@interface PWTags : NSObject
++ (NSDictionary *) incrementalTagWithInteger:(NSInteger)delta;
+@end
+
 @interface PushNotificationManager : NSObject <HtmlWebViewControllerDelegate> {
 	NSString *appCode;
 	NSString *appName;
