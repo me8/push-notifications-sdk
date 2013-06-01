@@ -16,6 +16,8 @@
 #import "PWGetNearestZoneRequest.h"
 #import "PWApplicationEventRequest.h"
 
+#import "PWLocationTracker.h"
+
 #include <sys/socket.h> // Per msqr
 #include <sys/sysctl.h>
 #include <net/if.h>
@@ -26,6 +28,12 @@
 
 @interface UIApplication(Pushwoosh)
 - (void) pw_setApplicationIconBadgeNumber:(NSInteger) badgeNumber;
+@end
+
+@implementation PWTags
++ (NSDictionary *) incrementalTagWithInteger:(NSInteger)delta {
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:@"increment", @"operation", [NSNumber numberWithInt:delta], @"value", nil];
+}
 @end
 
 @implementation PushNotificationManager
@@ -161,6 +169,22 @@ static PushNotificationManager * instance = nil;
 		if(_appName) {
 			[[NSUserDefaults standardUserDefaults] setObject:_appName forKey:@"Pushwoosh_APPNAME"];
 		}
+		
+		//initalize location tracker
+		self.locationTracker = [[PWLocationTracker alloc] init];
+		[self.locationTracker setLocationUpdatedInForeground:^ (CLLocation *location) {
+			if (!location)
+				return;
+
+			[[PushNotificationManager pushManager] sendLocationBackground:location];
+		}];
+		
+		[self.locationTracker setLocationUpdatedInBackground:^ (CLLocation *location) {
+			if (!location)
+				return;
+
+			[[PushNotificationManager pushManager] sendLocationBackground:location];
+		}];
 		
 		instance = self;
 	}
@@ -472,6 +496,11 @@ static PushNotificationManager * instance = nil;
 	}
 
 	NSString *alertMsg = [pushDict objectForKey:@"alert"];
+	
+	bool msgIsString = YES;
+	if(![alertMsg isKindOfClass:[NSString class]])
+		msgIsString = NO;
+	
 //	NSString *badge = [pushDict objectForKey:@"badge"];
 //	NSString *sound = [pushDict objectForKey:@"sound"];
 	NSString *htmlPageId = [userInfo objectForKey:@"h"];
@@ -479,7 +508,7 @@ static PushNotificationManager * instance = nil;
 	NSString *linkUrl = [userInfo objectForKey:@"l"];
 	
 	//the app is running, display alert only
-	if(!isPushOnStart && showPushnotificationAlert) {
+	if(!isPushOnStart && showPushnotificationAlert && msgIsString) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:self.appName message:alertMsg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
 		alert.tag = ++internalIndex;
 		[pushNotifications setObject:userInfo forKey:[NSNumber numberWithInt:internalIndex]];
@@ -554,7 +583,7 @@ static PushNotificationManager * instance = nil;
 	[pool release]; pool = nil;
 }
 
-- (void) sendLocation: (CLLocation *) location {
+- (void) sendLocationBackground: (CLLocation *) location {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSLog(@"Sending location: %@", location);
@@ -575,6 +604,10 @@ static PushNotificationManager * instance = nil;
 	NSLog(@"Locaiton sent");
 	
 	[pool release]; pool = nil;
+}
+
+- (void) sendLocation: (CLLocation *) location {
+	[self performSelectorInBackground:@selector(sendLocationBackground:) withObject:location];
 }
 
 - (void) sendAppOpenBackground {
@@ -661,6 +694,22 @@ static PushNotificationManager * instance = nil;
 	UIApplication* application = [UIApplication sharedApplication];
 	NSArray* scheduledNotifications = [NSArray arrayWithArray:application.scheduledLocalNotifications];
 	application.scheduledLocalNotifications = scheduledNotifications;
+}
+
+//start location tracking. this is battery efficient and uses network triangulation in background
+- (void)startLocationTracking {
+	NSString *modeString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Pushwoosh_BGMODE"];
+	[self startLocationTracking:modeString];
+}
+
+- (void) startLocationTracking:(NSString *)mode {
+	self.locationTracker.backgroundMode = mode;
+	self.locationTracker.enabled = YES;
+}
+
+//stops location tracking
+- (void) stopLocationTracking {
+	self.locationTracker.enabled = NO;
 }
 
 - (void) dealloc {
