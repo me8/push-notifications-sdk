@@ -109,7 +109,7 @@ public class SampleUIApplication extends PushUIApplication
                     public void run()
                     {
                         BBPushDialog wrd = new BBPushDialog(
-                                "Insufficient Permissions to run PushWoosh... the application will now exit.");
+                                "Insufficient Permissions to run Pushwoosh... the application will now exit.");
                         try
                         {
                             pushModalScreen(wrd);
@@ -245,7 +245,7 @@ public class SampleUIApplication extends PushUIApplication
         {
             // bb statuses
             case PushStatus.STATUS_BB_ACTIVE:
-                statusMessage += "Application registered with BlackBery. Registering with PooshWoosh...";
+                statusMessage += "Application registered with BlackBerry. Registering with Pushwoosh...";
                 break;
             case PushStatus.STATUS_BB_FAILED:
                 statusMessage += "Subscription status failed.\n";
@@ -264,7 +264,7 @@ public class SampleUIApplication extends PushUIApplication
                 statusMessage += status.getError();
                 break;
             case PushStatus.STATUS_BB_NOT_REGISTERED:
-                statusMessage += "Application didn't register for push messages with BlackBerry. Unregistering with PooshWoosh...";
+                statusMessage += "Application didn't register for push messages with BlackBerry. Unregistering with Pushwoosh...";
                 break;
             case PushStatus.STATUS_BB_PENDING:
                 statusMessage += "Push communications requested but is not confirmed yet.";

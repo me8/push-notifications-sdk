@@ -79,7 +79,7 @@ public class PushConnector implements GlobalEventListener {
 			_ui.onEvent(Event.getUnRegisterEvent());
 			PushStatus pushStatus = PushStatus.getStatusBBNotRegistered();
 			_ui.onPushServiceStatusChange(pushStatus);
-			_ui.unRegisterPooshWoosh();
+			_ui.unRegisterPushWoosh();
 		} catch (IllegalArgumentException e) {
 			_ui.onEvent(Event.getUnRegisterFailEvent(e.getMessage()));
 		}
@@ -96,7 +96,7 @@ public class PushConnector implements GlobalEventListener {
 			// _ui.onEvent(Event.getRegisterFailEvent(e.getMessage()));
 			PushStatus pushStatus = PushStatus.getStatusBBActive();
 			_ui.onPushServiceStatusChange(pushStatus);
-			_ui.registerPooshWoosh();
+			_ui.registerPushWoosh();
 		}
 	}
 

@@ -319,6 +319,8 @@ public abstract class PushUIApplication extends UiApplication implements
 		try {
 			JSONObject jsonObject = new JSONObject(notification);
 
+			System.out.println("json parsed");
+			
 			String url = null;
 			String message = jsonObject.getString("m").trim();
 			Integer h = null;
@@ -347,6 +349,7 @@ public abstract class PushUIApplication extends UiApplication implements
 			}
 		} catch (JSONException e) {
 			System.out.println("can't parse input data as json");
+			handleNotification(notification);
 		}
 	}
 }
