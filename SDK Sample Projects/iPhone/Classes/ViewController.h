@@ -28,5 +28,10 @@
 //user pressed OK on the push notification
 - (void) onPushAccepted:(PushNotificationManager *)pushManager withNotification:(NSDictionary *)pushNotification;
 
+//received tags from the server
+- (void) onTagsReceived:(NSDictionary *)tags;
+
+//error receiving tags from the server
+- (void) onTagsFailedToReceive:(NSError *)error;
 
 @end

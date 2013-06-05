@@ -10,10 +10,19 @@
 #import "PWRequestManager.h"
 #import "PWRegisterDeviceRequest.h"
 #import "PWSetTagsRequest.h"
+#import "PWGetTagsRequest.h"
+#import "PWSendBadgeRequest.h"
 #import "PWAppOpenRequest.h"
 #import "PWPushStatRequest.h"
+#import "PWApplicationEventRequest.h"
 
 #define kServiceHtmlContentFormatUrl @"http://cp.pushwoosh.com/content/%@"
+
+@implementation PWTags
++ (NSDictionary *) incrementalTagWithInteger:(NSInteger)delta {
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:@"increment", @"operation", [NSNumber numberWithLong:delta], @"value", nil];
+}
+@end
 
 @implementation PushNotificationManager
 
@@ -194,6 +203,13 @@ static NSString * GetMACAddressDisplayString()
 	[pool release]; pool = nil;
 }
 
+- (void) handlePushRegistrationString:(NSString *)deviceID {
+	
+	[[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:@"PWPushUserId"];
+	
+	[self performSelectorInBackground:@selector(sendDevTokenToServer:) withObject:deviceID];
+}
+
 - (void) handlePushRegistration:(NSData *)devToken {
 	NSMutableString *deviceID = [NSMutableString stringWithString:[devToken description]];
 	
@@ -219,7 +235,7 @@ static NSString * GetMACAddressDisplayString()
 
 - (BOOL) handlePushReceived:(NSDictionary *)userInfo {
 	//set the application badges icon to 0
-	[[[NSApplication sharedApplication] dockTile]setBadgeLabel:@""];
+	[[[NSApplication sharedApplication] dockTile] setBadgeLabel:@""];
 	
 	BOOL isPushOnStart = NO;
 	NSDictionary *pushDict = [userInfo objectForKey:@"aps"];
@@ -344,6 +360,43 @@ static NSString * GetMACAddressDisplayString()
 	[pool release]; pool = nil;
 }
 
+- (void) sendBadgesBackground: (NSNumber *) badge {
+	if([[PushNotificationManager pushManager] getPushToken] == nil)
+		return;
+	
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	PWSendBadgeRequest *request = [[PWSendBadgeRequest alloc] init];
+	request.appId = appCode;
+	request.hwid = GetMACAddressDisplayString();
+	request.badge = [badge intValue];
+		
+	if ([[PWRequestManager sharedManager] sendRequest:request]) {
+		NSLog(@"setBadges completed");
+	} else {
+		NSLog(@"setBadges failed");
+	}
+	
+	[request release]; request = nil;
+	[pool release]; pool = nil;
+}
+
+- (void) sendGoalBackground: (PWApplicationEventRequest *) request {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	if ([[PWRequestManager sharedManager] sendRequest:request]) {
+		NSLog(@"sendGoals completed");
+	} else {
+		NSLog(@"sendGoals failed");
+	}
+
+	[pool release]; pool = nil;
+}
+
+- (void) sendBadges: (NSInteger) badge {
+	[self performSelectorInBackground:@selector(sendBadgesBackground:) withObject:[NSNumber numberWithLong:badge]];
+}
+
 - (void) sendAppOpen {
 	[self performSelectorInBackground:@selector(sendAppOpenBackground) withObject:nil];
 }
@@ -352,109 +405,70 @@ static NSString * GetMACAddressDisplayString()
 	[self performSelectorInBackground:@selector(sendTagsBackground:) withObject:tags];
 }
 
+- (void) loadTags {
+	[self loadTags:nil error:nil];
+}
+
+- (void) loadTags: (pushwooshGetTagsHandler) successHandler error:(pushwooshErrorHandler) errorHandler{
+	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+	dispatch_async(queue, ^{
+		PWGetTagsRequest *request = [[PWGetTagsRequest alloc] init];
+		request.appId = appCode;
+		request.hwid = GetMACAddressDisplayString();
+		
+		NSError *error = nil;
+		if ([[PWRequestManager sharedManager] sendRequest:request error:&error]) {
+			NSLog(@"loadTags completed");
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if([delegate respondsToSelector:@selector(onTagsReceived:)] ) {
+					[delegate onTagsReceived:request.tags];
+				}
+				
+				if(successHandler) {
+					successHandler(request.tags);
+				}
+			});
+			
+		} else {
+			NSLog(@"loadTags failed");
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if([delegate respondsToSelector:@selector(onTagsFailedToReceive:)] ) {
+					[delegate onTagsFailedToReceive:error];
+				}
+				
+				if(errorHandler) {
+					errorHandler(error);
+				}
+			});
+		}
+		
+		[request release]; request = nil;
+	});
+}
+
+- (void) recordGoal: (NSString *) goal {
+	[self recordGoal:goal withCount:nil];
+}
+
+- (void) recordGoal: (NSString *) goal withCount: (NSNumber *) count {
+	PWApplicationEventRequest *request = [[PWApplicationEventRequest alloc] init];
+	request.appId = appCode;
+	request.hwid = GetMACAddressDisplayString();
+	request.goal = goal;
+	request.count = count;
+
+	[self performSelectorInBackground:@selector(sendGoalBackground:) withObject:request];
+	[request release];
+}
+
 - (void) dealloc {
 	self.delegate = nil;
 	self.appCode = nil;
 	self.pushNotifications = nil;
 	
 	[super dealloc];
-}
-
-@end
-
-#import <objc/runtime.h>
-
-@implementation NSApplication(Pushwoosh)
-
-void dynamicDidFinishLaunching(id self, SEL _cmd, id aNotification);
-void dynamicDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, id application, id devToken);
-void dynamicDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error);
-void dynamicDidReceiveRemoteNotification(id self, SEL _cmd, id application, id userInfo);
-
-void dynamicDidFinishLaunching(id self, SEL _cmd, id aNotification) {
-	if ([self respondsToSelector:@selector(pw_applicationDidFinishLaunching:)]) {
-		[self pw_applicationDidFinishLaunching:aNotification];
-	}
-	
-	[[NSApplication sharedApplication] registerForRemoteNotificationTypes:(NSRemoteNotificationTypeBadge | NSRemoteNotificationTypeSound | NSRemoteNotificationTypeAlert)];
-	
-	if(![PushNotificationManager pushManager].delegate) {
-		[PushNotificationManager pushManager].delegate = (NSObject<PushNotificationDelegate> *)self;
-	}
-	
-	[[PushNotificationManager pushManager] handlePushReceived:[aNotification userInfo]];
-	[[PushNotificationManager pushManager] sendAppOpen];
-}
-
-void dynamicDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, id application, id devToken) {
-	if ([self respondsToSelector:@selector(application:pw_didRegisterForRemoteNotificationsWithDeviceToken:)]) {
-		[self application:application pw_didRegisterForRemoteNotificationsWithDeviceToken:devToken];
-	}
-	
-	[[PushNotificationManager pushManager] handlePushRegistration:devToken];
-}
-
-void dynamicDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error) {
-	if ([self respondsToSelector:@selector(application:pw_didFailToRegisterForRemoteNotificationsWithError:)]) {
-		[self application:application pw_didFailToRegisterForRemoteNotificationsWithError:error];
-	}
-
-	NSLog(@"Error registering for push notifications. Error: %@", error);
-	
-	[[PushNotificationManager pushManager] handlePushRegistrationFailure:error];
-}
-
-void dynamicDidReceiveRemoteNotification(id self, SEL _cmd, id application, id userInfo) {
-	if ([self respondsToSelector:@selector(application:pw_didReceiveRemoteNotification:)]) {
-		[self application:application pw_didReceiveRemoteNotification:userInfo];
-	}
-
-	[[PushNotificationManager pushManager] handlePushReceived:userInfo];
-}
-
-- (void) pw_setDelegate:(id<NSApplicationDelegate>)delegate {
-	Method method = nil;
-	method = class_getInstanceMethod([delegate class], @selector(applicationDidFinishLaunching:));
-	
-	if (method) {
-		class_addMethod([delegate class], @selector(pw_applicationDidFinishLaunching:), (IMP)dynamicDidFinishLaunching, "v@::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(applicationDidFinishLaunching:)), class_getInstanceMethod([delegate class], @selector(pw_applicationDidFinishLaunching:)));
-	} else {
-		class_addMethod([delegate class], @selector(applicationDidFinishLaunching:), (IMP)dynamicDidFinishLaunching, "v@::");
-	}
-	
-	method = class_getInstanceMethod([delegate class], @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:));
-	if(method) {
-		class_addMethod([delegate class], @selector(application:pw_didRegisterForRemoteNotificationsWithDeviceToken:), (IMP)dynamicDidRegisterForRemoteNotificationsWithDeviceToken, "v@:::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)), class_getInstanceMethod([delegate class], @selector(application:pw_didRegisterForRemoteNotificationsWithDeviceToken:)));
-	}
-	else {
-		class_addMethod([delegate class], @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:), (IMP)dynamicDidRegisterForRemoteNotificationsWithDeviceToken, "v@:::");
-	}
-	
-	method = class_getInstanceMethod([delegate class], @selector(application:didFailToRegisterForRemoteNotificationsWithError:));
-	if(method) {
-		class_addMethod([delegate class], @selector(application:pw_didFailToRegisterForRemoteNotificationsWithError:), (IMP)dynamicDidFailToRegisterForRemoteNotificationsWithError, "v@:::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(application:didFailToRegisterForRemoteNotificationsWithError:)), class_getInstanceMethod([delegate class], @selector(application:pw_didFailToRegisterForRemoteNotificationsWithError:)));
-	}
-	else {
-		class_addMethod([delegate class], @selector(application:didFailToRegisterForRemoteNotificationsWithError:), (IMP)dynamicDidFailToRegisterForRemoteNotificationsWithError, "v@:::");
-	}
-	
-	method = class_getInstanceMethod([delegate class], @selector(application:didReceiveRemoteNotification:));
-	if(method) {
-		class_addMethod([delegate class], @selector(application:pw_didReceiveRemoteNotification:), (IMP)dynamicDidReceiveRemoteNotification, "v@:::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(application:didReceiveRemoteNotification:)), class_getInstanceMethod([delegate class], @selector(application:pw_didReceiveRemoteNotification:)));
-	}
-	else {
-		class_addMethod([delegate class], @selector(application:didReceiveRemoteNotification:), (IMP)dynamicDidReceiveRemoteNotification, "v@:::");
-	}
-	
-	[self pw_setDelegate:delegate];
-}
-
-+ (void) load {
-	method_exchangeImplementations(class_getInstanceMethod(self, @selector(setDelegate:)), class_getInstanceMethod(self, @selector(pw_setDelegate:)));
 }
 
 @end

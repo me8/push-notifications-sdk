@@ -57,6 +57,7 @@
 		50B548D516A82994008F5025 /* PWApplicationEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B548D416A82994008F5025 /* PWApplicationEventRequest.m */; };
 		50B7291F165D596F00525F8B /* PWAppOpenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B7291D165D596F00525F8B /* PWAppOpenRequest.m */; };
 		50BC177815C43E5400337F46 /* PushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BC177715C43E5400337F46 /* PushNotification.m */; };
+		50BCA981175F6D920008AB74 /* PWGetTagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BCA980175F6D920008AB74 /* PWGetTagsRequest.m */; };
 		50D143981701CA9200F59C75 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 50D143971701CA9200F59C75 /* config.xml */; };
 		50D1439A1701CA9F00F59C75 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 50D143991701CA9F00F59C75 /* icon-72@2x.png */; };
 		50D1439C1701CAAA00F59C75 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 50D1439B1701CAAA00F59C75 /* Default-568h@2x~iphone.png */; };
@@ -152,6 +153,8 @@
 		50B7291E165D596F00525F8B /* PWAppOpenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWAppOpenRequest.h; sourceTree = "<group>"; };
 		50BC177615C43E5400337F46 /* PushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotification.h; sourceTree = "<group>"; };
 		50BC177715C43E5400337F46 /* PushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushNotification.m; sourceTree = "<group>"; };
+		50BCA97F175F6D920008AB74 /* PWGetTagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWGetTagsRequest.h; sourceTree = "<group>"; };
+		50BCA980175F6D920008AB74 /* PWGetTagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWGetTagsRequest.m; sourceTree = "<group>"; };
 		50D143971701CA9200F59C75 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = "Phonegap-Push/config.xml"; sourceTree = SOURCE_ROOT; };
 		50D143991701CA9F00F59C75 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = "<group>"; };
 		50D1439B1701CAAA00F59C75 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -305,6 +308,8 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				50BCA97F175F6D920008AB74 /* PWGetTagsRequest.h */,
+				50BCA980175F6D920008AB74 /* PWGetTagsRequest.m */,
 				501A3E12172A8D3A00DE335F /* PWLocationTracker.h */,
 				501A3E13172A8D3A00DE335F /* PWLocationTracker.m */,
 				501A3E0F172A8A7F00DE335F /* PushRuntime.h */,
@@ -526,6 +531,7 @@
 				50FAF95316D4FA6D00AD79C1 /* PW_SBJsonParser.m in Sources */,
 				501A3E11172A8A7F00DE335F /* PushRuntime.m in Sources */,
 				501A3E14172A8D3B00DE335F /* PWLocationTracker.m in Sources */,
+				50BCA981175F6D920008AB74 /* PWGetTagsRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

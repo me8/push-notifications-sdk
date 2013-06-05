@@ -17,11 +17,14 @@
 - (NSDictionary *) requestDictionary {
 	NSMutableDictionary *dict = [self baseDictionary];
 	
-	[dict setObject:[self encodeInt:7] forKey:@"device_type"];
-	[dict setObject:[self encodeString:pushToken] forKey:@"push_token"];
-	[dict setObject:[self encodeString:language] forKey:@"language"];
-	[dict setObject:[self encodeString:timeZone] forKey:@"timezone"];
+	[dict setObject:[NSNumber numberWithInt:7] forKey:@"device_type"];
+	[dict setObject:pushToken forKey:@"push_token"];
+	[dict setObject:language forKey:@"language"];
+	[dict setObject:timeZone forKey:@"timezone"];
 
+	NSString * package = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+	[dict setObject:package forKey:@"package"];
+	
 	return dict;
 }
 

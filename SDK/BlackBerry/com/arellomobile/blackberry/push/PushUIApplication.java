@@ -1,5 +1,9 @@
 package com.arellomobile.blackberry.push;
 
+import java.io.IOException;
+
+import javax.microedition.io.StreamConnection;
+
 import net.rim.blackberry.api.browser.Browser;
 import net.rim.blackberry.api.push.PushApplication;
 import net.rim.blackberry.api.push.PushApplicationStatus;
@@ -9,12 +13,8 @@ import net.rim.device.api.system.DeviceInfo;
 import net.rim.device.api.system.GlobalEventListener;
 import net.rim.device.api.ui.UiApplication;
 
-import javax.microedition.io.StreamConnection;
-
 import com.arellomobile.blackberry.push.libs.json.JSONException;
 import com.arellomobile.blackberry.push.libs.json.JSONObject;
-
-import java.io.IOException;
 
 public abstract class PushUIApplication extends UiApplication implements
 		GlobalEventListener, PushApplication {
@@ -336,16 +336,19 @@ public abstract class PushUIApplication extends UiApplication implements
 				// rewrite prev url if this one is set
 				url = lUrl;
 			}
+			
 			String u = jsonObject.optString("u");
 
-			handleNotification(message);
-			if(null != u && u.length() > 0)
-			{
-				onCustomDataReceive(u);
-			}
 			if(null != url && url.length() > 0)
 			{
 				Browser.getDefaultSession().displayPage(url);
+			}
+			
+			handleNotification(message);
+			
+			if(null != u && u.length() > 0)
+			{
+				onCustomDataReceive(u);
 			}
 		} catch (JSONException e) {
 			System.out.println("can't parse input data as json");

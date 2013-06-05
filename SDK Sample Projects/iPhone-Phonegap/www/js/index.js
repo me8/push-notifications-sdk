@@ -33,6 +33,13 @@
 	
 	pushNotification.setApplicationIconBadgeNumber(0);
 	 
+	pushNotification.getTags(function(tags) {
+								console.warn('tags for the device: ' + JSON.stringify(tags));
+							 },
+							 function(error) {
+								console.warn('get tags error: ' + JSON.stringify(error));
+							 });
+	 
 	//start geo tracking. PWTrackSignificantLocationChanges - Uses GPS in foreground, Cell Triangulation in background. 
 	pushNotification.startLocationTracking('PWTrackSignificantLocationChanges',
 									function() {

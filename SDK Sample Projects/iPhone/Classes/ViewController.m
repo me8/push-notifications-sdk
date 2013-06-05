@@ -39,6 +39,16 @@
 	[self startTracking];
 }
 
+//received tags from the server
+- (void) onTagsReceived:(NSDictionary *)tags {
+	NSLog(@"getTags: %@", tags);
+}
+
+//error receiving tags from the server
+- (void) onTagsFailedToReceive:(NSError *)error {
+	NSLog(@"getTags error: %@", error);
+}
+
 - (void) submitAction:(id)sender {
 	NSLog(@"Submitting");
 	[aliasField resignFirstResponder];
@@ -52,6 +62,8 @@
 						  nil];
 	
 	[[PushNotificationManager pushManager] setTags:tags];
+	
+	[[PushNotificationManager pushManager] loadTags];
 	statusLabel.text = @"Tags sent";
 }
 

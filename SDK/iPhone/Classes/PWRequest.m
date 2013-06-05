@@ -25,6 +25,9 @@
 	return [dict autorelease];
 }
 
+- (void) parseResponse: (NSDictionary *) response {
+}
+
 - (void) dealloc {
 	self.appId = nil;
 	self.hwid = nil;

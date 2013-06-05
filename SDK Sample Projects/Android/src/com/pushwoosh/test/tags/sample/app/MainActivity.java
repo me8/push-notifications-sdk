@@ -1,20 +1,30 @@
 package com.pushwoosh.test.tags.sample.app;
 
+import java.util.Map;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.arellomobile.android.push.BasePushMessageReceiver;
+import com.arellomobile.android.push.DeviceFeature2_5;
 import com.arellomobile.android.push.PushManager;
+import com.arellomobile.android.push.PushManager.GetTagsListener;
 import com.arellomobile.android.push.utils.RegisterBroadcastReceiver;
+import com.arellomobile.android.push.utils.WorkerTask;
+import com.arellomobile.android.push.utils.executor.ExecutorHelper;
+import com.google.android.gcm.GCMRegistrar;
 
 public class MainActivity extends FragmentActivity implements SendTagsCallBack
 {
@@ -30,6 +40,20 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 	private TextView mGeneralStatus;
 	
 	boolean broadcastPush = true;
+	
+	public class GetTagsListenerImpl implements GetTagsListener {
+		@Override
+		public void onTagsReceived(Map<String, Object> tags) {
+			Log.e("Pushwoosh", "Success: get Tags " + tags.toString());
+		}
+		
+		@Override
+		public void onError(Exception e) {
+			Log.e("Pushwoosh", "ERROR: get Tags " + e.getMessage());
+		}
+	}
+	
+	GetTagsListenerImpl tagsListener = new GetTagsListenerImpl();
 
 	/**
 	 * Called when the activity is first created.
@@ -75,6 +99,7 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 			@Override
 			public void onClick(View v)
 			{
+				//PushManager.getTagsAsync(MainActivity.this, tagsListener);
 				checkAndSendTagsIfWeCan();
 			}
 		});
@@ -191,8 +216,7 @@ public class MainActivity extends FragmentActivity implements SendTagsCallBack
 
 		if (sendTagsFragment.canSendTags())
 		{
-			sendTagsFragment
-					.submitTags(this, mIntTags.getText().toString().trim(), mStringTags.getText().toString().trim());
+			sendTagsFragment.submitTags(this, mIntTags.getText().toString().trim(), mStringTags.getText().toString().trim());
 		}
 	}
 

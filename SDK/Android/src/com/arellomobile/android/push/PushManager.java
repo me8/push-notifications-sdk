@@ -217,6 +217,47 @@ public class PushManager
 		});
 	}
 	
+	public interface GetTagsListener {
+		public void onTagsReceived(Map<String, Object> tags);
+		public void onError(Exception e);
+	}
+	
+	public static Map<String, Object> getTagsSync(final Context context)
+	{
+		if (GCMRegistrar.isRegisteredOnServer(context) == false)
+			return null;
+		
+		return DeviceFeature2_5.getTags(context);
+	}
+	
+	public static void getTagsAsync(final Context context, final GetTagsListener listener)
+	{
+		if (GCMRegistrar.isRegisteredOnServer(context) == false)
+			return;
+		
+		Handler handler = new Handler(context.getMainLooper());
+		handler.post(new Runnable() {
+			public void run() {
+				AsyncTask<Void, Void, Void> task = new WorkerTask(context)
+				{
+					@Override
+					protected void doWork(Context context)
+					{
+						Map<String, Object> tags;
+						try {
+							tags = DeviceFeature2_5.getTags(context);
+							listener.onTagsReceived(tags);
+						} catch (Exception e) {
+							listener.onError(e);
+						}
+					}
+				};
+
+				ExecutorHelper.executeAsyncTask(task);
+			}
+		});		
+	}
+	
 	public static void sendLocation(final Context context, final Location location)
 	{
 		if (GCMRegistrar.isRegisteredOnServer(context) == false)
@@ -514,5 +555,13 @@ public class PushManager
 
 	static public void clearLocalNotifications(Context context) {
 		AlarmReceiver.clearAlarm(context);
+	}
+	
+	static public Map<String, Object> incrementalTag(Integer value) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("operation", "increment");
+		result.put("value", value);
+		
+		return result;
 	}
 }

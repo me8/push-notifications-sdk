@@ -174,10 +174,17 @@ public class SendTagsFragment extends Fragment implements SendPushTagsCallBack
 		{
 			tags.put("FavNumber", Integer.parseInt(tagInt));
 		}
+		
+		//incremental tag using string syntax
+		//tags.put("price", "#pwinc#-5");
+		
 		if (tagString.length() != 0)
 		{
 			tags.put("Alias", tagString);
 		}
+		
+		//Java style incremental tag
+		tags.put("price", PushManager.incrementalTag(5));
 
 		return tags;
 	}

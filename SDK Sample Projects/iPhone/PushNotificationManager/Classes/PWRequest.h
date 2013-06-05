@@ -16,5 +16,6 @@
 - (NSDictionary *) requestDictionary;
 
 - (NSMutableDictionary *) baseDictionary;
+- (void) parseResponse: (NSDictionary *) response;
 
 @end
