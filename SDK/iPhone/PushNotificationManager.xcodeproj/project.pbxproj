@@ -21,6 +21,8 @@
 		50B548DC16A837BC008F5025 /* PWApplicationEventRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */; };
 		50B72908165D47B300525F8B /* PWAppOpenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B72906165D47B300525F8B /* PWAppOpenRequest.m */; };
 		50B72909165D47B300525F8B /* PWAppOpenRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B72907165D47B300525F8B /* PWAppOpenRequest.h */; };
+		50BCA97C175E46920008AB74 /* PWGetTagsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BCA97A175E46920008AB74 /* PWGetTagsRequest.h */; };
+		50BCA97D175E46920008AB74 /* PWGetTagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BCA97B175E46920008AB74 /* PWGetTagsRequest.m */; };
 		50BD5D521365DA3C00275CDB /* HtmlWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BD5D3D1365DA3C00275CDB /* HtmlWebViewController.h */; };
 		50BD5D531365DA3C00275CDB /* HtmlWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */; };
 		50BD5D631365DA3C00275CDB /* PushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BD5D501365DA3C00275CDB /* PushNotificationManager.h */; };
@@ -59,6 +61,8 @@
 		50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWApplicationEventRequest.h; path = Classes/PWApplicationEventRequest.h; sourceTree = "<group>"; };
 		50B72906165D47B300525F8B /* PWAppOpenRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWAppOpenRequest.m; path = Classes/PWAppOpenRequest.m; sourceTree = "<group>"; };
 		50B72907165D47B300525F8B /* PWAppOpenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWAppOpenRequest.h; path = Classes/PWAppOpenRequest.h; sourceTree = "<group>"; };
+		50BCA97A175E46920008AB74 /* PWGetTagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWGetTagsRequest.h; path = Classes/PWGetTagsRequest.h; sourceTree = "<group>"; };
+		50BCA97B175E46920008AB74 /* PWGetTagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWGetTagsRequest.m; path = Classes/PWGetTagsRequest.m; sourceTree = "<group>"; };
 		50BD5D3D1365DA3C00275CDB /* HtmlWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HtmlWebViewController.h; path = Classes/HtmlWebViewController.h; sourceTree = "<group>"; };
 		50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HtmlWebViewController.m; path = Classes/HtmlWebViewController.m; sourceTree = "<group>"; };
 		50BD5D501365DA3C00275CDB /* PushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushNotificationManager.h; path = Classes/PushNotificationManager.h; sourceTree = "<group>"; };
@@ -159,6 +163,8 @@
 		A4F8238515C9257D00913778 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				50BCA97A175E46920008AB74 /* PWGetTagsRequest.h */,
+				50BCA97B175E46920008AB74 /* PWGetTagsRequest.m */,
 				50B548D916A837BC008F5025 /* PWApplicationEventRequest.m */,
 				50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */,
 				50B72906165D47B300525F8B /* PWAppOpenRequest.m */,
@@ -219,6 +225,7 @@
 				50C6D5BF174BA87A0068E1A4 /* PW_SBJsonBase.h in Headers */,
 				50C6D5C1174BA87A0068E1A4 /* PW_SBJsonParser.h in Headers */,
 				50C6D5C3174BA87A0068E1A4 /* PW_SBJsonWriter.h in Headers */,
+				50BCA97C175E46920008AB74 /* PWGetTagsRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +298,7 @@
 				50C6D5C0174BA87A0068E1A4 /* PW_SBJsonBase.m in Sources */,
 				50C6D5C2174BA87A0068E1A4 /* PW_SBJsonParser.m in Sources */,
 				50C6D5C4174BA87A0068E1A4 /* PW_SBJsonWriter.m in Sources */,
+				50BCA97D175E46920008AB74 /* PWGetTagsRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
