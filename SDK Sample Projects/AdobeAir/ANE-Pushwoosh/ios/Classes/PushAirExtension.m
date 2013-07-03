@@ -73,6 +73,12 @@ DEFINE_ANE_FUNCTION(registerPush)
 	return nil;
 }
 
+DEFINE_ANE_FUNCTION(unregisterPush)
+{
+	[[UIApplication sharedApplication] unregisterForRemoteNotifications];	
+	return nil;
+}
+
 DEFINE_ANE_FUNCTION(setIntTag)
 {
 	NSString* tagName = FreToNSString(argv[0]);
@@ -164,7 +170,7 @@ void PushwooshContextInitializer(void* extData, const uint8_t* ctxType, FREConte
 							   uint32_t* numFunctionsToTest, const FRENamedFunction** functionsToSet)
 {
     // Register the links btwn AS3 and ObjC. (dont forget to modify the nbFuntionsToLink integer if you are adding/removing functions)
-    NSInteger nbFuntionsToLink = 8;
+    NSInteger nbFuntionsToLink = 9;
     *numFunctionsToTest = nbFuntionsToLink;
     
     FRENamedFunction* func = (FRENamedFunction*) malloc(sizeof(FRENamedFunction) * nbFuntionsToLink);
@@ -172,7 +178,7 @@ void PushwooshContextInitializer(void* extData, const uint8_t* ctxType, FREConte
     func[0].name = (const uint8_t*) "registerPush";
     func[0].functionData = NULL;
     func[0].function = &registerPush;
-    
+
     func[1].name = (const uint8_t*) "setBadgeNumber";
     func[1].functionData = NULL;
     func[1].function = &setBadgeNumber;
@@ -200,6 +206,10 @@ void PushwooshContextInitializer(void* extData, const uint8_t* ctxType, FREConte
 	func[7].name = (const uint8_t*) "clearLocalNotifications";
     func[7].functionData = NULL;
     func[7].function = &clearAllLocalNotifications;
+
+    func[8].name = (const uint8_t*) "unregisterPush";
+    func[8].functionData = NULL;
+    func[8].function = &unregisterPush;
 
     *functionsToSet = func;
     

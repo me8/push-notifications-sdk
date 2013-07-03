@@ -170,8 +170,9 @@ class PushWoosh
 		return 0;
     }
 	
-    public int PushWooshNotificationUnRegister()
+    public int PushWooshNotificationUnRegister(Activity activity)
     {
+		mainActivity = activity;
         GCMRegistrar.unregister(mainActivity);
         return 0;
     }

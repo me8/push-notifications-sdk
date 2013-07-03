@@ -51,6 +51,7 @@ public class GCMExtensionContext extends FREContext {
 		
 		Map<String, FREFunction> functionMap = new HashMap<String, FREFunction>();
 		functionMap.put("registerPush", new GCMRegisterFunction());
+		functionMap.put("unregisterPush", new GCMUnRegisterFunction());
 		functionMap.put("setBadgeNumber", new SetBadgeValueFunction());
 		functionMap.put("setIntTag", new SetIntTagFunction());
 		functionMap.put("setStringTag", new SetStringTagFunction());
