@@ -89,6 +89,30 @@ package com.pushwoosh.nativeExtensions
 				extCtx.call("setBadgeNumber", value);
 			}
 		}
+
+		public function setIntTag(value:int):void
+		{
+			if (this.isPushNotificationSupported)
+			{
+				extCtx.call("setIntTag", value);
+			}
+		}
+
+		public function setStringTag(value:String):void
+		{
+			if (this.isPushNotificationSupported)
+			{
+				extCtx.call("setStringTag", value);
+			}
+		}
+
+		public function unregisterFromPushNotification():void
+		{
+			if (this.isPushNotificationSupported)
+			{
+				extCtx.call("unregisterPush");
+			}
+		}
 		
         // onStatus()
         // Event handler for the event that the native implementation dispatches.
