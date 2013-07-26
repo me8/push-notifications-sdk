@@ -25,6 +25,8 @@
 #include <net/if_dl.h>
 #import <CommonCrypto/CommonDigest.h>
 
+#import <AdSupport/AdSupport.h>
+
 #define kServiceHtmlContentFormatUrl @"http://cp.pushwoosh.com/content/%@"
 
 @interface UIApplication(Pushwoosh)
@@ -119,27 +121,28 @@
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
-- (NSString *) uniqueDeviceIdentifier{
-    NSString *macaddress = [self macaddress];
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    
-    NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
-    NSString *uniqueDeviceIdentifier = [self stringFromMD5:stringToHash];
-    
-    return uniqueDeviceIdentifier;
-}
-
 - (NSString *) uniqueGlobalDeviceIdentifier{
-	// >= iOS6 return identifierForVendor
-	UIDevice *device = [UIDevice currentDevice];
 	
+	// IMPORTANT: iOS 6.0 has a bug when advertisingIdentifier or identifierForVendor occasionally might be empty! We have to fallback to hashed mac address here.
 	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.1")) {
-		if ([device respondsToSelector:@selector(identifierForVendor)] && [NSUUID class]) {
-			NSUUID *uuid = [device identifierForVendor];
-			return [uuid UUIDString];
+		// >= iOS6 return advertisingIdentifier or identifierForVendor
+		if ([NSUUID class]) {
+			if ([ASIdentifierManager class]) {
+				NSString *uuidString = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+				if (uuidString) {
+					return uuidString;
+				}
+			}
+			
+			if ([[UIDevice currentDevice] respondsToSelector:@selector(identifierForVendor)]) {
+				NSString *uuidString = [[UIDevice currentDevice].identifierForVendor UUIDString];
+				if (uuidString) {
+					return uuidString;
+				}
+			}
 		}
 	}
-	
+
 	// Fallback on macaddress
     NSString *macaddress = [self macaddress];
     NSString *uniqueDeviceIdentifier = [self stringFromMD5:macaddress];

@@ -11,7 +11,7 @@
                                              Deactivated="Application_Deactivated"
                                              Launching="Application_Launching">
             <!--  PushWoosh application ID  -->
-            <PushSDK:PhonePushApplicationService.PWAppId>4FC89B6D14A655.46488481</PushSDK:PhonePushApplicationService.PWAppId>
+            <PushSDK:PhonePushApplicationService.PWAppId>3A43A-A3EAB</PushSDK:PhonePushApplicationService.PWAppId>
 
             <!--  Page on which the navigation is when receiving toast push notification. Note: Full path.  -->
             <PushSDK:PhonePushApplicationService.PushPage>/PushWooshWP7Sample;component/DisplayPushContent.xaml</PushSDK:PhonePushApplicationService.PushPage>
