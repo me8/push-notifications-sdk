@@ -57,7 +57,7 @@
         NKIssue *issue = [[NKLibrary sharedLibrary] issueWithName:@"Magazine-2"];
         if(issue) {
 			// let NKAssetDownload class to download the new issue
-            NSURL *downloadURL = [NSURL URLWithString:@"http://www.viggiosoft.com/media/data/blog/newsstand/magazine-2.pdf"];
+            NSURL *downloadURL = [NSURL URLWithString:@"http://www.pushwoosh.com/data/magazine-2.pdf"];
             NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
             NKAssetDownload *assetDownload = [issue addAssetWithRequest:request];
             [assetDownload downloadWithDelegate:store];

@@ -26,7 +26,7 @@ NSString *PublisherFailedUpdateNotification = @"PublisherFailedUpdate";
 -(void)getIssuesList {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
 	   ^{
-		   NSArray *tmpIssues = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://www.viggiosoft.com/media/data/blog/newsstand/issues.plist"]];
+		   NSArray *tmpIssues = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://www.pushwoosh.com/data/issues.plist"]];
 		   if(!tmpIssues) {
 			   // failure
 			   dispatch_async(dispatch_get_main_queue(), ^{
