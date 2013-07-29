@@ -21,6 +21,8 @@
 		50B548DC16A837BC008F5025 /* PWApplicationEventRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */; };
 		50B72908165D47B300525F8B /* PWAppOpenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B72906165D47B300525F8B /* PWAppOpenRequest.m */; };
 		50B72909165D47B300525F8B /* PWAppOpenRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B72907165D47B300525F8B /* PWAppOpenRequest.h */; };
+		50BCA97C175E46920008AB74 /* PWGetTagsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BCA97A175E46920008AB74 /* PWGetTagsRequest.h */; };
+		50BCA97D175E46920008AB74 /* PWGetTagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BCA97B175E46920008AB74 /* PWGetTagsRequest.m */; };
 		50BD5D521365DA3C00275CDB /* HtmlWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BD5D3D1365DA3C00275CDB /* HtmlWebViewController.h */; };
 		50BD5D531365DA3C00275CDB /* HtmlWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */; };
 		50BD5D631365DA3C00275CDB /* PushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 50BD5D501365DA3C00275CDB /* PushNotificationManager.h */; };
@@ -35,6 +37,7 @@
 		50E2E0E1170587170055FFCB /* PWLocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E2E0DF170587170055FFCB /* PWLocationTracker.m */; };
 		50E2E0E817058AB70055FFCB /* PushRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 50E2E0E617058AB70055FFCB /* PushRuntime.h */; };
 		50E2E0E917058AB70055FFCB /* PushRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E2E0E717058AB70055FFCB /* PushRuntime.m */; };
+		73C5F0F61796C0A4006CC3D4 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C5F0F51796C0A4006CC3D4 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A4519C2F15C80D2200012F17 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4519C2E15C80D2200012F17 /* CoreLocation.framework */; };
 		A4F8238915C925AF00913778 /* PWRequestManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A4F8238715C925AF00913778 /* PWRequestManager.h */; };
 		A4F8238A15C925AF00913778 /* PWRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F8238815C925AF00913778 /* PWRequestManager.m */; };
@@ -59,6 +62,8 @@
 		50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWApplicationEventRequest.h; path = Classes/PWApplicationEventRequest.h; sourceTree = "<group>"; };
 		50B72906165D47B300525F8B /* PWAppOpenRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWAppOpenRequest.m; path = Classes/PWAppOpenRequest.m; sourceTree = "<group>"; };
 		50B72907165D47B300525F8B /* PWAppOpenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWAppOpenRequest.h; path = Classes/PWAppOpenRequest.h; sourceTree = "<group>"; };
+		50BCA97A175E46920008AB74 /* PWGetTagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWGetTagsRequest.h; path = Classes/PWGetTagsRequest.h; sourceTree = "<group>"; };
+		50BCA97B175E46920008AB74 /* PWGetTagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWGetTagsRequest.m; path = Classes/PWGetTagsRequest.m; sourceTree = "<group>"; };
 		50BD5D3D1365DA3C00275CDB /* HtmlWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HtmlWebViewController.h; path = Classes/HtmlWebViewController.h; sourceTree = "<group>"; };
 		50BD5D3E1365DA3C00275CDB /* HtmlWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HtmlWebViewController.m; path = Classes/HtmlWebViewController.m; sourceTree = "<group>"; };
 		50BD5D501365DA3C00275CDB /* PushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushNotificationManager.h; path = Classes/PushNotificationManager.h; sourceTree = "<group>"; };
@@ -73,6 +78,7 @@
 		50E2E0DF170587170055FFCB /* PWLocationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWLocationTracker.m; path = Classes/PWLocationTracker.m; sourceTree = "<group>"; };
 		50E2E0E617058AB70055FFCB /* PushRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushRuntime.h; path = Classes/PushRuntime.h; sourceTree = "<group>"; };
 		50E2E0E717058AB70055FFCB /* PushRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushRuntime.m; path = Classes/PushRuntime.m; sourceTree = "<group>"; };
+		73C5F0F51796C0A4006CC3D4 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		A4519C2E15C80D2200012F17 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A4F8238715C925AF00913778 /* PWRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PWRequestManager.h; path = Classes/PWRequestManager.h; sourceTree = "<group>"; };
 		A4F8238815C925AF00913778 /* PWRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PWRequestManager.m; path = Classes/PWRequestManager.m; sourceTree = "<group>"; };
@@ -88,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73C5F0F61796C0A4006CC3D4 /* AdSupport.framework in Frameworks */,
 				A4519C2F15C80D2200012F17 /* CoreLocation.framework in Frameworks */,
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
 			);
@@ -107,6 +114,7 @@
 		0867D691FE84028FC02AAC07 /* PushNotificationManager */ = {
 			isa = PBXGroup;
 			children = (
+				73C5F0F51796C0A4006CC3D4 /* AdSupport.framework */,
 				A4519C2E15C80D2200012F17 /* CoreLocation.framework */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
@@ -159,6 +167,8 @@
 		A4F8238515C9257D00913778 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				50BCA97A175E46920008AB74 /* PWGetTagsRequest.h */,
+				50BCA97B175E46920008AB74 /* PWGetTagsRequest.m */,
 				50B548D916A837BC008F5025 /* PWApplicationEventRequest.m */,
 				50B548DA16A837BC008F5025 /* PWApplicationEventRequest.h */,
 				50B72906165D47B300525F8B /* PWAppOpenRequest.m */,
@@ -219,6 +229,7 @@
 				50C6D5BF174BA87A0068E1A4 /* PW_SBJsonBase.h in Headers */,
 				50C6D5C1174BA87A0068E1A4 /* PW_SBJsonParser.h in Headers */,
 				50C6D5C3174BA87A0068E1A4 /* PW_SBJsonWriter.h in Headers */,
+				50BCA97C175E46920008AB74 /* PWGetTagsRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +259,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "PushNotificationManager" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -291,6 +302,7 @@
 				50C6D5C0174BA87A0068E1A4 /* PW_SBJsonBase.m in Sources */,
 				50C6D5C2174BA87A0068E1A4 /* PW_SBJsonParser.m in Sources */,
 				50C6D5C4174BA87A0068E1A4 /* PW_SBJsonWriter.m in Sources */,
+				50BCA97D175E46920008AB74 /* PWGetTagsRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,11 +350,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
@@ -354,10 +371,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";

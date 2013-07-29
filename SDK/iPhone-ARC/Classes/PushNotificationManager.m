@@ -10,6 +10,7 @@
 #import "PWRequestManager.h"
 #import "PWRegisterDeviceRequest.h"
 #import "PWSetTagsRequest.h"
+#import "PWGetTagsRequest.h"
 #import "PWSendBadgeRequest.h"
 #import "PWAppOpenRequest.h"
 #import "PWPushStatRequest.h"
@@ -23,6 +24,8 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 #import <CommonCrypto/CommonDigest.h>
+
+#import <AdSupport/AdSupport.h>
 
 #define kServiceHtmlContentFormatUrl @"http://cp.pushwoosh.com/content/%@"
 
@@ -118,27 +121,28 @@
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
-- (NSString *) uniqueDeviceIdentifier{
-    NSString *macaddress = [self macaddress];
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    
-    NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
-    NSString *uniqueDeviceIdentifier = [self stringFromMD5:stringToHash];
-    
-    return uniqueDeviceIdentifier;
-}
-
 - (NSString *) uniqueGlobalDeviceIdentifier{
-	// >= iOS6 return identifierForVendor
-	UIDevice *device = [UIDevice currentDevice];
 	
+	// IMPORTANT: iOS 6.0 has a bug when advertisingIdentifier or identifierForVendor occasionally might be empty! We have to fallback to hashed mac address here.
 	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.1")) {
-		if ([device respondsToSelector:@selector(identifierForVendor)] && [NSUUID class]) {
-			NSUUID *uuid = [device identifierForVendor];
-			return [uuid UUIDString];
+		// >= iOS6 return advertisingIdentifier or identifierForVendor
+		if ([NSUUID class]) {
+			if ([ASIdentifierManager class]) {
+				NSString *uuidString = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+				if (uuidString) {
+					return uuidString;
+				}
+			}
+			
+			if ([[UIDevice currentDevice] respondsToSelector:@selector(identifierForVendor)]) {
+				NSString *uuidString = [[UIDevice currentDevice].identifierForVendor UUIDString];
+				if (uuidString) {
+					return uuidString;
+				}
+			}
 		}
 	}
-	
+
 	// Fallback on macaddress
     NSString *macaddress = [self macaddress];
     NSString *uniqueDeviceIdentifier = [self stringFromMD5:macaddress];
@@ -306,6 +310,15 @@ static PushNotificationManager * instance = nil;
 	[vc view];
 }
 
+- (void) showCustomPushPage:(NSString *)page {
+	HtmlWebViewController *vc = [[HtmlWebViewController alloc] initWithURLString:page];
+	vc.delegate = self;
+	vc.supportedOrientations = supportedOrientations;
+	
+	self.richPushWindow.rootViewController = vc;
+	[vc view];
+}
+
 - (void)htmlWebViewControllerDidClose:(HtmlWebViewController *)viewController {
 	
 	self.richPushWindow.transform = CGAffineTransformIdentity;
@@ -439,6 +452,11 @@ static PushNotificationManager * instance = nil;
 	if(htmlPageId) {
 		[self showPushPage:htmlPageId];
 	}
+
+	NSString *customHtmlPageId = [lastPushDict objectForKey:@"r"];
+	if(customHtmlPageId) {
+		[self showCustomPushPage:customHtmlPageId];
+	}
     
 	NSString *linkUrl = [lastPushDict objectForKey:@"l"];	
 	if(linkUrl) {
@@ -495,6 +513,7 @@ static PushNotificationManager * instance = nil;
 	NSString *htmlPageId = [userInfo objectForKey:@"h"];
 //	NSString *customData = [userInfo objectForKey:@"u"];
 	NSString *linkUrl = [userInfo objectForKey:@"l"];
+	NSString *customHtmlPageId = [userInfo objectForKey:@"r"];
 	
 	//the app is running, display alert only
 	if(!isPushOnStart && showPushnotificationAlert && msgIsString) {
@@ -507,6 +526,10 @@ static PushNotificationManager * instance = nil;
 	
 	if(htmlPageId) {
 		[self showPushPage:htmlPageId];
+	}
+
+	if(customHtmlPageId) {
+		[self showCustomPushPage:customHtmlPageId];
 	}
     
 	if(linkUrl) {
@@ -638,6 +661,49 @@ static PushNotificationManager * instance = nil;
 
 - (void) setTags: (NSDictionary *) tags {
 	[self performSelectorInBackground:@selector(sendTagsBackground:) withObject:tags];
+}
+
+- (void) loadTags {
+	[self loadTags:nil error:nil];
+}
+
+- (void) loadTags: (pushwooshGetTagsHandler) successHandler error:(pushwooshErrorHandler) errorHandler{
+	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+	dispatch_async(queue, ^{
+		PWGetTagsRequest *request = [[PWGetTagsRequest alloc] init];
+		request.appId = appCode;
+		request.hwid = [self uniqueGlobalDeviceIdentifier];
+		
+		NSError *error = nil;
+		if ([[PWRequestManager sharedManager] sendRequest:request error:&error]) {
+			NSLog(@"loadTags completed");
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if([delegate respondsToSelector:@selector(onTagsReceived:)] ) {
+					[delegate onTagsReceived:request.tags];
+				}
+				
+				if(successHandler) {
+					successHandler(request.tags);
+				}
+			});
+			
+		} else {
+			NSLog(@"loadTags failed");
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if([delegate respondsToSelector:@selector(onTagsFailedToReceive:)] ) {
+					[delegate onTagsFailedToReceive:error];
+				}
+				
+				if(errorHandler) {
+					errorHandler(error);
+				}
+			});
+		}
+		
+		request = nil;
+	});
 }
 
 - (void) recordGoal: (NSString *) goal {

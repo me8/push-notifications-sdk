@@ -25,5 +25,7 @@
 	return dict;
 }
 
+- (void) parseResponse: (NSDictionary *) response {
+}
 
 @end

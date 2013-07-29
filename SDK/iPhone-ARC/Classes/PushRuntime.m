@@ -35,7 +35,19 @@ BOOL dynamicDidFinishLaunching(id self, SEL _cmd, id application, id launchOptio
 		result = YES;
 	}
 	
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	//default push modes
+	int modes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
+	
+	//add newsstand mode if info.plist supports it
+	NSArray * backgroundModes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"];
+	for(NSString *mode in backgroundModes) {
+		if([mode isEqualToString:@"newsstand-content"]) {
+			modes |= UIRemoteNotificationTypeNewsstandContentAvailability;
+			break;
+		}
+	}
+	
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:modes];
 	
 	if(![PushNotificationManager pushManager].delegate) {
 		[PushNotificationManager pushManager].delegate = (NSObject<PushNotificationDelegate> *)self;
