@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 public class PushNotificationsIOS : MonoBehaviour {
 
 	[System.Runtime.InteropServices.DllImport("__Internal")]
+	extern static public void registerForRemoteNotifications();
+
+	[System.Runtime.InteropServices.DllImport("__Internal")]
 	extern static public void setListenerName(string listenerName);
 
 	[System.Runtime.InteropServices.DllImport("__Internal")]
@@ -34,6 +37,7 @@ public class PushNotificationsIOS : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		registerForRemoteNotifications();
 		setListenerName(this.gameObject.name);
 		Debug.Log(getPushToken());
 	}

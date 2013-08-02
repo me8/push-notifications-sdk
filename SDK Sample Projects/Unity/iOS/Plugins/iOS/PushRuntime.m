@@ -11,6 +11,10 @@
 
 #import "PW_SBJsonWriter.h"
 
+void registerForRemoteNotifications() {
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+}
+
 void * _getPushToken()
 {
 	return (void *)[[[PushNotificationManager pushManager] getPushToken] UTF8String];
@@ -144,7 +148,10 @@ BOOL dynamicDidFinishLaunching(id self, SEL _cmd, id application, id launchOptio
 		result = YES;
 	}
 	
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	BOOL autoRegisterMode = ![[[NSBundle mainBundle] objectForInfoDictionaryKey:@"Pushwoosh_NOAUTOREGISTER"] boolValue];
+	if (autoRegisterMode) {
+		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	}
 	
 	if(![PushNotificationManager pushManager].delegate) {
 		[PushNotificationManager pushManager].delegate = (NSObject<PushNotificationDelegate> *)[UIApplication sharedApplication];
