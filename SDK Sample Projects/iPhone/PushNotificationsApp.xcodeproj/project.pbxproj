@@ -17,9 +17,16 @@
 		50A9809A15E7AD67003579A4 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A9809715E7AD67003579A4 /* ViewController.xib */; };
 		50BD5D861365DB4100275CDB /* libPushNotificationManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BD5D7C1365DAA700275CDB /* libPushNotificationManager.a */; };
 		50C6D5C6174BADA70068E1A4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C6D5C5174BADA70068E1A4 /* CoreLocation.framework */; };
-		50F4B0791641438D00424547 /* 512-512_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F4B0781641438D00424547 /* 512-512_logo.png */; };
+		50F4B0791641438D00424547 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F4B0781641438D00424547 /* logo.png */; };
 		50F4B07C16414E7A00424547 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F4B07A16414E7A00424547 /* Icon.png */; };
 		50F4B07D16414E7A00424547 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F4B07B16414E7A00424547 /* Icon@2x.png */; };
+		73C129F917A8F8FF00CA9627 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C129F817A8F8FF00CA9627 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		73C129FD17A9008400CA9627 /* CustomPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73C129FB17A9008400CA9627 /* CustomPageViewController.m */; };
+		73C129FE17A9008400CA9627 /* CustomPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C129FC17A9008400CA9627 /* CustomPageViewController.xib */; };
+		73C12A0217A90C9100CA9627 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C129FF17A90C9100CA9627 /* Default-568h@2x.png */; };
+		73C12A0317A90C9100CA9627 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A0017A90C9100CA9627 /* Default.png */; };
+		73C12A0417A90C9100CA9627 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A0117A90C9100CA9627 /* Default@2x.png */; };
+		73C12A0617A9134500CA9627 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A0517A9134500CA9627 /* logo@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +61,17 @@
 		50A9809815E7AD67003579A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = ViewController.xib; sourceTree = "<group>"; };
 		50BD5D731365DAA700275CDB /* PushNotificationManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PushNotificationManager.xcodeproj; path = PushNotificationManager/PushNotificationManager.xcodeproj; sourceTree = "<group>"; };
 		50C6D5C5174BADA70068E1A4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		50F4B0781641438D00424547 /* 512-512_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "512-512_logo.png"; sourceTree = "<group>"; };
+		50F4B0781641438D00424547 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		50F4B07A16414E7A00424547 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		50F4B07B16414E7A00424547 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		73C129F817A8F8FF00CA9627 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		73C129FA17A9008400CA9627 /* CustomPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPageViewController.h; sourceTree = "<group>"; };
+		73C129FB17A9008400CA9627 /* CustomPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPageViewController.m; sourceTree = "<group>"; };
+		73C129FC17A9008400CA9627 /* CustomPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPageViewController.xib; sourceTree = "<group>"; };
+		73C129FF17A90C9100CA9627 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		73C12A0017A90C9100CA9627 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		73C12A0117A90C9100CA9627 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		73C12A0517A9134500CA9627 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* PushNotificationsApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PushNotificationsApp-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73C129F917A8F8FF00CA9627 /* AdSupport.framework in Frameworks */,
 				50C6D5C6174BADA70068E1A4 /* CoreLocation.framework in Frameworks */,
 				50BD5D861365DB4100275CDB /* libPushNotificationManager.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -83,6 +99,9 @@
 				50A9809215E7ACB6003579A4 /* AppDelegate.m */,
 				50A9808E15E7AC2F003579A4 /* ViewController.h */,
 				50A9808F15E7AC2F003579A4 /* ViewController.m */,
+				73C129FA17A9008400CA9627 /* CustomPageViewController.h */,
+				73C129FB17A9008400CA9627 /* CustomPageViewController.m */,
+				73C129FC17A9008400CA9627 /* CustomPageViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -98,7 +117,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				50C6D5C5174BADA70068E1A4 /* CoreLocation.framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				50A9809415E7AD67003579A4 /* en.lproj */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -122,9 +140,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				73C129FF17A90C9100CA9627 /* Default-568h@2x.png */,
+				73C12A0017A90C9100CA9627 /* Default.png */,
+				73C12A0117A90C9100CA9627 /* Default@2x.png */,
 				50F4B07A16414E7A00424547 /* Icon.png */,
 				50F4B07B16414E7A00424547 /* Icon@2x.png */,
-				50F4B0781641438D00424547 /* 512-512_logo.png */,
+				50F4B0781641438D00424547 /* logo.png */,
+				73C12A0517A9134500CA9627 /* logo@2x.png */,
 				8D1107310486CEB800E47090 /* PushNotificationsApp-Info.plist */,
 			);
 			name = Resources;
@@ -133,6 +155,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73C129F817A8F8FF00CA9627 /* AdSupport.framework */,
+				50C6D5C5174BADA70068E1A4 /* CoreLocation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
@@ -229,9 +253,14 @@
 			files = (
 				50A9809915E7AD67003579A4 /* InfoPlist.strings in Resources */,
 				50A9809A15E7AD67003579A4 /* ViewController.xib in Resources */,
-				50F4B0791641438D00424547 /* 512-512_logo.png in Resources */,
+				50F4B0791641438D00424547 /* logo.png in Resources */,
 				50F4B07C16414E7A00424547 /* Icon.png in Resources */,
 				50F4B07D16414E7A00424547 /* Icon@2x.png in Resources */,
+				73C129FE17A9008400CA9627 /* CustomPageViewController.xib in Resources */,
+				73C12A0217A90C9100CA9627 /* Default-568h@2x.png in Resources */,
+				73C12A0317A90C9100CA9627 /* Default.png in Resources */,
+				73C12A0417A90C9100CA9627 /* Default@2x.png in Resources */,
+				73C12A0617A9134500CA9627 /* logo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +274,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				50A9809015E7AC2F003579A4 /* ViewController.m in Sources */,
 				50A9809315E7ACB6003579A4 /* AppDelegate.m in Sources */,
+				73C129FD17A9008400CA9627 /* CustomPageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,16 +338,14 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Max Konev (A74JU7Q362)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Max Konev (M6E83N8DU5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = ./PushNotificationManager/Classes;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "595DFC3F-8A71-4AF1-BBA2-F10BF189FF06";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F162960-42AD-4B6C-A3F3-40E4D7748A7B";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -325,14 +353,12 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = ./PushNotificationManager/Classes;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

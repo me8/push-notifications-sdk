@@ -7,6 +7,8 @@
 
 #import "ViewController.h"
 #import "PushNotificationManager.h"
+#import "PW_SBJsonParser.h"
+#import "CustomPageViewController.h"
 
 @implementation ViewController
 @synthesize aliasField, favNumField, statusLabel;
@@ -57,7 +59,7 @@
 	NSDictionary *tags = [NSDictionary dictionaryWithObjectsAndKeys:
 						  [aliasField text], @"Alias",
 						  [NSNumber numberWithInt:[favNumField.text intValue]], @"FavNumber",
-//						  @"#pwinc#10", @"price",
+						  [NSArray arrayWithObjects:@"Item1", @"Item2", @"Item3", nil], @"List",
 						  [PWTags incrementalTagWithInteger:5], @"price",
 						  nil];
 	
@@ -91,8 +93,56 @@
 	[PushNotificationManager clearNotificationCenter];
 	
 	statusLabel.text = [NSString stringWithFormat:@"Received push notification: %@", pushNotification];
+	
+	// Parse custom JSON data string.
+	// You can set background color with custom JSON data in the following format: { "r" : "10", "g" : "200", "b" : "100" }
+	// Or open specific screen of the app with custom page ID (set ID in the { "id" : "2" } format)
+	NSString *customDataString = [pushManager getCustomPushData:pushNotification];
+	PW_SBJsonParser *jsonReader = [[PW_SBJsonParser alloc] init];
+	NSDictionary *jsonData = [jsonReader objectWithString:customDataString];
+	[jsonReader release];
+	
+	NSString *redStr = [jsonData objectForKey:@"r"];
+	NSString *greenStr = [jsonData objectForKey:@"g"];
+	NSString *blueStr = [jsonData objectForKey:@"b"];
+	if (redStr || greenStr || blueStr) {
+		[self setViewBackgroundColorWithRed:redStr green:greenStr blue:blueStr];
+	}
+	
+	NSString *pageId = [jsonData objectForKey:@"id"];
+	if (pageId) {
+		[self showPageWithId:pageId];
+	}
 }
 
+- (void)setViewBackgroundColorWithRed:(NSString *)redString green:(NSString *)greenString blue:(NSString *)blueString {
+	CGFloat red = [redString floatValue] / 255.0f;
+	CGFloat green = [greenString floatValue] / 255.0f;
+	CGFloat blue = [blueString floatValue] / 255.0f;
+	
+	UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0f];
+	[UIView animateWithDuration:0.3 animations:^{
+		self.view.backgroundColor = color;
+		self.presentedViewController.view.backgroundColor = color;
+	}];
+}
+
+- (void)showPageWithId:(NSString *)pageId {
+	CustomPageViewController *vc = [[CustomPageViewController alloc] init];
+	vc.bgColor = self.view.backgroundColor;
+	vc.pageId = [pageId integerValue];
+	vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	if (self.presentedViewController) {
+		[self dismissViewControllerAnimated:YES completion:^{
+			[self presentViewController:vc animated:YES completion:nil];
+		}];
+	} else {
+		[self presentViewController:vc animated:YES completion:nil];
+	}
+	
+	[vc release];
+}
 
 - (void) dealloc {
 	self.aliasField = nil;

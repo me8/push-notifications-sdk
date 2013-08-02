@@ -31,15 +31,12 @@
     // Override point for customization after application launch.
     self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
 	
-//	navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
-//	[navController.navigationBar setBarStyle:UIBarStyleBlackOpaque];
 	self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 
-	//set custom delegate for push handlinh
+	//set custom delegate for push handling
 	PushNotificationManager * pushManager = [PushNotificationManager pushManager];
 	pushManager.delegate = self.viewController;
-//	pushManager.supportedOrientations = PWOrientationPortrait | PWOrientationLandscapeLeft | PWOrientationLandscapeRight;
 	
 	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
 		PushNotificationManager * pushManager = [PushNotificationManager pushManager];
