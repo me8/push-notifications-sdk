@@ -27,6 +27,8 @@
 		73C12A0317A90C9100CA9627 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A0017A90C9100CA9627 /* Default.png */; };
 		73C12A0417A90C9100CA9627 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A0117A90C9100CA9627 /* Default@2x.png */; };
 		73C12A0617A9134500CA9627 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A0517A9134500CA9627 /* logo@2x.png */; };
+		73C12A9317ABD7B600CA9627 /* bubble.wav in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A9117ABD7B600CA9627 /* bubble.wav */; };
+		73C12A9417ABD7B600CA9627 /* silence.wav in Resources */ = {isa = PBXBuildFile; fileRef = 73C12A9217ABD7B600CA9627 /* silence.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		73C12A0017A90C9100CA9627 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		73C12A0117A90C9100CA9627 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		73C12A0517A9134500CA9627 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		73C12A9117ABD7B600CA9627 /* bubble.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bubble.wav; sourceTree = "<group>"; };
+		73C12A9217ABD7B600CA9627 /* silence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = silence.wav; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* PushNotificationsApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PushNotificationsApp-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +144,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				73C12A9117ABD7B600CA9627 /* bubble.wav */,
+				73C12A9217ABD7B600CA9627 /* silence.wav */,
 				73C129FF17A90C9100CA9627 /* Default-568h@2x.png */,
 				73C12A0017A90C9100CA9627 /* Default.png */,
 				73C12A0117A90C9100CA9627 /* Default@2x.png */,
@@ -261,6 +267,8 @@
 				73C12A0317A90C9100CA9627 /* Default.png in Resources */,
 				73C12A0417A90C9100CA9627 /* Default@2x.png in Resources */,
 				73C12A0617A9134500CA9627 /* logo@2x.png in Resources */,
+				73C12A9317ABD7B600CA9627 /* bubble.wav in Resources */,
+				73C12A9417ABD7B600CA9627 /* silence.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,7 @@ static NSTimeInterval const kMinUpdateTime = 10.f;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
 
 #ifdef USE_LOCATION
-        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager = [[[CLLocationManager alloc] init] autorelease];
         self.locationManager.delegate = self;
 #endif
 		//[self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];

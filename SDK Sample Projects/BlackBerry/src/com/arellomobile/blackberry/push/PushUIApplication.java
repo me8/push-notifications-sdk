@@ -60,6 +60,15 @@ public abstract class PushUIApplication extends UiApplication implements
 		} else {
 			onPushServiceStatusChange(PushStatus.getStatusPushNotRegistered());
 		}
+		
+		// Register our PIN with Pushwoosh
+		Thread t0 = new Thread() {
+			public void run() {
+				// Register / De-Register Push with RIM
+				registerPushApplication();
+			}
+		};
+		t0.start();
 	}
 
 	/**

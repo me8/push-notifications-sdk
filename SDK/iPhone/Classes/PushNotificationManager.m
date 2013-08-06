@@ -175,7 +175,7 @@ static PushNotificationManager * instance = nil;
 		}
 		
 		//initalize location tracker
-		self.locationTracker = [[PWLocationTracker alloc] init];
+		self.locationTracker = [[[PWLocationTracker alloc] init] autorelease];
 		[self.locationTracker setLocationUpdatedInForeground:^ (CLLocation *location) {
 			if (!location)
 				return;

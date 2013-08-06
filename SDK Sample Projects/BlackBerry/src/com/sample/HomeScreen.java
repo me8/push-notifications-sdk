@@ -66,24 +66,6 @@ public class HomeScreen extends MainScreen {
 
 		vfm.add(bmf);
 
-		// UA App ID Display
-		/*
-		 * TableLayoutManager hfm1 = new TableLayoutManager(new int[] {
-		 * TableLayoutManager.FIXED_WIDTH,
-		 * TableLayoutManager.SPLIT_REMAINING_WIDTH }, new int[] { 170, 0 }, 0,
-		 * Manager.USE_ALL_WIDTH | FIELD_HCENTER);
-		 * 
-		 * String appIdLabel = "App ID: "; LabelField lfAppIdLabel = new
-		 * LabelField(appIdLabel, Field.FIELD_BOTTOM | Field.FIELD_RIGHT);
-		 * lfAppIdLabel.setFont(Util.getStandardFont().derive(Font.BOLD, 24));
-		 * 
-		 * String appIdString = "PushWoosh appId"; LabelField lfAppId = new
-		 * LabelField(appIdString, Field.FIELD_BOTTOM | Field.FIELD_LEFT);
-		 * lfAppId.setFont(Util.getStandardFont().derive(Font.PLAIN, 24));
-		 * 
-		 * hfm1.add(lfAppIdLabel); hfm1.add(lfAppId); vfm.add(hfm1);
-		 */
-
 		// Device PIN Display
 		TableLayoutManager hfm2 = new TableLayoutManager(new int[] {
 				TableLayoutManager.FIXED_WIDTH,
@@ -148,7 +130,7 @@ public class HomeScreen extends MainScreen {
 			_lfPushStatus.setText("Enabling...");
 			_statusColor = 0xff000000;
 
-			// Register our PIN with Urban Airship
+			// Register our PIN with Pushwoosh
 			Thread t0 = new Thread() {
 				public void run() {
 					// Register / De-Register Push with RIM
@@ -167,7 +149,7 @@ public class HomeScreen extends MainScreen {
 			_lfPushStatus.setText("Disabling...");
 			_statusColor = 0xff000000;
 
-			// Register our PIN with Urban Airship
+			// Register our PIN with Pushwoosh
 			Thread t0 = new Thread() {
 				public void run() {
 					// Register / De-Register Push with RIM

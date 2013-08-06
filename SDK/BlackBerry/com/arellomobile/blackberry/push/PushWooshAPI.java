@@ -5,6 +5,7 @@ import net.rim.device.api.i18n.Locale;
 import net.rim.device.api.system.ControlledAccessException;
 import net.rim.device.api.system.DeviceInfo;
 import net.rim.device.api.system.WLANInfo;
+import net.rim.device.api.util.TimeZoneUtilities;
 
 import javax.microedition.io.ConnectionNotFoundException;
 import javax.microedition.io.Connector;
@@ -17,12 +18,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.TimeZone;
 
 public class PushWooshAPI {
 
 	private static final int PUSH_WOOSH_DEVICE_TYPE = 2;
 
-	private static final String PUSH_WOOSH_SERVER_URL = "https://cp.pushwoosh.com/json/1.1/";
+	private static final String PUSH_WOOSH_SERVER_URL = "https://cp.pushwoosh.com/json/1.3/";
 	private static final String REGISTER_METHOD = "registerDevice";
 	private static final String UNREGISTER_METHOD = "unregisterDevice";
 
@@ -96,8 +98,11 @@ public class PushWooshAPI {
 			}
 
 			try {
-				JSONObject result = new JSONObject(new String(
-						bos.toByteArray(), "utf-8"));
+				String responseString = new String(
+						bos.toByteArray(), "utf-8");
+				
+				System.out.println("response string: " + responseString);
+				JSONObject result = new JSONObject(responseString);
 				return result;
 			} catch (JSONException e) {
 				throw new NetworkException("Invalid server response");
@@ -157,13 +162,13 @@ public class PushWooshAPI {
 		try {
 			JSONObject request = new JSONObject();
 			request.put("application", pushWooshAppId);
-			request.put("hw_id", Integer.toString(DeviceInfo.getDeviceId(), 16)
+			request.put("hwid", Integer.toString(DeviceInfo.getDeviceId(), 16)
 					.toUpperCase());
-			request.put("device_id",
-					Integer.toString(DeviceInfo.getDeviceId(), 16)
-							.toUpperCase());
+			request.put("push_token", Integer.toString(DeviceInfo.getDeviceId(), 16)
+					.toUpperCase());
 			request.put("language", Locale.getDefault().getLanguage());
 			request.put("device_type", PUSH_WOOSH_DEVICE_TYPE);
+			request.put("timezone", TimeZone.getDefault().getRawOffset());
 			json.put("request", request);
 		} catch (JSONException e) {/* pass */
 		}
@@ -193,12 +198,8 @@ public class PushWooshAPI {
 		try {
 			JSONObject request = new JSONObject();
 			request.put("application", pushWooshAppId);
-			request.put("hw_id", Integer.toString(DeviceInfo.getDeviceId(), 16)
+			request.put("hwid", Integer.toString(DeviceInfo.getDeviceId(), 16)
 					.toUpperCase());
-			request.put("device_id",
-					Integer.toString(DeviceInfo.getDeviceId(), 16)
-							.toUpperCase());
-			request.put("device_type", PUSH_WOOSH_DEVICE_TYPE);
 			json.put("request", request);
 		} catch (JSONException e) {/* pass */
 		}
