@@ -11,8 +11,24 @@
 
 #import "PW_SBJsonWriter.h"
 
+static void swizze(Class class, SEL fromChange, SEL toChange, IMP impl, const char * signature)
+{
+	Method method = nil;
+	method = class_getInstanceMethod(class, fromChange);
+	
+	if (method) {
+		//method exists add a new method and swap with original
+		class_addMethod(class, toChange, impl, signature);
+		method_exchangeImplementations(class_getInstanceMethod(class, fromChange), class_getInstanceMethod(class, toChange));
+	} else {
+		//just add as orignal method
+		class_addMethod(class, fromChange, impl, signature);
+	}
+}
+
+int modes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
 void registerForRemoteNotifications() {
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:modes];
 }
 
 void * _getPushToken()
@@ -112,8 +128,10 @@ void stopLocationTracking()
 {
 	const char * str = [[error description] UTF8String];
 	if(!g_listenerName) {
-		g_registerErrStr = malloc(strlen(str)+1);
-		strcpy(g_registerErrStr, str);
+		if (str) {
+			g_registerErrStr = malloc(strlen(str)+1);
+			strcpy(g_registerErrStr, str);
+		}
 		return;
 	}
 	
@@ -148,9 +166,21 @@ BOOL dynamicDidFinishLaunching(id self, SEL _cmd, id application, id launchOptio
 		result = YES;
 	}
 	
+	//default push modes
+	modes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
+	
+	//add newsstand mode if info.plist supports it
+	NSArray * backgroundModes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"];
+	for(NSString *mode in backgroundModes) {
+		if([mode isEqualToString:@"newsstand-content"]) {
+			modes |= UIRemoteNotificationTypeNewsstandContentAvailability;
+			break;
+		}
+	}
+	
 	BOOL autoRegisterMode = ![[[NSBundle mainBundle] objectForInfoDictionaryKey:@"Pushwoosh_NOAUTOREGISTER"] boolValue];
 	if (autoRegisterMode) {
-		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:modes];
 	}
 	
 	if(![PushNotificationManager pushManager].delegate) {
@@ -191,42 +221,29 @@ void dynamicDidReceiveRemoteNotification(id self, SEL _cmd, id application, id u
 
 
 - (void) pw_setDelegate:(id<UIApplicationDelegate>)delegate {
-	Method method = nil;
-	method = class_getInstanceMethod([delegate class], @selector(application:didFinishLaunchingWithOptions:));
+
+	static Class delegateClass = nil;
 	
-	if (method) {
-		class_addMethod([delegate class], @selector(application:pw_didFinishLaunchingWithOptions:), (IMP)dynamicDidFinishLaunching, "v@:::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(application:didFinishLaunchingWithOptions:)), class_getInstanceMethod([delegate class], @selector(application:pw_didFinishLaunchingWithOptions:)));
-	} else {
-		class_addMethod([delegate class], @selector(application:didFinishLaunchingWithOptions:), (IMP)dynamicDidFinishLaunching, "v@:::");
-	}
-	
-	method = class_getInstanceMethod([delegate class], @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:));
-	if(method) {
-		class_addMethod([delegate class], @selector(application:pw_didRegisterForRemoteNotificationsWithDeviceToken:), (IMP)dynamicDidRegisterForRemoteNotificationsWithDeviceToken, "v@:::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)), class_getInstanceMethod([delegate class], @selector(application:pw_didRegisterForRemoteNotificationsWithDeviceToken:)));
-	}
-	else {
-		class_addMethod([delegate class], @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:), (IMP)dynamicDidRegisterForRemoteNotificationsWithDeviceToken, "v@:::");
+	//do not swizzle the same class twice
+	if(delegateClass == [delegate class])
+	{
+		[self pw_setDelegate:delegate];
+		return;
 	}
 	
-	method = class_getInstanceMethod([delegate class], @selector(application:didFailToRegisterForRemoteNotificationsWithError:));
-	if(method) {
-		class_addMethod([delegate class], @selector(application:pw_didFailToRegisterForRemoteNotificationsWithError:), (IMP)dynamicDidFailToRegisterForRemoteNotificationsWithError, "v@:::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(application:didFailToRegisterForRemoteNotificationsWithError:)), class_getInstanceMethod([delegate class], @selector(application:pw_didFailToRegisterForRemoteNotificationsWithError:)));
-	}
-	else {
-		class_addMethod([delegate class], @selector(application:didFailToRegisterForRemoteNotificationsWithError:), (IMP)dynamicDidFailToRegisterForRemoteNotificationsWithError, "v@:::");
-	}
+	delegateClass = [delegate class];
 	
-	method = class_getInstanceMethod([delegate class], @selector(application:didReceiveRemoteNotification:));
-	if(method) {
-		class_addMethod([delegate class], @selector(application:pw_didReceiveRemoteNotification:), (IMP)dynamicDidReceiveRemoteNotification, "v@:::");
-		method_exchangeImplementations(class_getInstanceMethod([delegate class], @selector(application:didReceiveRemoteNotification:)), class_getInstanceMethod([delegate class], @selector(application:pw_didReceiveRemoteNotification:)));
-	}
-	else {
-		class_addMethod([delegate class], @selector(application:didReceiveRemoteNotification:), (IMP)dynamicDidReceiveRemoteNotification, "v@:::");
-	}
+	swizze([delegate class], @selector(application:didFinishLaunchingWithOptions:),
+		   @selector(application:pw_didFinishLaunchingWithOptions:), (IMP)dynamicDidFinishLaunching, "v@:::");
+
+	swizze([delegate class], @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:),
+		   @selector(application:pw_didRegisterForRemoteNotificationsWithDeviceToken:), (IMP)dynamicDidRegisterForRemoteNotificationsWithDeviceToken, "v@:::");
+
+	swizze([delegate class], @selector(application:didFailToRegisterForRemoteNotificationsWithError:),
+		   @selector(application:pw_didFailToRegisterForRemoteNotificationsWithError:), (IMP)dynamicDidFailToRegisterForRemoteNotificationsWithError, "v@:::");
+
+	swizze([delegate class], @selector(application:didReceiveRemoteNotification:),
+		   @selector(application:pw_didReceiveRemoteNotification:), (IMP)dynamicDidReceiveRemoteNotification, "v@:::");
 	
 	[self pw_setDelegate:delegate];
 }
