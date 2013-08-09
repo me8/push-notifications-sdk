@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using Microsoft.Phone.Info;
 
 namespace PushSDK.Classes
 {
@@ -11,16 +10,7 @@ namespace PushSDK.Classes
     {
         public static string GetDeviceUniqueId()
         {
-            string result = string.Empty;
-            object uniqueId;
-
-            if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
-            {
-                var resultByte = (byte[]) uniqueId;
-
-                result = resultByte.Aggregate(result, (current, item) => String.Format("{0}{1:X2}", current, item));
-            }
-            return result;
+            return MyToolkit.Environment.Machine.DeviceID;
         }
 
         public static ToastPush ParsePushData(string url)

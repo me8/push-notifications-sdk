@@ -16,7 +16,7 @@ namespace PushSDK.Classes
 
         [JsonProperty("lat")]
         public double Lat { get; set; }
-        
+
         [JsonProperty("lng")]
         public double Lon { get; set; }
     }

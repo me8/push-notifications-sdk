@@ -15,6 +15,7 @@ namespace PushSDK
     public class TagsService
     {
         private readonly string _appId;
+        private static readonly char[] NewLineChars = Environment.NewLine.ToCharArray();
 
         private readonly HttpClient _httpClient = new HttpClient();
 
@@ -24,7 +25,6 @@ namespace PushSDK
         public TagsService(string appId)
         {
             _appId = appId;
-            //_webClient.UploadStringCompleted += UploadStringCompleted;
         }
 
         /// <summary>
@@ -37,7 +37,9 @@ namespace PushSDK
 
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
-            string request = String.Format("{{ \"request\":{0}}}", JsonConvert.SerializeObject(BuildRequest(tagList)));
+
+            string request = BuildRequest(tagList);
+
 
             byte[] requestBytes = System.Text.Encoding.UTF8.GetBytes(request);
 
@@ -78,6 +80,7 @@ namespace PushSDK
             }
         }
 
+
         /// <summary>
         /// Sending tag to server
         /// </summary>
@@ -88,7 +91,8 @@ namespace PushSDK
 
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
-            string request = String.Format("{{ \"request\":{0}}}", JsonConvert.SerializeObject(BuildRequest(jTagList)));
+
+            string request = JsonConvert.SerializeObject(BuildRequest(jTagList));
 
             byte[] requestBytes = System.Text.Encoding.UTF8.GetBytes(request);
 
@@ -147,7 +151,8 @@ namespace PushSDK
                              new JObject(
                                  new JProperty("application", _appId),
                                  new JProperty("hwid", SDKHelpers.GetDeviceUniqueId()),
-                                 new JProperty("tags", JObject.Parse(tags)))))).ToString();
+                                 new JProperty("tags", JObject.Parse(tags)))))).ToString().Replace("\r\n", "");
+          
         }
 
         private void UploadStringCompleted(string responseBodyAsText)

@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 
 namespace PushSDK
 {
-    internal static class Constants
+    public static class Constants
     {
         // request consts
         public const int DeviceType = 8;
-        private const string Host = "https://cp.pushwoosh.com/";
+        private static string Host = "https://cp.pushwoosh.com/";
+
         private const string RegisterRequest = "registerDevice";
         private const string UnregisterRequest = "unregisterDevice";
         private const string StatisticRequest = "pushStat";
         private const string TagsRequest = "setTags";
         private const string GeozoneRequest = "getNearestZone";
 
-        //channel consts
-        //public const string ChannelName = "CMS WP7";
 
-
+        public static void setHost(string newHost)
+        {
+            Host=newHost;
+        }
         public static string RequestDomain
         {
             get { return Host + "json/1.3/"; }

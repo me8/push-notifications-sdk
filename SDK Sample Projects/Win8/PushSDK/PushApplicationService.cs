@@ -10,8 +10,6 @@ namespace PushSDK
         {
             TileTrustedServers = new List<string>();
 
-            //Activated += (sender, args) => Subscribe();
-            //Launching += (sender, args) => Subscribe();
         }
 
         public PushApplicationService(string _PWAppId, string _PushPage, List<string> _TileTrustedServers, string _ServiceName)
@@ -26,11 +24,19 @@ namespace PushSDK
         {
             get
             {
-                if (string.IsNullOrEmpty(PWAppId))
-                    throw new ArgumentNullException("PWAppId");
+                try
+                {
+                    if (string.IsNullOrEmpty(PWAppId) || PWAppId == "")
+                        throw new ArgumentNullException("PWAppId");
 
-                return NotificationService.GetCurrent(PWAppId, PushPage, TileTrustedServers);
+                    return NotificationService.GetCurrent(PWAppId, PushPage, TileTrustedServers);
+                }
+                catch
+                {
+                    return null;
+                }
             }
+
         }
 
         /// <summary>

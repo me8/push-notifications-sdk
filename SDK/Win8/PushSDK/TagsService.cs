@@ -1,26 +1,23 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using PushSDK.Classes;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using PushSDK.Classes;
+using System.IO;
+using System.Diagnostics;
 
 namespace PushSDK
 {
     public class TagsService
     {
         private readonly string _appId;
+        private static readonly char[] NewLineChars = Environment.NewLine.ToCharArray();
 
-        private readonly WebClient _webClient = new WebClient();
+        private readonly HttpClient _httpClient = new HttpClient();
 
         public event EventHandler<CustomEventArgs<List<KeyValuePair<string, string>>>> OnSendingComplete;
         public event EventHandler<CustomEventArgs<string>> OnError;
@@ -28,25 +25,113 @@ namespace PushSDK
         public TagsService(string appId)
         {
             _appId = appId;
-            _webClient.UploadStringCompleted += UploadStringCompleted;
         }
 
         /// <summary>
         /// Sending tag to server
         /// </summary>
         /// <param name="tagList">Tags list</param>
-        public void SendRequest(List<KeyValuePair<string,object>> tagList)
+        public async void SendRequest(List<KeyValuePair<string, object>> tagList)
         {
-            _webClient.UploadStringAsync(Constants.TagsUrl, BuildRequest(tagList));
+            var webRequest = (HttpWebRequest)HttpWebRequest.Create(Constants.TagsUrl);
+
+            webRequest.Method = "POST";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+
+            string request = BuildRequest(tagList);
+
+
+            byte[] requestBytes = System.Text.Encoding.UTF8.GetBytes(request);
+
+            // Write the channel URI to the request stream.
+            Stream requestStream = await webRequest.GetRequestStreamAsync();
+            requestStream.Write(requestBytes, 0, requestBytes.Length);
+
+            try
+            {
+                // Get the response from the server.
+                WebResponse response = await webRequest.GetResponseAsync();
+                StreamReader requestReader = new StreamReader(response.GetResponseStream());
+                String webResponse = requestReader.ReadToEnd();
+
+                string errorMessage = String.Empty;
+
+                Debug.WriteLine("Response: " + webResponse);
+
+                JObject jRoot = JObject.Parse(webResponse);
+                int code = JsonHelpers.GetStatusCode(jRoot);
+                if (code == 200 || code == 103)
+                {
+                    UploadStringCompleted(webResponse);
+                }
+                else
+                    errorMessage = JsonHelpers.GetStatusMessage(jRoot);
+
+                if (!String.IsNullOrEmpty(errorMessage) && OnError != null)
+                {
+                    Debug.WriteLine("Error: " + errorMessage);
+                    OnError(this, new CustomEventArgs<string> { Result = errorMessage });
+                }
+            }
+
+            catch (Exception ex)
+            {
+                OnError(this, new CustomEventArgs<string> { Result = ex.Message });
+            }
         }
+
 
         /// <summary>
         /// Sending tag to server
         /// </summary>
         /// <param name="jTagList">tag format: [tagKey:tagValue]</param>
-        public void SendRequest(string jTagList)
+        public async void SendRequest(string jTagList)
         {
-            _webClient.UploadStringAsync(Constants.TagsUrl, BuildRequest(jTagList));
+            var webRequest = (HttpWebRequest)HttpWebRequest.Create(Constants.TagsUrl);
+
+            webRequest.Method = "POST";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+
+            string request = JsonConvert.SerializeObject(BuildRequest(jTagList));
+
+            byte[] requestBytes = System.Text.Encoding.UTF8.GetBytes(request);
+
+            // Write the channel URI to the request stream.
+            Stream requestStream = await webRequest.GetRequestStreamAsync();
+            requestStream.Write(requestBytes, 0, requestBytes.Length);
+
+            try
+            {
+                // Get the response from the server.
+                WebResponse response = await webRequest.GetResponseAsync();
+                StreamReader requestReader = new StreamReader(response.GetResponseStream());
+                String webResponse = requestReader.ReadToEnd();
+
+                string errorMessage = String.Empty;
+
+                Debug.WriteLine("Response: " + webResponse);
+
+                JObject jRoot = JObject.Parse(webResponse);
+                int code = JsonHelpers.GetStatusCode(jRoot);
+                if (code == 200 || code == 103)
+                {
+                    UploadStringCompleted(webResponse);
+                }
+                else
+                    errorMessage = JsonHelpers.GetStatusMessage(jRoot);
+
+                if (!String.IsNullOrEmpty(errorMessage) && OnError != null)
+                {
+                    Debug.WriteLine("Error: " + errorMessage);
+                    OnError(this, new CustomEventArgs<string> { Result = errorMessage });
+                }
+            }
+
+            catch (Exception ex)
+            {
+                OnError(this, new CustomEventArgs<string> { Result = ex.Message });
+            }
+         
         }
 
         private string BuildRequest(IEnumerable<KeyValuePair<string, object>> tagList)
@@ -66,33 +151,30 @@ namespace PushSDK
                              new JObject(
                                  new JProperty("application", _appId),
                                  new JProperty("hwid", SDKHelpers.GetDeviceUniqueId()),
-                                 new JProperty("tags", JObject.Parse(tags)))))).ToString();
+                                 new JProperty("tags", JObject.Parse(tags)))))).ToString().Replace("\r\n", "");
+          
         }
 
-        private void UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
+        private void UploadStringCompleted(string responseBodyAsText)
         {
-            if (e.Error == null)
+
+            JObject jRoot = JObject.Parse(responseBodyAsText);
+            if (JsonHelpers.GetStatusCode(jRoot) == 200)
             {
+                var skippedTags = new List<KeyValuePair<string, string>>();
 
-                JObject jRoot = JObject.Parse(e.Result);
-                if (JsonHelpers.GetStatusCode(jRoot) == 200)
+                if (jRoot["response"].HasValues)
                 {
-                    var skippedTags = new List<KeyValuePair<string, string>>();
+                    JArray jItems = jRoot["response"]["skipped"] as JArray;
 
-                    if (jRoot["response"].HasValues)
-                    { 
-                        JArray jItems = jRoot["response"]["skipped"] as JArray;
-
-                        skippedTags = jItems.Select(jItem => new KeyValuePair<string, string>(jItem.Value<string>("tag"), jItem.Value<string>("reason"))).ToList();
-                    }
-
-                    OnSendingComplete(this, new CustomEventArgs<List<KeyValuePair<string, string>>>{Result = skippedTags});
+                    skippedTags = jItems.Select(jItem => new KeyValuePair<string, string>(jItem.Value<string>("tag"), jItem.Value<string>("reason"))).ToList();
                 }
-                else
-                    OnError(this, new CustomEventArgs<string> { Result = JsonHelpers.GetStatusMessage(jRoot) });
+
+                OnSendingComplete(this, new CustomEventArgs<List<KeyValuePair<string, string>>> { Result = skippedTags });
             }
             else
-                OnError(this, new CustomEventArgs<string> { Result = e.Error.Message });
+                OnError(this, new CustomEventArgs<string> { Result = JsonHelpers.GetStatusMessage(jRoot) });
         }
     }
+    
 }

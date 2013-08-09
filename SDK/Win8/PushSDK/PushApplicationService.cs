@@ -1,28 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Phone.Shell;
+using System.Threading.Tasks;
 
 namespace PushSDK
 {
-    public class PhonePushApplicationService : PhoneApplicationService
+    public class PushApplicationService
     {
-        public PhonePushApplicationService()
+        public PushApplicationService()
         {
             TileTrustedServers = new List<string>();
 
-            Activated += (sender, args) => Subscribe();
-            Launching += (sender, args) => Subscribe();
+        }
+
+        public PushApplicationService(string _PWAppId, string _PushPage, List<string> _TileTrustedServers, string _ServiceName)
+        {
+            this.PWAppId = _PWAppId;
+            this.PushPage = _PushPage;
+            this.TileTrustedServers = _TileTrustedServers;
+            this.ServiceName = _ServiceName;
         }
 
         public NotificationService NotificationService
         {
             get
             {
-                if (string.IsNullOrEmpty(PWAppId))
-                    throw new ArgumentNullException("PWAppId");
+                try
+                {
+                    if (string.IsNullOrEmpty(PWAppId) || PWAppId == "")
+                        throw new ArgumentNullException("PWAppId");
 
-                return NotificationService.GetCurrent(PWAppId, PushPage, TileTrustedServers);
+                    return NotificationService.GetCurrent(PWAppId, PushPage, TileTrustedServers);
+                }
+                catch
+                {
+                    return null;
+                }
             }
+
         }
 
         /// <summary>
@@ -50,12 +64,9 @@ namespace PushSDK
         /// </summary>
         public bool GeoZones { get; set; }
 
-        private void Subscribe()
+        public void Subscribe()
         {
-            if (ServiceName == null)
-                NotificationService.SubscribeToPushService();
-            else
-                NotificationService.SubscribeToPushService(ServiceName);
+            NotificationService.SubscribeToPushService();
         }
     }
 }

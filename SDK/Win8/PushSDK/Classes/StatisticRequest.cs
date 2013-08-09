@@ -2,7 +2,7 @@
 
 namespace PushSDK.Classes
 {
-    [JsonObject]
+   [JsonObject]
     public class StatisticRequest
     {
         [JsonProperty("application")]

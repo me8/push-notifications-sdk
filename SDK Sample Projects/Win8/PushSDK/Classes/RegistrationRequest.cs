@@ -24,7 +24,6 @@ namespace PushSDK.Classes
         public string Language
         {
             get { return System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName; }        
-            //get { return "En"; }
         }
 
 

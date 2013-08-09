@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Threading;
 using Newtonsoft.Json;
+using System.IO;
+using System.Threading;
 
 namespace PushSDK.Classes
 {
@@ -17,12 +18,12 @@ namespace PushSDK.Classes
         }
 
         [JsonProperty("push_token")]
-        public Uri PushToken { get; set; }
+        public string PushToken { get; set; }
 
         [JsonProperty("language")]
         public string Language
         {
-            get { return Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName; }
+            get { return System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName; }        
         }
 
 

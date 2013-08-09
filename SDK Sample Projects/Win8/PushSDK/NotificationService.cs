@@ -8,7 +8,6 @@ using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
 using Windows.Networking.PushNotifications;
 using PushSDK.Classes;
-using PushSDK.Controls;
 using Windows.UI.Popups;
 using Windows.UI.Core;
 using Windows.UI;
@@ -237,42 +236,6 @@ namespace PushSDK
 
  
         }
-
-  
-    /*    internal async void FireAcceptedPush()
-        {
-            Debug.WriteLine("Fire accepted push");
-            Statistic.SendRequest();
-            if (LastPush.Url != null || LastPush.HtmlId != -1)
-            {
-                Uri webBrowserTaskUri= new Uri(null);
-             
-                if (LastPush.Url != null)
-                    webBrowserTaskUri = LastPush.Url;
-                else if (LastPush.HtmlId != -1)
-                    webBrowserTaskUri = new Uri(Constants.HtmlPageUrl + LastPush.HtmlId, UriKind.Absolute);
-
-              await Launcher.LaunchUriAsync(webBrowserTaskUri);
-            }
-
-            if (!string.IsNullOrEmpty(_pushPage) && Window.Current.Content is Frame
-                && !_pushPage.EndsWith(((Frame)Window.Current.Content).BaseUri.ToString()))
-            {
-                ((Frame)Window.Current.Content).Navigated += OnNavigated;
-               await Launcher.LaunchUriAsync(new Uri(_pushPage, UriKind.Relative));
-            }
-            else
-                PushAccepted();
- 
-        }
-
-        void OnNavigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs navigationEventArgs)
-        {
-            PushAccepted();
-            ((Frame)Window.Current.Content).Navigated -= OnNavigated;
-        }
-
-        */
 
         private void PushAccepted()
         {

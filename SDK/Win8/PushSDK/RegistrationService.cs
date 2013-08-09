@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO.IsolatedStorage;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PushSDK.Classes;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace PushSDK
 {
@@ -18,7 +19,7 @@ namespace PushSDK
         public event CustomEventHandler<string>  RegisterError;
         public event CustomEventHandler<string> UnregisterError;
 
-        public void Register(string appID, Uri pushUri)
+        public void Register(string appID, string pushUri)
         {
             Debug.WriteLine("/********************************************************/");
             Debug.WriteLine("Register");
@@ -37,43 +38,56 @@ namespace PushSDK
             SendRequest(Constants.UnregisterUrl, SuccessefulyUnregistered, UnregisterError);
         }
 
-        private void SendRequest(Uri url, EventHandler successEvent, CustomEventHandler<string> errorEvent)
+        private async void SendRequest(Uri url, EventHandler successEvent, CustomEventHandler<string> errorEvent)
         {
-            var webClient = new WebClient();
-            webClient.UploadStringCompleted += (sender, args) =>
-                                                   {
-                                                       string errorMessage = String.Empty;
+            var webRequest = (HttpWebRequest)HttpWebRequest.Create(url);
 
-                                                       if (args.Error != null)
-                                                           errorMessage = args.Error.Message;
-                                                       else
-                                                       {
-                                                           Debug.WriteLine("Response: " + args.Result);
-
-                                                           JObject jRoot = JObject.Parse(args.Result);
-                                                           int code = JsonHelpers.GetStatusCode(jRoot);
-                                                           if (code == 200 || code == 103)
-                                                           {
-                                                               if (successEvent != null)
-                                                               {
-                                                                   successEvent(this, null);
-                                                               }
-                                                           }
-                                                           else
-                                                               errorMessage = JsonHelpers.GetStatusMessage(jRoot);
-                                                       }
-
-                                                       if (!String.IsNullOrEmpty(errorMessage) && errorEvent != null)
-                                                       {
-                                                           Debug.WriteLine("Error: " + errorMessage);
-                                                           errorEvent(this, new CustomEventArgs<string> {Result = errorMessage});
-                                                       }
-                                                   };
-
+            webRequest.Method = "POST";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
             string request = String.Format("{{ \"request\":{0}}}", JsonConvert.SerializeObject(_request));
-            Debug.WriteLine("Sending request: " + request);
 
-            webClient.UploadStringAsync(url, request);
+            byte[] requestBytes = System.Text.Encoding.UTF8.GetBytes(request);
+
+            // Write the channel URI to the request stream.
+            Stream requestStream = await webRequest.GetRequestStreamAsync();
+            requestStream.Write(requestBytes, 0, requestBytes.Length);
+
+            try
+            {
+                // Get the response from the server.
+                WebResponse response = await webRequest.GetResponseAsync();
+                StreamReader requestReader = new StreamReader(response.GetResponseStream());
+                String webResponse = requestReader.ReadToEnd();
+
+                string errorMessage = String.Empty;
+
+                Debug.WriteLine("Response: " + webResponse);
+
+                JObject jRoot = JObject.Parse(webResponse);
+                int code = JsonHelpers.GetStatusCode(jRoot);
+                if (code == 200 || code == 103)
+                {
+                    if (successEvent != null)
+                    {
+                        successEvent(this, null);
+                    }
+                }
+                else
+                    errorMessage = JsonHelpers.GetStatusMessage(jRoot);
+
+                if (!String.IsNullOrEmpty(errorMessage) && errorEvent != null)
+                {
+                    Debug.WriteLine("Error: " + errorMessage);
+                    errorEvent(this, new CustomEventArgs<string> { Result = errorMessage });
+                }
+            }
+
+            catch (Exception ex)
+            {
+                var errorMessage = ex.Message;
+                Debug.WriteLine("Error: " + errorMessage);
+                errorEvent(this, new CustomEventArgs<string> { Result = errorMessage });
+            }
         }
     }
 }

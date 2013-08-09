@@ -16,7 +16,7 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="PushWooshSample.App">
       <VisualElements DisplayName="Pushwoosh sample app" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="PushWooshSample" ForegroundText="light" BackgroundColor="#464646" ToastCapable="true">
-        <DefaultTile ShowName="allLogos" />
+        <DefaultTile ShowName="allLogos" WideLogo="Assets\wide_logo.png" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
     </Application>

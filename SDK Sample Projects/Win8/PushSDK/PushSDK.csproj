@@ -104,7 +104,6 @@
     <Compile Include="Classes\JsonHelpers.cs" />
     <Compile Include="Classes\StatisticRequest.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Controls\PushNotificationMessage.cs" />
     <Compile Include="GeozoneService.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="PushApplicationService.cs" />

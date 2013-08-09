@@ -13,7 +13,7 @@ using Windows.UI.Popups;
 
 namespace PushSDK
 {
-   public class GeozoneService
+    public class GeozoneService
     {
         private const int MovementThreshold = 100;
         private readonly TimeSpan _minSendTime = TimeSpan.FromMinutes(10);
@@ -34,76 +34,80 @@ namespace PushSDK
             _watcher.PositionChanged += WatcherOnPositionChanged;
         }
 
-      
+
         public async void Start()
         {
-          // _watcher.PositionChanged += WatcherOnPositionChanged;
+             _watcher.PositionChanged += WatcherOnPositionChanged;
             await _watcher.GetGeopositionAsync(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
 
         public void Stop()
         {
-         //   _watcher.PositionChanged -= WatcherOnPositionChanged;   
+               _watcher.PositionChanged -= WatcherOnPositionChanged;   
         }
 
 
         private async void WatcherOnPositionChanged(Geolocator sender, PositionChangedEventArgs e)
         {
-            if (DateTime.Now.TimeOfDay.Subtract(_lastTimeSend) >= _minSendTime)
+            try
             {
-                _geozoneRequest.Lat = e.Position.Coordinate.Latitude;
-                _geozoneRequest.Lon = e.Position.Coordinate.Longitude;
-
-                var webRequest = (HttpWebRequest)HttpWebRequest.Create(Constants.GeozoneUrl);
-
-                webRequest.Method = "POST";
-                webRequest.ContentType = "application/x-www-form-urlencoded";
-                string request = String.Format("{{ \"request\":{0}}}", JsonConvert.SerializeObject(_geozoneRequest));
-
-                byte[] requestBytes = System.Text.Encoding.UTF8.GetBytes(request);
-
-                // Write the channel URI to the request stream.
-                Stream requestStream = await webRequest.GetRequestStreamAsync();
-                requestStream.Write(requestBytes, 0, requestBytes.Length);
-
-                try
+                if (DateTime.Now.TimeOfDay.Subtract(_lastTimeSend) >= _minSendTime)
                 {
-                    // Get the response from the server.
-                    WebResponse response = await webRequest.GetResponseAsync();
-                    StreamReader requestReader = new StreamReader(response.GetResponseStream());
-                    String webResponse = requestReader.ReadToEnd();
+                    _geozoneRequest.Lat = e.Position.Coordinate.Latitude;
+                    _geozoneRequest.Lon = e.Position.Coordinate.Longitude;
 
-                    string errorMessage = String.Empty;
+                    var webRequest = (HttpWebRequest)HttpWebRequest.Create(Constants.GeozoneUrl);
 
-                    Debug.WriteLine("Response: " + webResponse);
+                    webRequest.Method = "POST";
+                    webRequest.ContentType = "application/x-www-form-urlencoded";
+                    string request = String.Format("{{ \"request\":{0}}}", JsonConvert.SerializeObject(_geozoneRequest));
 
-                    JObject jRoot = JObject.Parse(webResponse);
-                    int code = JsonHelpers.GetStatusCode(jRoot);
+                    byte[] requestBytes = System.Text.Encoding.UTF8.GetBytes(request);
 
-                    if (JsonHelpers.GetStatusCode(jRoot) == 200)
+                    // Write the channel URI to the request stream.
+                    Stream requestStream = await webRequest.GetRequestStreamAsync();
+                    requestStream.Write(requestBytes, 0, requestBytes.Length);
+
+                    try
                     {
-                        double dist = jRoot["response"].Value<double>("distance");
-                        if (dist > 0)
-                            _watcher.MovementThreshold = dist / 2;
-                    }
-                    else
-                        errorMessage = JsonHelpers.GetStatusMessage(jRoot);
+                        // Get the response from the server.
+                        WebResponse response = await webRequest.GetResponseAsync();
+                        StreamReader requestReader = new StreamReader(response.GetResponseStream());
+                        String webResponse = requestReader.ReadToEnd();
 
-                    if (!String.IsNullOrEmpty(errorMessage) && OnError != null)
-                    {
-                        Debug.WriteLine("Error: " + errorMessage);
-                        OnError(this, new CustomEventArgs<string> { Result = errorMessage });
+                        string errorMessage = String.Empty;
+
+                        Debug.WriteLine("Response: " + webResponse);
+
+                        JObject jRoot = JObject.Parse(webResponse);
+                        int code = JsonHelpers.GetStatusCode(jRoot);
+
+                        if (JsonHelpers.GetStatusCode(jRoot) == 200)
+                        {
+                            double dist = jRoot["response"].Value<double>("distance");
+                            if (dist > 0)
+                                _watcher.MovementThreshold = dist / 2;
+                        }
+                        else
+                            errorMessage = JsonHelpers.GetStatusMessage(jRoot);
+
+                        if (!String.IsNullOrEmpty(errorMessage) && OnError != null)
+                        {
+                            Debug.WriteLine("Error: " + errorMessage);
+                            OnError(this, new CustomEventArgs<string> { Result = errorMessage });
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Error: " + ex.Message);
+                        OnError(this, new CustomEventArgs<string> { Result = ex.Message });
+                    }
+
+                    _lastTimeSend = DateTime.Now.TimeOfDay;
                 }
-                catch( Exception ex)
-                {
-                    Debug.WriteLine("Error: " + ex.Message);
-                    OnError(this, new CustomEventArgs<string> { Result = ex.Message });
-                }     
-               
-               _lastTimeSend = DateTime.Now.TimeOfDay;
             }
-        }
 
+            catch { }
+        }
     }
 }

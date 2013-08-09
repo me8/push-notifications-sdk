@@ -10,14 +10,10 @@
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel x:Name="LayoutRoot"
-                    Margin="14,10,10,10"
+                    Margin="10,10,10,0"
                     Background="Transparent">
-
-            <TextBlock FontFamily="Segoe UI Light"
-                       FontSize="11"
-                       Text="first page"
-                       TextWrapping="Wrap" />
-            <TextBlock Margin="0,10,0,0"
+            
+            <TextBlock Margin="0,0,0,0"
                        HorizontalAlignment="Center"
                        FontFamily="Segoe UI"
                        FontSize="11"
@@ -42,36 +38,54 @@
                        TextWrapping="Wrap" />
             <TextBox x:Name="tbTagValue" TextWrapping="Wrap" />
             <Button x:Name="btnSendTag"
-                    HorizontalAlignment="Right"
+                    Width="300"
+                    HorizontalAlignment="Left"
                     Click="btnSendTag_Click"
-                    Content="Send tag" />
+                    Content="Send tag" Height="50" />
             <CheckBox Checked="CheckBox_Checked"
                       Content="Geozone"
-                      Unchecked="CheckBox_Unchecked" />
+                      Unchecked="CheckBox_Unchecked" Margin="0,21,0,0" />
             <StackPanel Orientation="Horizontal">
+               
                 <Button Width="300"
-                    Height="100"
-                    Margin="0,50,0,0"
-                    Click="ButtonClick"
-                    Content="Unsubscribe" />
-                <Button Width="300"
-                    Height="100"
-                    Margin="0,50,0,0"
+                    Height="50"
+                    Margin="0,10,0,0"
                     Click="tileClick"
                     Content="Tile Example Show" />
                 <Button Width="300"
-                    Height="100"
-                    Margin="0,50,0,0"
+                    Height="50"
+                    Margin="0,10,0,0"
                     Click="tostClick"
                     Content="Toast Example Show" />
+                <Button Width="300"
+                    Height="50"
+                    Margin="0,10,0,0"
+                    Click="badgeClick"
+                    Content="Badge Example Show" />
             </StackPanel>
-           
-            <ScrollViewer>
-            <StackPanel HorizontalAlignment="Left" Height="301" Margin="0,20,0,0" Width="360">
-                <TextBlock TextWrapping="Wrap" Text="Notification content"/>
-                <TextBlock x:Name="Text1Text" TextWrapping="Wrap" Text="Text1: "/>
-                <Image x:Name="ImagePush" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Height="100" Stretch="UniformToFill" />
+            <StackPanel>
+                <TextBlock Text="PW Application ID" FontFamily="Segoe UI" FontSize="20" Margin="0,15,0,0"/>
+                <TextBox x:Name="PWID" Text="BF606-02622" FontFamily="Segoe UI" FontSize="16" Margin="0,5,0,0"/>
+                <TextBlock Text="Host" FontFamily="Segoe UI" FontSize="20" Margin="0,15,0,0"/>
+                <TextBox x:Name="Host" Text ="https://cp.pushwoosh.com/" FontFamily="Segoe UI" FontSize="16" Margin="0,5,0,0"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="SubButton" Width="200" Height="50" Content="Subscribe" Tapped="Subscribe_Tapped" Margin="0,10,0,0"/>
+                    <Button x:Name="UnSubButton" IsEnabled="False" Width="200" Height="50" Click="UnSubButton_Click" Content="Unsubscribe" Margin="0,10,0,0"/>
+                </StackPanel>
             </StackPanel>
+                <ScrollViewer Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Left" Height="301" Margin="0,20,0,0" Width="360">
+                        <TextBlock TextWrapping="Wrap" Text="Notification content"/>
+                        <TextBlock x:Name="Text1Text" TextWrapping="Wrap" Text="Text1: "/>
+                        <Image x:Name="ImagePush" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Height="100" Stretch="UniformToFill" />
+                    </StackPanel>
+                    <StackPanel Width="300" HorizontalAlignment="Right" Margin="300,0,0,0">
+                        <TextBlock  Text="Notification sample"/>
+                        <TextBlock x:Name="NotificationText" IsTextSelectionEnabled="True" />
+                    </StackPanel>
+                </StackPanel>
             </ScrollViewer>
         </StackPanel>
     </Grid>
